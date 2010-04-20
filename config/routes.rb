@@ -36,9 +36,9 @@ ActionController::Routing::Routes.draw do |map|
     map.resources :users
     map.resources :sessions, :only => [:new, :create, :destroy]
 
-    map.signup  '/signup',  :controller => 'users',    :action => 'new'
-    map.signin  '/signin',  :controller => 'sessions', :action => 'new'
-    map.signout '/signout', :controller => 'sessions', :action => 'destroy'
+    map.signup  '/register',  :controller => 'users',    :action => 'new'
+    map.signin  '/login',  :controller => 'sessions', :action => 'new'
+    map.signout '/logout', :controller => 'sessions', :action => 'destroy'
 
     map.connect ':controller/:action/:id'
     map.connect ':controller/:action/:id.:format'

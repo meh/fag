@@ -1,5 +1,5 @@
 <div class="user">
-    <div class="avatar"><%= gravatar_for @user %></div>
+    <div class="avatar"><%= gravatar_for @user if !@user.email.nil? %></div>
 
     <div class="data">
         <%= @user.name %><br/>
