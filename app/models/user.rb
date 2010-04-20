@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: <timestamp>
+# Schema version: 1
 #
 # Table name: users
 #
