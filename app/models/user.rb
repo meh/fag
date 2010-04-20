@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20100420044923
+# Schema version: 3
 #
 # Table name: users
 #
@@ -51,8 +51,8 @@ class User < ActiveRecord::Base
         value == self.password
     end
 
-    def self.authenticate (email, password)
-        if (user = find_by_email(email)) && user.password?(password)
+    def self.authenticate (name, password)
+        if (user = find_by_name(name)) && user.password?(password)
             return user
         end
     end
