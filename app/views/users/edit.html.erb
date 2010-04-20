@@ -1,0 +1,30 @@
+<h2>Edit</h2>
+
+<% form_for(@user) do |f| %>
+    <%= f.error_messages %>
+
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <input type="text" disabled value="<%= @user.name %>"/>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :email %></div>
+        <%= f.text_field :email %>
+    </div>
+    
+    <div class="field">
+        <div class="label"><%= f.label :password %></div>
+        <%= f.password_field :password, :value => '' %>
+    </div>
+    
+    <div class="field">
+        <div class="label"><%= f.label :password_confirmation, 'Confirmation' %></div>
+        <%= f.password_field :password_confirmation %>
+    </div>
+    
+    <div class="actions">
+        <%= f.submit 'Sign up' %>
+    </div>
+<% end %>
+

@@ -1,1 +1,8 @@
-<%= gravatar_for @user %>
+<div class="user">
+    <div class="avatar"><%= gravatar_for @user %></div>
+
+    <div class="data">
+        <%= @user.name %><br/>
+        <%= @user.email %>
+    </div>
+</div>

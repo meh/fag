@@ -5,11 +5,90 @@
 }
 
 body {
-    background: black;
-    color: gray;
+    background: white;
+    color: black;
 }
 
 img {
-    border: 1px solid gray;
     background: white;
+}
+
+div#container {
+    width: 90%;
+    border: 2px solid gray;
+    margin: 10px auto;
+    padding: 5px;
+}
+
+div.user {
+    width: 500px;
+    height: 100px;
+    margin: 10px auto;
+}
+
+div.avatar {
+    float: left;
+}
+
+div.data {
+    float: left;
+
+    margin-left: 10px;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+div.field {
+    margin-bottom: 7px;
+}
+
+div.field div.label {
+}
+
+/* Errors */
+
+.fieldWithErrors label {
+    color: red;
+    font-weight: bold;
+}
+
+div#errorExplanation {
+    width: 400px;
+    border: 2px solid red;
+    padding: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+div#errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #c00;
+    color: #fff;
+}
+
+div#errorExplanation p {
+    color: #333;
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+div#errorExplanation ul li {
+    font-size: 12px;
+    list-style: none;
+}
+
+/* Debug */
+
+div#debug {
+    width: 100%;
+    background: white;
+    border-top: 1px solid gray;
+    position: fixed;
+    bottom: 0;
 }
