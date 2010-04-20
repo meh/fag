@@ -10,5 +10,11 @@
 #  updated_at :datetime
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :email
+    attr_accessible :name, :email
+
+    EmailRegex = /^[\w\-.]+@[\w\-.]+\.\w+$/i
+
+    validates_presence_of   :name, :email
+    validates_format_of     :email, :with => EmailRegex
+    validates_uniqueness_of :email, :case_sensitive => false
 end
