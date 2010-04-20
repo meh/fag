@@ -8,3 +8,8 @@ body {
     background: black;
     color: gray;
 }
+
+img {
+    border: 1px solid gray;
+    background: white;
+}
