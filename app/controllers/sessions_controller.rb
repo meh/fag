@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     
     def create
         if user = User.authenticate(params[:session][:name], params[:session][:password])
-            sign_in user
+            login user
             redirect_to user
         else
             flash.now[:error] = 'Invalid name/password combination.'
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     end
 
     def destroy
-        sign_out
+        logout
         redirect_to root_path
     end
 end

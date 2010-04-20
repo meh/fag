@@ -24,7 +24,8 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find(params[:id])
+        @user  = User.find(params[:id])
+        @title = "User : #{@user.name}"
     end
 
     def new
@@ -33,14 +34,21 @@ class UsersController < ApplicationController
     end
 
     def edit
-        @user  = User.find(params[:id])
-        @title = 'Edit'
+        user = User.find(params[:id])
+
+        if current_user.id == user.id || current_user.attributes[:can_edit]
+            @title = "Edit: #{current_user.name}"
+            @user  = user
+        else
+            redirect_to root_path
+        end
     end
 
     def create
         @user = User.new(params[:user])
         
         if @user.save
+            login @user
             redirect_to @user
         else
             @title = 'Sign up'

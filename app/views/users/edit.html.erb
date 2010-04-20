@@ -1,6 +1,4 @@
-<h2>Edit</h2>
-
-<% form_for(@user) do |f| %>
+<% form_for(@user) {|f| %>
     <%= f.error_messages %>
 
     <div class="field">
@@ -13,18 +11,8 @@
         <%= f.text_field :email %>
     </div>
     
-    <div class="field">
-        <div class="label"><%= f.label :password %></div>
-        <%= f.password_field :password, :value => '' %>
-    </div>
-    
-    <div class="field">
-        <div class="label"><%= f.label :password_confirmation, 'Confirmation' %></div>
-        <%= f.password_field :password_confirmation %>
-    </div>
-    
     <div class="actions">
-        <%= f.submit 'Sign up' %>
+        <%= f.submit 'Edit' %>
     </div>
-<% end %>
+<% } %>
 

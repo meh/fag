@@ -1,14 +1,14 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 3
 #
 # Table name: users
 #
 #  id             :integer         not null, primary key
 #  name           :string(255)
-#  email          :string(255)
+#  email          :string(255)     default("")
+#  password       :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
-#  password       :string(255)
 #  remember_token :string(255)
 #
 

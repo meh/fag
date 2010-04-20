@@ -1,14 +1,14 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 3
 #
 # Table name: users
 #
 #  id             :integer         not null, primary key
 #  name           :string(255)
-#  email          :string(255)
+#  email          :string(255)     default("")
+#  password       :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
-#  password       :string(255)
 #  remember_token :string(255)
 #
 
@@ -44,12 +44,17 @@ class User < ActiveRecord::Base
     validates_length_of :name, :within => 1..50
     validates_length_of :password, :within => 6..50
 
+    def remember_me!
+        self.remember_token = Digest::SHA512.hexdigest("#{rand}--#{id}")
+        save_without_validation
+    end
+
     def encrypt_password
         self.password = Digest::SHA512.hexdigest(self.password)
     end
 
     def password? (value)
-        value == self.password
+        Digest::SHA512.hexdigest(value) == self.password
     end
 
     def self.authenticate (name, password)
