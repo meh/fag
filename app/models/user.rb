@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 20100420045000
 #
 # Table name: users
 #
@@ -8,6 +8,7 @@
 #  email      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#
 
 class User < ActiveRecord::Base
     attr_accessible :name, :email
