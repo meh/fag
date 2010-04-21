@@ -7,6 +7,7 @@
 #  name           :string(255)
 #  email          :string(255)     default("")
 #  password       :string(255)
+#  modes          :string(255)     default("--- {}\n\n")
 #  created_at     :datetime
 #  updated_at     :datetime
 #  remember_token :string(255)
@@ -34,29 +35,42 @@
 require 'digest/sha2'
 
 class User < ActiveRecord::Base
-    attr_accessible :name, :email, :password
-    attr_accessor   :password_confirmation
+    attr_accessor   :passed_password, :passed_password_confirmation
+    attr_accessible :name, :email, :password, :passed_password, :passed_password_confirmation
 
     serialize :modes, Hash
 
-    before_save :encrypt_password
+    before_create :create_check
 
-    validates_presence_of :name, :password
+    validates_format_of :email, :with => /[\w\.]+@[\w\.]+\.\w{2,6}/, :on => :update
 
-    validates_length_of :name, :within => 1..50
-    validates_length_of :password, :within => 6..255
+    def first_check
+
+    end
+
+    def encrypt (value)
+        Digest::SHA512.hexdigest(value)
+    end
+
+    def create_check
+        if self.passed_password.length < 1
+            raise "Min password length is 1."
+        elsif self.passed_password.length > 50
+            raise "Max password length is 50."
+        elsif self.passed_password != self.passed_password_confirmation
+            raise "Password confirmation doesn't match the given password."
+        end
+
+        self.password = self.encrypt(self.passed_password)
+    end
 
     def remember_me!
-        self.remember_token = Digest::SHA512.hexdigest("#{rand}--#{id}")
+        self.remember_token = self.encrypt("#{rand}--#{id}")
         save_without_validation
     end
 
-    def encrypt_password
-        self.password = Digest::SHA512.hexdigest(self.password)
-    end
-
     def password? (value)
-        Digest::SHA512.hexdigest(value) == self.password
+        self.encrypt(value) == self.password
     end
 
     def self.authenticate (name, password)

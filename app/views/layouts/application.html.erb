@@ -9,6 +9,18 @@
 </head>
 
 <body>
+    <div id="user_thingy">
+        <% if !current_user %>
+            <a href="/login">Login</a> <a href="/register">Register</a>
+        <% else %>
+            <a href="/users/edit/<%= current_user.id %>">Edit</a> <a href="/logout">Logout</a>
+        <% end %>
+    </div>
+
+    <div id="menu">
+        
+    </div>
+
     <div id="container">
         <% flash.each do |key, value| %>
             <div class="flash <%= key %>"><%= value %></div>

@@ -7,6 +7,7 @@
 #  name           :string(255)
 #  email          :string(255)     default("")
 #  password       :string(255)
+#  modes          :string(255)     default("--- {}\n\n")
 #  created_at     :datetime
 #  updated_at     :datetime
 #  remember_token :string(255)

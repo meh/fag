@@ -62,13 +62,12 @@ class UsersController < ApplicationController
         user = User.find(params[:id])
 
         if current_user.id != user.id && !current_user.modes[:can_edit]
-            puts "TROLOLOLOL"
-            raise "You cannot edit this user's data."
+            raise "You cannot edit other users' data."
         end
 
         user.email = params[:user][:email]
 
-        if user.save
+        if user.save_without_validation
             redirect_to user_path user
         else
             @title = "Edit: #{user.name}"

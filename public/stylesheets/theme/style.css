@@ -14,10 +14,21 @@ img {
     background: white;
 }
 
+div#user_thingy {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    background: white;
+    border-left: 2px solid gray;
+    border-bottom: 2px solid gray;
+    padding: 3px;
+}
+
 div#container {
     width: 90%;
     border: 2px solid gray;
-    margin: 10px auto;
+    margin: 42px auto;
     padding: 5px;
 }
 
