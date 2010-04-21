@@ -1,3 +1,7 @@
+<% if !@user %>
+    You can't edit other user's data :(
+<% else %>
+
 <% form_for(@user) {|f| %>
     <%= f.error_messages %>
 
@@ -16,3 +20,4 @@
     </div>
 <% } %>
 
+<% end %>

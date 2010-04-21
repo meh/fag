@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 3
+# Schema version: 5
 #
 # Table name: users
 #
@@ -37,12 +37,14 @@ class User < ActiveRecord::Base
     attr_accessible :name, :email, :password
     attr_accessor   :password_confirmation
 
+    serialize :modes, Hash
+
     before_save :encrypt_password
 
     validates_presence_of :name, :password
 
     validates_length_of :name, :within => 1..50
-    validates_length_of :password, :within => 6..50
+    validates_length_of :password, :within => 6..255
 
     def remember_me!
         self.remember_token = Digest::SHA512.hexdigest("#{rand}--#{id}")

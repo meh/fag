@@ -28,7 +28,23 @@ class UsersController < ApplicationController
         @title = "User : #{@user.name}"
     end
 
+    def already_logged?
+        if current_user
+            flash.now[:error] = "You're already logged in."
+
+            return true
+        end
+
+        return false
+    end
+
     def new
+        if already_logged?
+            @user = current_user
+            render 'show'
+            return
+        end
+
         @user  = User.new
         @title = 'Sign up'
     end
@@ -36,11 +52,28 @@ class UsersController < ApplicationController
     def edit
         user = User.find(params[:id])
 
-        if current_user.id == user.id || current_user.attributes[:can_edit]
-            @title = "Edit: #{current_user.name}"
+        if current_user.id == user.id || current_user.modes[:can_edit]
+            @title = "Edit: #{user.name}"
             @user  = user
+        end
+    end
+
+    def update
+        user = User.find(params[:id])
+
+        if current_user.id != user.id && !current_user.modes[:can_edit]
+            puts "TROLOLOLOL"
+            raise "You cannot edit this user's data."
+        end
+
+        user.email = params[:user][:email]
+
+        if user.save
+            redirect_to user_path user
         else
-            redirect_to root_path
+            @title = "Edit: #{user.name}"
+            @user  = user
+            render 'edit'
         end
     end
 

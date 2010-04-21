@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 5
+#
+# Table name: used_floats
+#
+#  id         :integer         not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]

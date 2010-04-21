@@ -93,3 +93,8 @@ div#debug {
     position: fixed;
     bottom: 0;
 }
+
+div.flash.error {
+    border: 2px solid red;
+    background: #ffdddd;
+}

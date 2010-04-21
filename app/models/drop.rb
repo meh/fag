@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 3
+# Schema version: 5
 #
 # Table name: drops
 #
