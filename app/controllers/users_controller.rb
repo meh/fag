@@ -24,7 +24,12 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user  = User.find(params[:id])
+        if params[:id].match(/^\d+$/)
+            @user = User.find(params[:id])
+        else
+            @user = User.find_by_name(params[:id])
+        end
+
         @title = "User : #{@user.name}"
     end
 
@@ -50,7 +55,11 @@ class UsersController < ApplicationController
     end
 
     def edit
-        user = User.find(params[:id])
+        if params[:id].match(/^\d+$/)
+            user = User.find(params[:id])
+        else
+            user = User.find_by_name(params[:id])
+        end
 
         if current_user.id == user.id || current_user.modes[:can_edit]
             @title = "Edit: #{user.name}"
@@ -59,7 +68,11 @@ class UsersController < ApplicationController
     end
 
     def update
-        user = User.find(params[:id])
+        if params[:id].match(/^\d+$/)
+            user = User.find(params[:id])
+        else
+            user = User.find_by_name(params[:id])
+        end
 
         if current_user.id != user.id && !current_user.modes[:can_edit]
             raise "You cannot edit other users' data."
