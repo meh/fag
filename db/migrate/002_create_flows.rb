@@ -1,7 +1,8 @@
 class CreateFlows < ActiveRecord::Migration
     def self.up
         create_table :flows do |t|
-            t.references :user
+            t.boolean :closed, :default => false
+
             t.timestamps
         end
     end

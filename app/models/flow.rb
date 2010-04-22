@@ -29,8 +29,8 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Flow < ActiveRecord::Base
-    attr_accessible :user
+    attr_accessible :closed
 
-    has_many :drops
-    has_many :used_floats
+    has_many :drops, :autosave => true
+    has_many :used_floats, :autosave => true
 end

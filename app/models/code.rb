@@ -1,18 +1,3 @@
-# == Schema Information
-# Schema version: 5
-#
-# Table name: drops
-#
-#  id         :integer         not null, primary key
-#  flow_id    :integer
-#  user_id    :integer
-#  name       :string(255)
-#  title      :string(255)
-#  content    :text
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]
@@ -32,25 +17,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class Drop < ActiveRecord::Base
-    attr_accessible :name, :title, :content
+class Code < ActiveRecord::Base
+    attr_accessible :language, :content
 
-    belongs_to :flow
     belongs_to :user
 
-    def output_class
-        if self.user
-            return self.user.modes[:class].to_s
-        else
-            return 'anonymous'
-        end
-    end
-
-    def output_user
-        if self.user
-            return "<a href='/users/#{self.user.id}'>#{self.user.name}</a>"
-        else
-            return 'Anonymous'
-        end
-    end
 end

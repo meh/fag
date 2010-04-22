@@ -9,17 +9,24 @@
 </head>
 
 <body>
-    <div id="user_thingy">
+    <div id="navigation_menu">
+        <a href="/">Home</a>
+        <a href="/ocean">Ocean</a>
+        <a href="/projects">Projects</a>
+    </div>
+
+    <div id="user_menu">
         <% if !current_user %>
-            <a href="/login">Login</a> <a href="/register">Register</a>
+            <span class="username">Anonymous</span>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
         <% else %>
-            <a href="/users/edit/<%= current_user.id %>">Edit</a> <a href="/logout">Logout</a>
+            <span class="username"><a href="<%= user_path current_user %>"><%= current_user.name %></a></span>
+            <a href="/users/edit/<%= current_user.id %>">Edit</a>
+            <a href="/logout">Logout</a>
         <% end %>
     </div>
 
-    <div id="menu">
-        
-    </div>
 
     <div id="container">
         <% flash.each do |key, value| %>

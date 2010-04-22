@@ -3,8 +3,8 @@ class CreateDrops < ActiveRecord::Migration
         create_table :drops do |t|
             t.references :flow
 
-            t.references :user
-            t.string     :name
+            t.references :user, :default => nil
+            t.string     :name, :default => nil
 
             t.string :title
             t.text   :content

@@ -1,0 +1,24 @@
+<% form_for(:drop, :url => '/ocean/create') do |f| %>
+    <%= f.error_messages %>
+
+    <div class="field">
+        <div class="label"><%= f.label :title %></div>
+        <%= f.text_field :title %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name, @name_options%>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :content %></div>
+        <%= f.text_area :content %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Drop' %>
+    </div>
+
+    <input type="hidden" name="type" value="<%= @type %>"/>
+<% end %>

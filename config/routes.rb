@@ -35,10 +35,13 @@ ActionController::Routing::Routes.draw do |map|
 
     map.resources :users
     map.resources :sessions, :only => [:new, :create, :destroy]
+    map.resources :ocean
 
-    map.signup  '/register', :controller => 'users',    :action => 'new'
-    map.signin  '/login',    :controller => 'sessions', :action => 'new'
-    map.signout '/logout',   :controller => 'sessions', :action => 'destroy'
+    map.projects 'projects', :controller => 'ocean', :action => 'projects'
+
+    map.register  'register', :controller => 'users',    :action => 'new'
+    map.login     'login',    :controller => 'sessions', :action => 'new'
+    map.logout    'logout',   :controller => 'sessions', :action => 'destroy'
 
     map.connect ':controller/:action/:id'
 end

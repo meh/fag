@@ -14,7 +14,18 @@ img {
     background: white;
 }
 
-div#user_thingy {
+div#navigation_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background: white;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    padding: 3px;
+}
+
+div#user_menu {
     position: fixed;
     top: 0;
     right: 0;
@@ -25,6 +36,14 @@ div#user_thingy {
     padding: 3px;
 }
 
+div#user_menu span.username {
+    font-weight: bold;
+}
+
+div#user_menu span.username a {
+    text-decoration: none;
+}
+
 div#container {
     width: 90%;
     border: 2px solid gray;
@@ -32,7 +51,7 @@ div#container {
     padding: 5px;
 }
 
-div.user {
+div.user_view {
     width: 500px;
     height: 100px;
     margin: 10px auto;
@@ -56,6 +75,38 @@ div.field {
 }
 
 div.field div.label {
+}
+
+/* Flow */
+div.flow {
+
+}
+
+div.flow div.drop {
+    border: 2px solid gray;
+}
+
+div.flow div.drop div.title {
+    border-bottom: 2px solid gray;
+    padding-left: 3px;
+}
+
+div.flow div.drop div.user {
+    border-bottom: 2px solid gray;
+    padding-left: 3px;
+    color: blue;
+}
+
+div.flow div.drop div.user * {
+    vertical-align: middle;
+}
+
+div.flow div.drop div.user.anonymous {
+    color: gray;
+}
+
+div.flow div.drop div.content {
+    padding: 3px;
 }
 
 /* Errors */
