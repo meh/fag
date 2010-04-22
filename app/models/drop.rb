@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 5
+# Schema version: 7
 #
 # Table name: drops
 #
@@ -33,14 +33,44 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Drop < ActiveRecord::Base
+    include ERB::Util
+
     attr_accessible :name, :title, :content
 
     belongs_to :flow
     belongs_to :user
 
+    def self.parse (content, user)
+        puts content.inspect
+
+        content.scan(/(((\r)?\n|^)(-)+\s*([^\s\-]+?)\s*(-)+(\r)?\n(.+?)(\r)?\n(-)+)$/m).each {|match|
+            code = Code.new(:language => match[4], :content => match[7])
+
+            if user.is_a?(User)
+                code.user = user
+            else
+                code.name = user
+            end
+
+            code.save
+
+            content.sub!(/#{Regexp.escape(match[0])}/, "#{match[1]}< #{code.path}\n")
+        }
+
+        return content
+    end
+
+    def output (what)
+        self.send("output_#{what.to_s}".to_sym)
+    end
+
+    def output_title
+        return h self.title
+    end
+
     def output_class
         if self.user
-            return self.user.modes[:class].to_s
+            return h self.user.modes[:class].to_s
         else
             return 'anonymous'
         end
@@ -48,9 +78,21 @@ class Drop < ActiveRecord::Base
 
     def output_user
         if self.user
-            return "<a href='/users/#{self.user.id}'>#{self.user.name}</a>"
+            return "<a href='/users/#{h self.user.id}'>#{h self.user.name}</a>"
         else
-            return 'Anonymous'
+            return self.name || 'Anonymous'
         end
+    end
+
+    def output_content
+        content = h self.content
+
+        content.scan(/^(&lt; \/code\/(\d+))$/).each {|match|
+            content.sub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[1]) }))
+        }
+
+        content.gsub!(/(\r)?\n/, '<br/>')
+
+        return content
     end
 end

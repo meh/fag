@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class OceanController < ApplicationController
+class FlowsController < ApplicationController
     def index
         @title = 'Ocean'
     end
@@ -26,12 +26,13 @@ class OceanController < ApplicationController
         @title = 'Projects'
     end
 
-    def flow
+    def show
         @flow = Flow.find(params[:id])
     end
 
     def new
-        @type = params[:id]
+        @type = params[:type]
+        @flow = params[:id]
 
         if current_user
             @name_options = { :value => current_user.name, :disabled => true }
@@ -43,29 +44,28 @@ class OceanController < ApplicationController
     def create
         type = params[:type]
 
-        case type
+        if params[:type] == 'flow'
+            flow = Flow.new(:title => params[:drop][:title])
+        elsif params[:type] == 'drop'
+            flow = Flow.find(params[:flow])
+        end
 
-        when 'flow'
-            flow = Flow.new
+        drop = Drop.new(:flow => flow)
 
-            drop = Drop.new(:flow => flow, :title => params[:drop][:title], :content => params[:drop][:content])
+        if current_user
+            drop.user    = current_user
+            drop.content = Drop.parse(params[:drop][:content], drop.user)
+        else
+            drop.name    = params[:drop][:name] || 'Anonymous'
+            drop.content = Drop.parse(params[:drop][:content], drop.name)
+        end
 
-            if current_user
-                drop.user = current_user
-            else
-                drop.name = params[:drop][:name] || 'Anonymous'
-            end
+        flow.drops << drop
 
-            flow.drops << drop
-
-            if flow.save
-                redirect_to "/ocean/flow/#{flow.id}"
-            else
-                render 'new'
-            end
-
-        when 'drop'
-        
+        if flow.save
+            redirect_to "/ocean/flow/#{flow.id}"
+        else
+            render 'new'
         end
     end
 end

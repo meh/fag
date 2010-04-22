@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 5
+# Schema version: 7
 #
 # Table name: flows
 #
 #  id         :integer         not null, primary key
-#  user_id    :integer
+#  closed     :boolean
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -29,7 +29,7 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Flow < ActiveRecord::Base
-    attr_accessible :closed
+    attr_accessible :closed, :title
 
     has_many :drops, :autosave => true
     has_many :used_floats, :autosave => true

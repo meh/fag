@@ -3,6 +3,8 @@ class CreateFlows < ActiveRecord::Migration
         create_table :flows do |t|
             t.boolean :closed, :default => false
 
+            t.string :title
+
             t.timestamps
         end
     end

@@ -1,0 +1,3 @@
+<pre><div class="language"><%= h code.language %></div>
+    <div class="source"><%= (h(code.content)).gsub(/(\r)?\n/, '<br/>').gsub(/\s/, '&nbsp;') %></div>
+</pre>

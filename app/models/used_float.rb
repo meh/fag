@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 5
+# Schema version: 7
 #
 # Table name: used_floats
 #

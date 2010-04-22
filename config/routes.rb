@@ -35,9 +35,14 @@ ActionController::Routing::Routes.draw do |map|
 
     map.resources :users
     map.resources :sessions, :only => [:new, :create, :destroy]
-    map.resources :ocean
+    map.resources :flows
+    map.resources :codes
 
-    map.projects 'projects', :controller => 'ocean', :action => 'projects'
+    map.ocean    'ocean',              :controller => 'flows'
+    map.oceanNew 'ocean/new/flow',     :controller => 'flows', :action => 'new', :type => 'flow'
+    map.connect  'flows/new/drop.:id', :controller => 'flows', :action => 'new', :type => 'drop'
+    map.flow     'ocean/flow/:id',     :controller => 'flows', :action => 'show'
+    map.projects 'projects',           :controller => 'flows', :action => 'projects'
 
     map.register  'register', :controller => 'users',    :action => 'new'
     map.login     'login',    :controller => 'sessions', :action => 'new'

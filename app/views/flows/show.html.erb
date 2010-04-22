@@ -1,0 +1,18 @@
+<div class="flow">
+    <div class="title">
+        <%= h @flow.title %>
+    </div>
+
+    <% @flow.drops.each do |drop| %><div class="drop">
+        <div class="user <%= drop.output_class %>">
+            <%= gravatar_for drop.user if drop.user %>
+            <%= drop.output :user %>
+        </div>
+
+        <div class="content">
+            <%= drop.output :content %>
+        </div>
+    </div><% end %>
+
+    <div class="reply right"><a class="reply" href="/flows/new/drop.<%= @flow.id %>">Reply</a></div>
+</div>

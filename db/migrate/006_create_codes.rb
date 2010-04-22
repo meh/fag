@@ -4,7 +4,8 @@ class CreateCodes < ActiveRecord::Migration
             t.string :language
             t.text   :content
 
-            t.reference :user
+            t.reference :user, :default => nil
+            t.string    :name, :default => nil
 
             t.timestamps
         end

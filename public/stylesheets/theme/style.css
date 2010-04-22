@@ -8,6 +8,7 @@ body {
     background: white;
     color: black;
     font-family: "Courier New";
+    font-size: 12px;
 }
 
 img {
@@ -18,6 +19,7 @@ div#navigation_menu {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 23;
 
     background: white;
     border-right: 2px solid gray;
@@ -29,6 +31,7 @@ div#user_menu {
     position: fixed;
     top: 0;
     right: 0;
+    z-index: 23;
 
     background: white;
     border-left: 2px solid gray;
@@ -77,18 +80,26 @@ div.field {
 div.field div.label {
 }
 
+div.right {
+    width: 100%;
+    text-align: right;
+}
+
 /* Flow */
 div.flow {
 
 }
 
-div.flow div.drop {
-    border: 2px solid gray;
+div.flow div.title {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
-div.flow div.drop div.title {
-    border-bottom: 2px solid gray;
-    padding-left: 3px;
+div.flow div.drop {
+    border: 2px solid gray;
+    margin-bottom: 3px;
 }
 
 div.flow div.drop div.user {
@@ -107,6 +118,29 @@ div.flow div.drop div.user.anonymous {
 
 div.flow div.drop div.content {
     padding: 3px;
+}
+
+div.flow div.reply {
+}
+
+div.flow a.reply {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+pre {
+    font-family: Terminus, Courier New, Monospace;
+    border: 1px solid gray;
+}
+
+pre div.language {
+    border-bottom: 1px solid gray;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+pre div.source {
+    padding: 0 5px;
 }
 
 /* Errors */

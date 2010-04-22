@@ -6,8 +6,7 @@ class CreateDrops < ActiveRecord::Migration
             t.references :user, :default => nil
             t.string     :name, :default => nil
 
-            t.string :title
-            t.text   :content
+            t.text :content
 
             t.timestamps
         end

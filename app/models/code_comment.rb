@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 7
+#
+# Table name: code_comments
+#
+#  id         :integer         not null, primary key
+#  line       :integer
+#  content    :text
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]

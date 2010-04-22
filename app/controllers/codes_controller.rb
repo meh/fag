@@ -1,15 +1,3 @@
-# == Schema Information
-# Schema version: 7
-#
-# Table name: codes
-#
-#  id         :integer         not null, primary key
-#  language   :string(255)
-#  content    :text
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]
@@ -29,12 +17,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class Code < ActiveRecord::Base
-    attr_accessible :language, :content
+class CodesController < ApplicationController
+    def index
 
-    belongs_to :user
+    end
 
-    def path
-        "/code/#{self.id}"
+    def show
+        @code = Code.find(params[:id])
+
+        @title = "Code [#{@code.language}]"
+    end
+
+    def new
+    end
+
+    def create
     end
 end
