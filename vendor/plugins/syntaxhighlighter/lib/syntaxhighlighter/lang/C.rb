@@ -26,10 +26,14 @@ class Language
 class C < Language
     def initialize (content, options={})
         @regexes = {
-            /("([^\\"]|\\.)*")/m => '<span class="string">\1</span>',
-            /^(#.*)$/ => '<span class="preprocessor">\1</span>',
+            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='string'>#{Language.escape(match)}</span>"},
+            /('(\\.|[^\\'])')/ => lambda {|match| "<span class='c char'>#{Language.escape(match)}</span>"},
+            /^(#.*)$/ => lambda {|match| "<span class='preprocessor'>#{Language.escape(match)}</span>"},
 
-            C.keywords([:if, :while, :for, :return]) => '\1<span class="keyword">\2</span>\3',
+            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='comment'>#{Language.escape(match)}</span>"},
+            /(\/\/.*)$/ => lambda {|match| "<span class='comment'>#{Language.escape(match)}</span>"},
+
+            C.keywords([:if, :while, :for, :return, :extern]) => '\1<span class="keyword">\2</span>\3',
             C.keywords([:int, :char]) => '\1<span class="type">\2</span>\3'
         }
 

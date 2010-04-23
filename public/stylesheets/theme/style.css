@@ -240,7 +240,7 @@ span.ruby.parameters {
 }
 
 span.gas.section {
-    color: green;
+    color: orange;
 }
 
 span.gas.label {
@@ -253,4 +253,8 @@ span.gas.register {
 
 span.gas.constant {
     color: blue;
+}
+
+span.c.char {
+    color: orange;
 }

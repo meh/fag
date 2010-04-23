@@ -39,14 +39,28 @@ class Language
         @regexes.each {|regex, replace|
             if regex.is_a?(Array)
                 regex.each {|re|
-                    result.gsub!(re, replace)
+                    if replace.class == Proc
+                        result.gsub!(re, &replace)
+                    else
+                        result.gsub!(re, replace)
+                    end
                 }
             else
-                result.gsub!(regex, replace) rescue nil
+                if replace.class == Proc
+                    result.gsub!(regex, &replace)
+                else
+                    result.gsub!(regex, replace)
+                end
             end
         }
 
         return result
+    end
+
+    def self.escape (value)
+        value.gsub('&lt;', '<').gsub('&gt;', '>').gsub('&amp;', '&').gsub(/(.)/) {|match|
+            "&##{match[0].ord};"
+        }
     end
 end
 

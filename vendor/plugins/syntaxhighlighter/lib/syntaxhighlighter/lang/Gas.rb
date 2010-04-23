@@ -26,19 +26,19 @@ class Language
 class Gas < Language
     def initialize (content, options={})
         @regexes = {
-            /(\w+)(\s*[:=])/ => '<span class=\'gas label\'>\1</span>\2',
+            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='string'>#{Language.escape(match)}</span>"},
 
-            /("([^\\"]|\\.)*")/m => '<span class="string">\1</span>',
-
-            /(\/\*.*?\*\/)/m => '<span class="comment">\1</span>',
+            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='comment'>#{Language.escape(match)}</span>"},
 
             /(\s|^)(\.[^\s]+)/ => '\1<span class="gas section">\2</span>',
+
+            /(\w+)(\s*[:=][^'"])/ => '<span class=\'gas label\'>\1</span>\2',
 
             /(%\w+)/ => '<span class="gas register">\1</span>',
             /(\$\w+)/ => '<span class="gas constant">\1</span>',
 
             Gas.instructions([
-                :mov, :movzb, :movzw, :movzl,
+                :mov, :movzb, :movzw, :movzl, :lea,
                 :cmp, :cmove, :cmovne,
                 :jmp, :int, :call, :ret, :loop,
                 :push, :pop,
