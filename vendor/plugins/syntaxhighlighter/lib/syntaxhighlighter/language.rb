@@ -33,7 +33,13 @@ class Language
         result = self.content.clone
 
         @regexes.each {|regex, replace|
-            result.gsub!(regex, replace) rescue nil
+            if regex.is_a?(Array)
+                regex.each {|re|
+                    result.gsub!(re, replace)
+                }
+            else
+                result.gsub!(regex, replace) rescue nil
+            end
         }
 
         return result

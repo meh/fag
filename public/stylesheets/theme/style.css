@@ -197,6 +197,27 @@ div.flash.error {
 }
 
 /* Languages */
+
+span.comment, span.comment * {
+    color: gray;
+}
+
 span.keyword {
     color: green;
+}
+
+span.class {
+    color: red;
+}
+
+span.string {
+    color: red;
+}
+
+span.function {
+    color: green;
+}
+
+span.ruby.parameters {
+    color: blue;
 }

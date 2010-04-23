@@ -44,6 +44,10 @@ class SyntaxHighlighter
             highlighter = SyntaxHighlighter.class!('Plain')
         end
 
+        code.gsub!(/&/, '&amp;')
+        code.gsub!(/</, '&lt;')
+        code.gsub!(/>/, '&gt;')
+
         if highlighter
             highlighter.new(code).highlight
         else
@@ -54,7 +58,8 @@ class SyntaxHighlighter
     def self.include (value)
         begin
             require "syntaxhighlighter/lang/#{SyntaxHighlighter.language(value)}"
-        rescue Exception
+        rescue Exception => e
+            $stderr.puts e.inspect
             return Exception
         end
     end
@@ -62,7 +67,8 @@ class SyntaxHighlighter
     def self.class! (value)
         begin
             eval("SyntaxHighlighter::Language::#{SyntaxHighlighter.language(value)}")
-        rescue Exception
+        rescue Exception => e
+            $stderr.puts e.inspect
             return nil
         end
     end
