@@ -11,6 +11,10 @@ module ApplicationHelper
     end
 
     def user (something)
-        return (something.user || something.name) rescue nil
+        if something.is_a?(String)
+            return something
+        else
+            return (something.user || something.name) rescue nil
+        end
     end
 end

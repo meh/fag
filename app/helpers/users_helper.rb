@@ -15,7 +15,7 @@ module UsersHelper
         if user.is_a?(User)
             return "<a href='/users/#{ERB::Util.h user.id}'>#{ERB::Util.h user.name}</a>"
         else
-            return user.name || 'Anonymous'
+            return user || 'Anonymous'
         end
     end
 end
