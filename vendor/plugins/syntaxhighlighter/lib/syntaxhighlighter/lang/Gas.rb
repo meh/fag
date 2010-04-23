@@ -26,9 +26,11 @@ class Language
 class Gas < Language
     def initialize (content, options={})
         @regexes = {
-            /(\w+)([:=])/ => '<span class=\'gas label\'>\1</span>\2',
+            /(\w+)(\s*[:=])/ => '<span class=\'gas label\'>\1</span>\2',
 
             /("([^\\"]|\\.)*")/m => '<span class="string">\1</span>',
+
+            /(\/\*.*?\*\/)/m => '<span class="comment">\1</span>',
 
             /(\s|^)(\.[^\s]+)/ => '\1<span class="gas section">\2</span>',
         }

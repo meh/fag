@@ -207,6 +207,10 @@ span.preprocessor, span.preprocessor * {
     color: green;
 }
 
+span.string, span.string * {
+    color: red;
+}
+
 span.keyword {
     color: green;
 }
@@ -215,9 +219,6 @@ span.type {
     color: red;
 }
 
-span.string {
-    color: red;
-}
 
 span.function {
     color: green;
