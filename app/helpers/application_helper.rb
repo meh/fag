@@ -9,4 +9,8 @@ module ApplicationHelper
 
         return result
     end
+
+    def user (something)
+        return (something.user || something.name) rescue nil
+    end
 end

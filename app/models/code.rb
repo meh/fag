@@ -31,11 +31,7 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Code < ActiveRecord::Base
-    attr_accessible :language, :content
+    attr_accessible :language, :content, :name
 
     belongs_to :user
-
-    def path
-        "/code/#{self.id}"
-    end
 end

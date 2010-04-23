@@ -17,7 +17,21 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class Float < ActiveRecord::Base
-    attr_accessible :name
-    serialize :modes, Hash
+class NewsController < ApplicationController
+    def index
+        @title = 'News'
+    end
+
+    def show
+        @news = News.find(params[:id])
+
+        @title = "News - #{@news.title}"
+    end
+
+    def new
+        @title = 'News.new'
+    end
+
+    def create
+    end
 end

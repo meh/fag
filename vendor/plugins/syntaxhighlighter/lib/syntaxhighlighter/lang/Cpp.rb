@@ -23,19 +23,19 @@ class SyntaxHighlighter
 
 class Language
 
-class C < Language
+class Cpp < Language
     def initialize (content, options={})
         @regexes = {
-            /^\s*(#.*)$/ => lambda {|match| "<span class='c preprocessor'>#{Language.escape(match)}</span>"},
+            /^\s*(#.*)$/ => lambda {|match| "<span class='cpp preprocessor'>#{Language.escape(match)}</span>"},
 
-            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='c string'>#{Language.escape(match)}</span>"},
-            /('(\\.|[^\\'])')/ => lambda {|match| "<span class='c char'>#{Language.escape(match)}</span>"},
+            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='cpp string'>#{Language.escape(match)}</span>"},
+            /('(\\.|[^\\'])')/ => lambda {|match| "<span class='cpp char'>#{Language.escape(match)}</span>"},
 
-            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='c comment'>#{Language.escape(match)}</span>"},
-            /(\/\/.*)$/ => lambda {|match| "<span class='c comment'>#{Language.escape(match)}</span>"},
+            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='cpp comment'>#{Language.escape(match)}</span>"},
+            /(\/\/.*)$/ => lambda {|match| "<span class='cpp comment'>#{Language.escape(match)}</span>"},
 
-            C.keywords([:if, :while, :for, :return, :extern, :const, :static]) => '\1<span class="c keyword">\2</span>\3',
-            C.keywords([:void, :int, :char]) => '\1<span class="c type">\2</span>\3'
+            Cpp.keywords([:if, :while, :for, :return, :extern, :const, :static]) => '\1<span class="cpp keyword">\2</span>\3',
+            Cpp.keywords([:void, :int, :char]) => '\1<span class="cpp type">\2</span>\3'
         }
 
         super(content, options)
@@ -50,7 +50,6 @@ class C < Language
 
         return /(\s|^|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
     end
-
 end
 
 end

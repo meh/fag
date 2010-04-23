@@ -32,8 +32,6 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Drop < ActiveRecord::Base
-    include ERB::Util
-
     attr_accessible :name, :title, :content
 
     belongs_to :flow
@@ -45,6 +43,8 @@ class Drop < ActiveRecord::Base
         content.scan(/(((\r)?\n|^)(-)+\s*([^\s\-]+?)\s*(-)+(\r)?\n(.+?)(\r)?\n(-)+)$/m).each {|match|
             code = Code.new(:language => match[4], :content => match[7])
 
+            puts "LOLOLOL #{user.inspect}"
+
             if user.is_a?(User)
                 code.user = user
             else
@@ -54,40 +54,6 @@ class Drop < ActiveRecord::Base
             code.save
 
             content.sub!(/#{Regexp.escape(match[0])}/, "#{match[1]}< #{code.path}\n")
-        }
-
-        return content
-    end
-
-    def output (what)
-        self.send("output_#{what.to_s}".to_sym)
-    end
-
-    def output_title
-        return h self.title
-    end
-
-    def output_class
-        if self.user
-            return h self.user.modes[:class].to_s
-        else
-            return 'anonymous'
-        end
-    end
-
-    def output_user
-        if self.user
-            return "<a href='/users/#{h self.user.id}'>#{h self.user.name}</a>"
-        else
-            return self.name || 'Anonymous'
-        end
-    end
-
-    def output_content
-        content = h self.content
-
-        content.scan(/^(&lt; \/code(s)?\/(\d+))$/).each {|match|
-            content.sub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[2]), :inDrop => true }))
         }
 
         return content

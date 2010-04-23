@@ -11,10 +11,6 @@ body {
     font-size: 12px;
 }
 
-img {
-    background: white;
-}
-
 div#navigation_menu {
     position: fixed;
     top: 0;
@@ -104,7 +100,18 @@ div.flow div.drop {
 
 div.flow div.drop div.user {
     border-bottom: 2px solid gray;
-    padding-left: 3px;
+    color: blue;
+}
+
+div.flow div.drop div.user {
+    border-bottom: 2px solid gray;
+    color: blue;
+}
+
+div.flow div.drop div.user span.name {
+}
+
+div.flow div.drop div.user a {
     color: blue;
 }
 
@@ -113,7 +120,7 @@ div.flow div.drop div.user * {
 }
 
 div.flow div.drop div.user.anonymous {
-    color: gray;
+    color: #666666;
 }
 
 div.flow div.drop div.content {
@@ -224,7 +231,7 @@ span.string * {
 }
 
 span.keyword {
-    color: green;
+    color: orange;
 }
 
 span.type {
@@ -237,6 +244,10 @@ span.function {
 
 span.ruby.parameters {
     color: blue;
+}
+
+span.gas.keyword {
+    color: green;
 }
 
 span.gas.section {

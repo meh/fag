@@ -31,9 +31,9 @@ class Ruby < Language
 
             /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
 
-            Ruby.keywords([:require, :load, :class, :module, :def, :end, :if, :do, :while, :for, :unless, :return, :begin, :rescue, :fail]) => '\1<span class="keyword">\2</span>\3',
+            Ruby.keywords([:class, :module, :def, :end, :if, :do, :while, :for, :unless, :return, :begin, :rescue, :fail]) => '\1<span class="keyword">\2</span>\3',
             Ruby.classes([:Array, :Hash, :Regexp, :File, :URI, 'Net::HTTP']) => '\1<span class="type">\2</span>\3',
-            Ruby.functions([:puts]) => '\1<span class="function">\2</span>\3',
+            Ruby.functions([:require, :load, :puts]) => '\1<span class="function">\2</span>\3',
         }
 
         super(content, options)

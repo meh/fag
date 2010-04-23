@@ -25,6 +25,7 @@ class SyntaxHighlighter
     @@languages = {
         'Ruby'     => [/^ruby$/i, /^rb$/i],
         'C'        => /^c$/i,
+        'C++'      => { :regexes => /^c(\+\+|pp)$/i, :class => 'Cpp' },
         'ASM AT&T' => { :regexes => /^gas$/i, :class => 'Gas' },
     }
 
@@ -60,6 +61,10 @@ class SyntaxHighlighter
             name = @@languages[name][:class].to_s
         end
 
+        if !name
+            return
+        end
+
         begin
             require "syntaxhighlighter/lang/#{name}"
         rescue Exception => e
@@ -73,6 +78,10 @@ class SyntaxHighlighter
 
         if @@languages[name].is_a?(Hash)
             name = @@languages[name][:class].to_s
+        end
+
+        if !name
+            return
         end
 
         begin

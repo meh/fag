@@ -47,7 +47,7 @@ class Gas < Language
                 :jl, :je, :jne, :jb, :jg, :jge,
                 :cld, :bswap,
                 :repne, :scasb,
-            ]) => '\1<span class="keyword">\2\3</span>\4',
+            ]) => '\1<span class="gas keyword">\2\3</span>\4',
         }
 
         super(content, options)

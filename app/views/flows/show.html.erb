@@ -1,16 +1,16 @@
 <div class="flow">
     <div class="title">
-        <%= h @flow.title %>
+        <%= FlowsHelper.output :title, @flow %>
     </div>
 
     <% @flow.drops.each do |drop| %><div class="drop">
-        <div class="user <%= drop.output_class %>">
+        <div class="user <%= UsersHelper.output :class, user(drop) %>">
             <%= gravatar_for drop.user if drop.user %>
-            <%= drop.output :user %>
+            <span class="name"><%= UsersHelper.output :user, user(drop) %></span>
         </div>
 
         <div class="content">
-            <%= drop.output :content %>
+            <%= FlowsHelper.output :content, drop %>
         </div>
     </div><% end %>
 
