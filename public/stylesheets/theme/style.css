@@ -140,6 +140,7 @@ pre div.language {
 }
 
 pre div.source {
+    white-space: pre;
     padding: 0 5px;
 }
 
@@ -193,4 +194,9 @@ div#debug {
 div.flash.error {
     border: 2px solid red;
     background: #ffdddd;
+}
+
+/* Languages */
+span.keyword {
+    color: green;
 }

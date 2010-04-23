@@ -7,7 +7,6 @@
 #  flow_id    :integer
 #  user_id    :integer
 #  name       :string(255)
-#  title      :string(255)
 #  content    :text
 #  created_at :datetime
 #  updated_at :datetime
@@ -90,8 +89,6 @@ class Drop < ActiveRecord::Base
         content.scan(/^(&lt; \/code\/(\d+))$/).each {|match|
             content.sub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[1]) }))
         }
-
-        content.gsub!(/(\r)?\n/, '<br/>')
 
         return content
     end

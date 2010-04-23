@@ -1,15 +1,3 @@
-# == Schema Information
-# Schema version: 7
-#
-# Table name: flows
-#
-#  id         :integer         not null, primary key
-#  closed     :boolean
-#  title      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]
@@ -29,9 +17,39 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class Flow < ActiveRecord::Base
-    attr_accessible :closed, :title
+class SyntaxHighlighter
 
-    has_many :drops, :autosave => true
-    has_many :used_floats, :autosave => true
+class Language
+    attr_reader :content, :options
+
+    def initialize (content, options={})
+        @content = content
+        @options = options
+
+        @regexes ||= {}
+    end
+
+    def highlight
+        result = self.content.clone
+
+        @regexes.each {|regex, replace|
+            result.gsub!(regex, replace) rescue nil
+        }
+
+        return result
+    end
+end
+
+end
+
+class Array
+    def to_keywords
+        keywords = String.new
+
+        self.each {|key|
+            keywords << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|^)(#{keywords[1, keywords.length]})(\s|$)/
+    end
 end

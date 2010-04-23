@@ -1,0 +1,6 @@
+author: meh.
+summary: View helpers to highlight source syntaxes
+homepage: http://github.com/meh/fag
+licence: AGPL
+version: 0.1
+rails_version: 1.0+

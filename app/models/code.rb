@@ -6,6 +6,7 @@
 #  id         :integer         not null, primary key
 #  language   :string(255)
 #  content    :text
+#  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #

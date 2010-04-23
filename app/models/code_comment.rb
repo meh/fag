@@ -4,6 +4,7 @@
 # Table name: code_comments
 #
 #  id         :integer         not null, primary key
+#  name       :string(255)
 #  line       :integer
 #  content    :text
 #  created_at :datetime
