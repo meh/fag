@@ -23,17 +23,14 @@ class SyntaxHighlighter
 
 class Language
 
-class Ruby < Language
+class Bash < Language
     def initialize (content, options={})
         @regexes = {
-            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
-            /^(#.*?)$/ => '<span class="ruby comment">\1</span>',
+            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => lambda {|match| "<span class=\"bash string\">#{Language.escape(match)}</span>"},
+            /^(#.*?)$/ => '<span class="bash comment">\1</span>',
 
-            /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
-
-            Ruby.keywords([:class, :module, :def, :end, :if, :do, :while, :for, :unless, :return, :begin, :rescue, :fail]) => '\1<span class="ruby keyword">\2</span>\3',
-            Ruby.classes([:Array, :Hash, :Regexp, :File, :URI, 'Net::HTTP']) => '\1<span class="ruby type">\2</span>\3',
-            Ruby.functions([:require, :load, :puts]) => '\1<span class="ruby function">\2</span>\3',
+            Bash.keywords([:if, :fi, :while, :do, :case, :esac, :for, :function]) => '\1<span class="bash keyword">\2</span>\3',
+            Bash.functions([:echo, :cat, :grep, :sed, :curl]) => '\1<span class="bash function">\2</span>\3',
         }
 
         super(content, options)
@@ -46,17 +43,7 @@ class Ruby < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^)(#{keywords[1, keywords.length]})(\s|$)/
-    end
-
-    def self.classes (value)
-        result = String.new
-
-        value.each {|key|
-            result << "|#{Regexp.escape(key.to_s)}"
-        }
-
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\.|$)/
+        return /(\s|^|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
     end
 
     def self.functions (value)

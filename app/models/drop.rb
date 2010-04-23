@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 7
+# Schema version: 8
 #
 # Table name: drops
 #
@@ -53,7 +53,7 @@ class Drop < ActiveRecord::Base
 
             code.save
 
-            content.sub!(/#{Regexp.escape(match[0])}/, "#{match[1]}< #{code.path}\n")
+            content.sub!(/#{Regexp.escape(match[0])}/, "#{match[1]}< #{CodesHelper.path(code)}\n")
         }
 
         return content

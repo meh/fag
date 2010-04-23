@@ -27,6 +27,7 @@ class SyntaxHighlighter
         'C'        => /^c$/i,
         'C++'      => { :regexes => /^c(\+\+|pp)$/i, :class => 'Cpp' },
         'ASM AT&T' => { :regexes => /^gas$/i, :class => 'Gas' },
+        'Bash'     => /^(ba)?sh$/i,
     }
 
     def initialize (lang)

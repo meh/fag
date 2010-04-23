@@ -1,11 +1,12 @@
 # == Schema Information
-# Schema version: 7
+# Schema version: 8
 #
 # Table name: codes
 #
 #  id         :integer         not null, primary key
 #  language   :string(255)
 #  content    :text
+#  user_id    :integer
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime

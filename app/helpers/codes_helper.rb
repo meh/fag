@@ -1,4 +1,8 @@
 module CodesHelper
+    def self.path (code)
+        return "/codes/#{code.id}"
+    end
+
     def self.output (what, *args)
         CodesHelper.method("output_#{what.to_s}".to_sym).call(*args)
     end
