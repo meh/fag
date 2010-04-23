@@ -87,7 +87,7 @@ class Drop < ActiveRecord::Base
         content = h self.content
 
         content.scan(/^(&lt; \/code\/(\d+))$/).each {|match|
-            content.sub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[1]) }))
+            content.sub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[1]), :inDrop => true }))
         }
 
         return content

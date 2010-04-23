@@ -29,6 +29,7 @@ class CodesController < ApplicationController
     end
 
     def new
+        @title = "Code.new"
     end
 
     def create

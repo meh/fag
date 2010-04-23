@@ -128,20 +128,21 @@ div.flow a.reply {
     font-weight: bold;
 }
 
-pre {
+div.code {
     font-family: Terminus, Courier New, Monospace;
     border: 1px solid gray;
 }
 
-pre div.language {
+div.code div.language {
     border-bottom: 1px solid gray;
     padding-left: 5px;
     font-weight: bold;
 }
 
-pre div.source {
+div.code div.source {
     white-space: pre;
-    padding: 0 5px;
+    padding: 5px;
+    overflow: auto;
 }
 
 /* Errors */
