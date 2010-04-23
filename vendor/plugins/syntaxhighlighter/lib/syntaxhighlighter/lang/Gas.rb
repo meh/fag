@@ -33,9 +33,35 @@ class Gas < Language
             /(\/\*.*?\*\/)/m => '<span class="comment">\1</span>',
 
             /(\s|^)(\.[^\s]+)/ => '\1<span class="gas section">\2</span>',
+
+            /(%\w+)/ => '<span class="gas register">\1</span>',
+            /(\$\w+)/ => '<span class="gas constant">\1</span>',
+
+            Gas.instructions([
+                :mov, :movzb, :movzw, :movzl,
+                :cmp, :cmove, :cmovne,
+                :jmp, :int, :call, :ret, :loop,
+                :push, :pop,
+                :neg, :not, :and, :or, :sal, :sar, :shr, :shl,
+                :sub, :dec, :add, :inc, :div,
+                :jl, :je, :jne, :jb, :jg, :jge,
+                :cld, :bswap,
+                :repne, :scasb,
+            ]) => '\1<span class="keyword">\2\3</span>\4',
         }
 
         super(content, options)
+    end
+
+    def self.instructions (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|^)(#{result[1, result.length]})([bwlq])?(\s|$)/
+
     end
 end
 

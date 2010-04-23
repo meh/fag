@@ -199,16 +199,28 @@ div.flash.error {
 
 /* Languages */
 
-span.comment, span.comment * {
+span.comment {
     color: gray;
 }
 
-span.preprocessor, span.preprocessor * {
-    color: green;
+span.comment * {
+    color: gray !important;
 }
 
-span.string, span.string * {
+span.preprocessor {
+    color: green;
+}
+    
+span.preprocessor * {
+    color: green !important;
+}
+
+span.string {
     color: red;
+}
+
+span.string * {
+    color: red !important;
 }
 
 span.keyword {
@@ -218,7 +230,6 @@ span.keyword {
 span.type {
     color: red;
 }
-
 
 span.function {
     color: green;
@@ -233,5 +244,13 @@ span.gas.section {
 }
 
 span.gas.label {
+    color: blue;
+}
+
+span.gas.register {
+    color: purple;
+}
+
+span.gas.constant {
     color: blue;
 }
