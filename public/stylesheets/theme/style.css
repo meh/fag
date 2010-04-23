@@ -226,3 +226,11 @@ span.function {
 span.ruby.parameters {
     color: blue;
 }
+
+span.gas.section {
+    color: green;
+}
+
+span.gas.label {
+    color: blue;
+}

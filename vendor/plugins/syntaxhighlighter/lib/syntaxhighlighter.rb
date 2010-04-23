@@ -23,8 +23,9 @@ class SyntaxHighlighter
     attr_reader :language
 
     @@languages = {
-        'Ruby' => [/^ruby$/i, /^rb$/i],
-        'C'    => [/^c$/i],
+        'Ruby'     => [/^ruby$/i, /^rb$/i],
+        'C'        => /^c$/i,
+        'ASM AT&T' => { :regexes => /^gas$/i, :class => 'Gas' },
     }
 
     def initialize (lang)
@@ -53,8 +54,14 @@ class SyntaxHighlighter
     end
 
     def self.include (value)
+        name = SyntaxHighlighter.language(value)
+
+        if @@languages[name].is_a?(Hash)
+            name = @@languages[name][:class].to_s
+        end
+
         begin
-            require "syntaxhighlighter/lang/#{SyntaxHighlighter.language(value)}"
+            require "syntaxhighlighter/lang/#{name}"
         rescue Exception => e
             $stderr.puts e.inspect
             return Exception
@@ -62,8 +69,14 @@ class SyntaxHighlighter
     end
 
     def self.class! (value)
+        name = SyntaxHighlighter.language(value)
+
+        if @@languages[name].is_a?(Hash)
+            name = @@languages[name][:class].to_s
+        end
+
         begin
-            eval("SyntaxHighlighter::Language::#{SyntaxHighlighter.language(value)}")
+            eval("SyntaxHighlighter::Language::#{name}")
         rescue Exception => e
             $stderr.puts e.inspect
             return nil
@@ -79,12 +92,26 @@ class SyntaxHighlighter
             return value
         end
 
-        @@languages.each {|language, regexes|
-            regexes.each {|regex|
-                if value.match(regex)
-                    return language
+        @@languages.each {|language, data|
+            if data.is_a?(Array)
+                data.each {|regex|
+                    return language if value.match(regex)
+                }
+            else
+                if data.class == Regexp
+                    return language if value.match(data)
+                elsif data.is_a?(Hash)
+                    regexes = data[:regexes]
+                    
+                    if regexes.class == Regexp
+                        return language if value.match(regexes)
+                    elsif regexes.is_a?(Array)
+                        regexes.each {|regex|
+                            return language if value.match(regex)
+                        }
+                    end
                 end
-            }
+            end
         }
 
         if name
