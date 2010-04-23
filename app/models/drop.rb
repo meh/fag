@@ -40,7 +40,7 @@ class Drop < ActiveRecord::Base
     belongs_to :user
 
     def self.parse (content, user)
-        puts content.inspect
+        content.gsub!(/\r/, '')
 
         content.scan(/(((\r)?\n|^)(-)+\s*([^\s\-]+?)\s*(-)+(\r)?\n(.+?)(\r)?\n(-)+)$/m).each {|match|
             code = Code.new(:language => match[4], :content => match[7])

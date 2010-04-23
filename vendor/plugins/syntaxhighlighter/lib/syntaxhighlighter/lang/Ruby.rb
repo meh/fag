@@ -27,14 +27,26 @@ class Ruby < Language
     def initialize (content, options={})
         @regexes = {
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => '<span class="string">\1</span>',
-            /^(#.*)$/ => '<span class="comment">\1</span>',
-            /\|(.+?)\|/ => '|<span class="ruby parameters">\1</span>|',
-            [:class, :module, :def, :end, :if, :do, :while, :for, :unless, :return, :begin, :rescue, :fail].to_keywords => '\1<span class="keyword">\2</span>\3',
-            Ruby.classes([:Array, :Hash, :File]) => '\1<span class="class">\2</span>\3',
+            /^(#.*?)$/ => '<span class="comment">\1</span>',
+
+            /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
+
+            Ruby.keywords([:require, :load, :class, :module, :def, :end, :if, :do, :while, :for, :unless, :return, :begin, :rescue, :fail]) => '\1<span class="keyword">\2</span>\3',
+            Ruby.classes([:Array, :Hash, :Regexp, :File, :URI, 'Net::HTTP']) => '\1<span class="type">\2</span>\3',
             Ruby.functions([:puts]) => '\1<span class="function">\2</span>\3',
         }
 
         super(content, options)
+    end
+
+    def self.keywords (value)
+        keywords = String.new
+
+        value.each {|key|
+            keywords << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|^)(#{keywords[1, keywords.length]})(\s|$)/
     end
 
     def self.classes (value)
@@ -44,7 +56,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^)(#{result[1, result.length]})(\s|\.|$)/
+        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\.|$)/
     end
 
     def self.functions (value)
@@ -54,7 +66,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^)(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\(|$)/
 
     end
 end

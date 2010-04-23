@@ -24,6 +24,7 @@ class SyntaxHighlighter
 
     @@languages = {
         'Ruby' => [/^ruby$/i, /^rb$/i],
+        'C'    => [/^c$/i],
     }
 
     def initialize (lang)
@@ -43,10 +44,6 @@ class SyntaxHighlighter
             SyntaxHighlighter.include('Plain')
             highlighter = SyntaxHighlighter.class!('Plain')
         end
-
-        code.gsub!(/&/, '&amp;')
-        code.gsub!(/</, '&lt;')
-        code.gsub!(/>/, '&gt;')
 
         if highlighter
             highlighter.new(code).highlight

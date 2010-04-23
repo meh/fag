@@ -17,37 +17,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-require 'syntaxhighlighter/language'
+class FloatsController < ApplicationController
+    def index
 
-class SyntaxHighlighter
-
-class Language
-
-class C < Language
-    def initialize (content, options={})
-        @regexes = {
-            /("([^\\"]|\\.)*")/m => '<span class="string">\1</span>',
-            /^(#.*)$/ => '<span class="preprocessor">\1</span>',
-
-            C.keywords([:if, :while, :for, :return]) => '\1<span class="keyword">\2</span>\3',
-            C.keywords([:int, :char]) => '\1<span class="type">\2</span>\3'
-        }
-
-        super(content, options)
     end
 
-    def self.keywords (value)
-        keywords = String.new
+    def show
+        @float = Float.find_by_name(params[:id])
 
-        value.each {|key|
-            keywords << "|#{Regexp.escape(key.to_s)}"
-        }
-
-        return /(\s|^|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
+        @title = "{ #{@float.language} }"
     end
 
-end
+    def new
+    end
 
-end
-
+    def create
+    end
 end

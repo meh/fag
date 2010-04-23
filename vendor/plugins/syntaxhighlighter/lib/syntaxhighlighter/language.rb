@@ -32,6 +32,10 @@ class Language
     def highlight
         result = self.content.clone
 
+        result.gsub!(/&/, '&amp;')
+        result.gsub!(/</, '&lt;')
+        result.gsub!(/>/, '&gt;')
+
         @regexes.each {|regex, replace|
             if regex.is_a?(Array)
                 regex.each {|re|
@@ -46,16 +50,4 @@ class Language
     end
 end
 
-end
-
-class Array
-    def to_keywords
-        keywords = String.new
-
-        self.each {|key|
-            keywords << "|#{Regexp.escape(key.to_s)}"
-        }
-
-        return /(\s|^)(#{keywords[1, keywords.length]})(\s|$)/
-    end
 end

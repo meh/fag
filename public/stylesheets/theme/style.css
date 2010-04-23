@@ -202,11 +202,15 @@ span.comment, span.comment * {
     color: gray;
 }
 
+span.preprocessor, span.preprocessor * {
+    color: green;
+}
+
 span.keyword {
     color: green;
 }
 
-span.class {
+span.type {
     color: red;
 }
 
