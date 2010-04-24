@@ -17,4 +17,14 @@ module ApplicationHelper
             return (something.user || something.name) rescue nil
         end
     end
+
+    def escape (string)
+        ApplicationHelper.escape(string)
+    end
+
+    def self.escape (string)
+        string.gsub(/(.)/) {|match|
+            "%#{match.ord.to_s(16)}"
+        }
+    end
 end

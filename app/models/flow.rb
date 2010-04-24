@@ -36,8 +36,13 @@ class Flow < ActiveRecord::Base
     has_many :used_tags, :autosave => true
 
     def add_tags (text)
-        Tag.parse(text).each {|tag|
-            self.used_tags << Tag.new(:name => tag)
+        Tag.parse(text).each {|name|
+            if !(tag = Tag.find_by_name(name))
+                tag = Tag.new(:name => name)
+                tag.save
+            end
+
+            self.used_tags << UsedTag.new(:tag => tag, :flow => self)
         }
     end
 end

@@ -20,6 +20,8 @@
 class FlowsController < ApplicationController
     def index
         @title = 'Ocean'
+
+        @tags = Tag.all
     end
 
     def projects

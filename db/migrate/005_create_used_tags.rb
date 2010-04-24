@@ -1,8 +1,8 @@
 class CreateUsedTags < ActiveRecord::Migration
     def self.up
         create_table :used_tags do |t|
-            t.reference :tag
-            t.reference :flow
+            t.references :tag
+            t.references :flow
 
             t.timestamps
         end

@@ -3,6 +3,10 @@
         <%= FlowsHelper.output :title, @flow %>
     </div>
 
+    <div class="floats">
+        <%= FlowsHelper.output :tags, @flow %>
+    </div>
+
     <% @flow.drops.each do |drop| %><div class="drop">
         <div class="user <%= UsersHelper.output :class, user(drop) %>">
             <%= gravatar_for drop.user if drop.user %>

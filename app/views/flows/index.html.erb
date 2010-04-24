@@ -1,3 +1,10 @@
 I can't swim anymore, I'm sinking in flows of thoughts.<br/>
 <br/>
+
+<div class="ocean">
+    <% @tags.each do |tag| %>
+        <%= TagsHelper.output :link, tag %>&nbsp;
+    <% end %>
+</div>
+
 <a href="/ocean/new/flow">Start flowing</a>

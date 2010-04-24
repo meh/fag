@@ -38,8 +38,8 @@ class Tag < ActiveRecord::Base
 
         if options[:tree]
         else
-            /(("(?<tag>[^\\"]|\\.)*")|(?<tag>[^\s]+))/.scan(string) {|match|
-                puts "LOLOLOL #{match.inspect}"
+            string.scan(/(("(([^\\"]|\\.)*)")|([^\s]+))/) {|match|
+                result.push(match[2] || match[4])
             }
         end
 

@@ -3,8 +3,22 @@ module FlowsHelper
         FlowsHelper.method("output_#{what.to_s}".to_sym).call(*args)
     end
 
+    def self.output_link (flow)
+        "<a href='/ocean/flow/#{flow.id}'>#{FlowsHelper.output :title, flow}</a>"
+    end
+
     def self.output_title (flow)
         return ERB::Util.h flow.title
+    end
+
+    def self.output_tags (flow)
+        result = String.new
+
+        flow.used_tags.each {|tag|
+            result << "#{TagsHelper.output :link, tag} "
+        }
+
+        return result
     end
 
     def self.output_content (drop)

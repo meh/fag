@@ -34,4 +34,16 @@ class UsedTag < ActiveRecord::Base
     def name
         self.tag.name
     end
+
+    def self.find_flows_by_expression (value)
+        tag = Tag.find_by_name(value)
+
+        flows = UsedTag.all.select {|used|
+            used.tag_id == tag.id
+        }.map {|used|
+            Flow.find(used.flow_id)
+        }
+
+        return flows
+    end
 end

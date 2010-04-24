@@ -121,6 +121,15 @@ div.flow div.title {
     font-weight: bold;
 }
 
+div.flow div.floats {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+div.flow div.floats a {
+    text-decoration: none;
+}
+
 div.flow div.drop {
     border: 2px solid gray;
     margin-bottom: 3px;
