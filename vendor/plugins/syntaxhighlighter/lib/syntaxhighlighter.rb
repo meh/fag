@@ -23,11 +23,17 @@ class SyntaxHighlighter
     attr_reader :language
 
     @@languages = {
-        'Ruby'     => [/^ruby$/i, /^rb$/i],
+        'Plain' => [/^t(e)?xt$/i, /^plain$/i],
+
+        'Bash' => /^(ba)?sh$/i,
+
+        'Ruby'       => [/^ruby$/i, /^rb$/i],
+        'Javascript' => [/^js$/i, /^javascript$/i],
+        'PHP'        => /^php$/i,  
+
         'C'        => /^c$/i,
         'C++'      => { :regexes => /^c(\+\+|pp)$/i, :class => 'Cpp' },
         'ASM AT&T' => { :regexes => /^gas$/i, :class => 'Gas' },
-        'Bash'     => /^(ba)?sh$/i,
     }
 
     def initialize (lang)
@@ -46,6 +52,7 @@ class SyntaxHighlighter
         if !(highlighter = SyntaxHighlighter.class!(lang))
             SyntaxHighlighter.include('Plain')
             highlighter = SyntaxHighlighter.class!('Plain')
+            puts "LOLOL #{highlighter.inspect}"
         end
 
         if highlighter

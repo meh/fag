@@ -4,6 +4,10 @@
     position: relative;
 }
 
+a {
+    font-weight: bold;
+}
+
 body {
     background: white;
     color: black;
@@ -23,6 +27,10 @@ div#navigation_menu {
     padding: 3px;
 }
 
+div#navigation_menu a {
+    text-decoration: none;
+}
+
 div#user_menu {
     position: fixed;
     top: 0;
@@ -35,12 +43,16 @@ div#user_menu {
     padding: 3px;
 }
 
+div#user_menu a {
+    text-decoration: none;
+}
+
 div#user_menu span.username {
-    font-weight: bold;
 }
 
 div#user_menu span.username a {
     text-decoration: none;
+    font-weight: normal;
 }
 
 div#container {
@@ -48,6 +60,22 @@ div#container {
     border: 2px solid gray;
     margin: 42px auto;
     padding: 5px;
+}
+
+div#footer {
+    width: 100%;
+    background: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    text-align: right;
+
+    border-top: 2px solid gray;
+}
+
+div#footer a {
+    text-decoration: none;
 }
 
 div.user_view {
@@ -240,6 +268,14 @@ span.type {
 
 span.function {
     color: green;
+}
+
+span.variable {
+    color: green;
+}
+
+span.symbol {
+    color: orange;
 }
 
 span.ruby.parameters {
