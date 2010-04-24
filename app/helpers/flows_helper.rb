@@ -10,7 +10,11 @@ module FlowsHelper
     def self.output_content (drop)
         content = drop.content.gsub(/</, '&lt;').gsub(/>/, '&gt;')
 
-        content.scan(/("([^"]+)":([^\s]+))/).uniq.each {|match|
+        content.scan(/("([^"]+)":(\w+:\/\/[^\s]+))/).uniq.each {|match|
+            if match[1].strip.empty?
+                next
+            end
+
             content.gsub!(/#{Regexp.escape(match[0])}/, "<a href='#{SyntaxHighlighter::Language.escape(match[2])}'>#{ERB::Util.h match[1]}</a>")
         }
 
