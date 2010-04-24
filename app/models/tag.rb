@@ -1,9 +1,11 @@
 # == Schema Information
 # Schema version: 8
 #
-# Table name: used_floats
+# Table name: tags
 #
 #  id         :integer         not null, primary key
+#  name       :string(255)
+#  modes      :string(255)     default("--- {}\n\n")
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -27,11 +29,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class UsedFloat < ActiveRecord::Base
-    belongs_to :float
-    belongs_to :flow
+class Tag < ActiveRecord::Base
+    attr_accessible :name
+    serialize :modes, Hash
 
-    def name
-        self.float.name
+    def self.parse (string, options={})
+        result = []
+
+        if options[:tree]
+        else
+            /(("(?<tag>[^\\"]|\\.)*")|(?<tag>[^\s]+))/.scan(string) {|match|
+                puts "LOLOLOL #{match.inspect}"
+            }
+        end
+
+        return result
     end
 end

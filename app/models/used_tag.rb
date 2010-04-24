@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: used_tags
+#
+#  id         :integer         not null, primary key
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]
@@ -17,20 +27,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class FloatsController < ApplicationController
-    def index
+class UsedTag < ActiveRecord::Base
+    belongs_to :tag
+    belongs_to :flow
 
-    end
-
-    def show
-        @float = Float.find_by_name(params[:id])
-
-        @title = "{ #{@float.language} }"
-    end
-
-    def new
-    end
-
-    def create
+    def name
+        self.tag.name
     end
 end

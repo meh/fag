@@ -46,8 +46,9 @@ class FlowsController < ApplicationController
 
         if params[:type] == 'flow'
             flow = Flow.new(:title => params[:drop][:title])
+            flow.add_tags(params[:drop][:floats])
         elsif params[:type] == 'drop'
-            flow = Flow.find(params[:flow])
+            flow = Flow.find(params[:drop][:flow])
         end
 
         drop = Drop.new(:flow => flow)

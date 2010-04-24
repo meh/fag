@@ -17,7 +17,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class Float < ActiveRecord::Base
-    attr_accessible :name
-    serialize :modes, Hash
+class TagsController < ApplicationController
+    def index
+
+    end
+
+    def show
+        @tag = Tag.find_by_name(params[:id])
+
+        @title = "{ #{@tag.language} }"
+    end
+
+    def new
+    end
+
+    def create
+    end
 end

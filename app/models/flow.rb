@@ -32,6 +32,12 @@
 class Flow < ActiveRecord::Base
     attr_accessible :closed, :title
 
-    has_many :drops, :autosave => true
-    has_many :used_floats, :autosave => true
+    has_many :drops,     :autosave => true
+    has_many :used_tags, :autosave => true
+
+    def add_tags (text)
+        Tag.parse(text).each {|tag|
+            self.used_tags << Tag.new(:name => tag)
+        }
+    end
 end

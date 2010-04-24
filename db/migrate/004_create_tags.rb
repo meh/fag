@@ -1,6 +1,6 @@
-class CreateFloats < ActiveRecord::Migration
+class CreateTags < ActiveRecord::Migration
     def self.up
-        create_table :floats do |t|
+        create_table :tags do |t|
             t.string :name
             t.string :modes, :default => {}.to_yaml
 
@@ -9,6 +9,6 @@ class CreateFloats < ActiveRecord::Migration
     end
 
     def self.down
-        drop_table :floats
+        drop_table :tags
     end
 end
