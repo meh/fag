@@ -81,7 +81,7 @@ class Hybris < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\{|\(|\)|\*|\s|$)/
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\{|\(|\)|\*|\s|$)/
     end
 
     def self.functions (value)
@@ -91,7 +91,7 @@ class Hybris < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
     end
 end
 

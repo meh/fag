@@ -43,7 +43,7 @@ class Bash < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
+        return /(\s|\G|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
     end
 
     def self.functions (value)
@@ -53,7 +53,7 @@ class Bash < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
     end
 end
 

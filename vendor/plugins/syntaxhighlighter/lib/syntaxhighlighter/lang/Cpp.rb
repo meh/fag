@@ -48,7 +48,7 @@ class Cpp < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
+        return /(\s|\G|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
     end
 end
 

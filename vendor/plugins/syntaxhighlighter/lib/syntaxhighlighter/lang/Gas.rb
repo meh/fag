@@ -60,8 +60,7 @@ class Gas < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^)(#{result[1, result.length]})([bwlq])?(\s|$)/
-
+        return /(\s|\G)(#{result[1, result.length]})([bwlq])?(\s|$)/
     end
 end
 

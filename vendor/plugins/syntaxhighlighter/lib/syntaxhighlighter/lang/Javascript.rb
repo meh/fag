@@ -46,7 +46,7 @@ class Javascript < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^)(#{keywords[1, keywords.length]})(\s|$)/
+        return /(\s|\G)(#{keywords[1, keywords.length]})(\s|$)/
     end
 
     def self.classes (value)
@@ -56,7 +56,7 @@ class Javascript < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\.|$)/
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\.|$)/
     end
 
     def self.functions (value)
@@ -66,7 +66,7 @@ class Javascript < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
     end
 end
 
