@@ -32,7 +32,7 @@ class Hybris < Language
             /(\/\*.*?\*\/)/m => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
             /(\/\/.*)$/ => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
 
-            Hybris.keywords([
+            [Hybris.keywords([
                 :include, :import,
                 :typeof, :sizeof,
                 :true, :false, :null,
@@ -40,7 +40,7 @@ class Hybris < Language
                 :throw, :try, :catch, :finally,
                 :function, :return, :class, :public, :protected, :private, :method, :operator, :new, :extends, :me,
 
-            ]) => '\1<span class="hybris keyword">\2</span>\3',
+            ]), /(\s|\G|\(|\)|,)(me)(-&gt;)/] => '\1<span class="hybris keyword">\2</span>\3',
 
             Hybris.functions([
                 :isint, :isfloat, :ischar, :isarray, :ismap, :isalias, :toint, :tostring, :fromxml, :toxml,
