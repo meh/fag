@@ -7,6 +7,12 @@ module FlowsHelper
         "<a href='/ocean/flow/#{flow.id}'>#{FlowsHelper.output :title, flow}</a>"
     end
 
+    def self.output_last_post (flow, template='%s %s')
+        drop = flow.drops.last
+
+        template % [drop.created_at, UsersHelper.output(:user, ApplicationHelper.user(drop))]
+    end
+
     def self.output_title (flow)
         return ERB::Util.h flow.title
     end
@@ -34,8 +40,8 @@ module FlowsHelper
 
         content.gsub!('"', '&quot;')
 
-        content.scan(/^(\s*&lt; \/code(s)?\/(\d+))$/).uniq.each {|match|
-            content.gsub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[2]), :inDrop => true }))
+        content.scan(/^(\s*&lt; \/code(s)?\/(\d+)\n)$/).uniq.each {|match|
+            content.gsub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[2]), :inDrop => true }).strip)
         }
 
         return content

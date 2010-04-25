@@ -13,9 +13,7 @@
             <span class="name"><%= UsersHelper.output :user, user(drop) %></span>
         </div>
 
-        <div class="content">
-            <%= FlowsHelper.output :content, drop %>
-        </div>
+        <div class="content"><%= FlowsHelper.output :content, drop %></div>
     </div><% end %>
 
     <div class="reply right"><a class="reply" href="/flows/new/drop.<%= @flow.id %>">Reply</a></div>

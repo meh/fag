@@ -1,9 +1,12 @@
-I can't swim anymore, I'm sinking in flows of thoughts.<br/>
-<br/>
+I can't swim anymore, I'm sinking in flows of thoughts.
 
 <div class="ocean">
-    <% @tags.each do |tag| %>
-        <%= TagsHelper.output :link, tag %>&nbsp;
+    <% if @tags.empty? %>
+        This ocean is so empty.
+    <% else %>
+        <% @tags.each do |tag| %>
+            <%= TagsHelper.output :link, tag %>&nbsp;
+        <% end %>
     <% end %>
 </div>
 

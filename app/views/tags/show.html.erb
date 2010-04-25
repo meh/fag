@@ -1,3 +1,8 @@
-<% @flows.each do |flow| %>
-    <%= FlowsHelper.output :link, flow %><br/>
-<% end %>
+<table class="flows">
+    <tr><th>Last Drop On</th><th>Last Drop By</th><th>Flow</th></tr>
+
+    <% @flows.each do |flow| %><tr>
+        <%= FlowsHelper.output :last_post, flow, '<td>%s</td><td>%s</td>' %>
+        <td><%= FlowsHelper.output :link, flow %></td>
+    </tr><% end %>
+</table>
