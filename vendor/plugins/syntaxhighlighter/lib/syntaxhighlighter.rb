@@ -30,6 +30,7 @@ class SyntaxHighlighter
         'Ruby'       => [/^ruby$/i, /^rb$/i],
         'Javascript' => [/^js$/i, /^javascript$/i],
         'PHP'        => /^php$/i,  
+        'Hybris'     => [/^hybris$/i, /^hy$/i],
 
         'C'        => /^c$/i,
         'C++'      => { :regexes => /^c(\+\+|pp)$/i, :class => 'Cpp' },

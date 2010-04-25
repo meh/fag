@@ -35,7 +35,7 @@ class C < Language
             /(\/\/.*)$/ => lambda {|match| "<span class='c comment'>#{Language.escape(match)}</span>"},
 
             C.keywords([:if, :while, :for, :return, :extern, :const, :static]) => '\1<span class="c keyword">\2</span>\3',
-            C.keywords([:void, :int, :char]) => '\1<span class="c type">\2</span>\3'
+            C.types([:void, :int, :char]) => '\1<span class="c type">\2</span>\3'
         }
 
         super(content, options)
@@ -48,9 +48,18 @@ class C < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
+        return /(\s|^|\(|\))(#{keywords[1, keywords.length]})({|\(|\)|\*|\s|$)/
     end
 
+    def self.types (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|^|\(|\))(#{result[1, result.length]})({|\(|\)|\*|\s|$)/
+    end
 end
 
 end

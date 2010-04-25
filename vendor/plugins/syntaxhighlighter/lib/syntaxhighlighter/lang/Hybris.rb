@@ -23,40 +23,36 @@ class SyntaxHighlighter
 
 class Language
 
-class Ruby < Language
+class Hybris < Language
     def initialize (content, options={})
         @regexes = {
-            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
-            /^(#.*?)$/ => '<span class="ruby comment">\1</span>',
+            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='hybris string'>#{Language.escape(match)}</span>"},
+            /('(\\.|[^\\'])')/ => lambda {|match| "<span class='hybris char'>#{Language.escape(match)}</span>"},
 
-            /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
+            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
+            /(\/\/.*)$/ => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
 
-            Ruby.keywords([:class, :module, :def, :end, :if, :elsif, :else, :do, :while, :for, :unless, :return, :begin, :rescue, :fail]) => '\1<span class="ruby keyword">\2</span>\3',
-            Ruby.classes([:Array, :Hash, :Regexp, :File, :URI, 'Net::HTTP']) => '\1<span class="ruby type">\2</span>\3',
-            Ruby.functions([:require, :load, :puts]) => '\1<span class="ruby function">\2</span>\3',
+            Hybris.keywords([:include, :import, :if, :else, :while, :for, :foreach, :of, :try, :catch, :finally, :throw, :function, :class, :public, :protected, :private, :method, :return]) => '\1<span class="hybris keyword">\2</span>\3',
+
+            Hybris.functions([
+                :println,
+                :sqrt, # math
+                :array, :contains, :elements, :pop, :remove, # array
+                :map, # map
+            ]) => '\1<span class="hybris function">\2</span>\3',
         }
 
         super(content, options)
     end
 
     def self.keywords (value)
-        keywords = String.new
-
-        value.each {|key|
-            keywords << "|#{Regexp.escape(key.to_s)}"
-        }
-
-        return /(\s|^)(#{keywords[1, keywords.length]})(\(|\s|$)/
-    end
-
-    def self.classes (value)
         result = String.new
 
         value.each {|key|
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|^|\(|\))(#{result[1, result.length]})(\s|\.|:|$)/
+        return /(\s|^|\(|\))(#{result[1, result.length]})({|\(|\)|\*|\s|$)/
     end
 
     def self.functions (value)
