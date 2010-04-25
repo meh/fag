@@ -1,2 +1,2 @@
-rails -v 2.3.5
+rails --version '>= 2.0'
 pg
