@@ -59,7 +59,7 @@ class Language
 
     def self.escape (value)
         value.gsub('&lt;', '<').gsub('&gt;', '>').gsub('&amp;', '&').gsub(/(.)/) {|match|
-            "&##{match[0].to_s.ord};"
+            "&##{match[0].ord};"
         }
     end
 end
