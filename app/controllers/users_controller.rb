@@ -78,6 +78,10 @@ class UsersController < ApplicationController
             raise "You cannot edit other users' data."
         end
 
+        if !params[:user][:email].match(/[\w\.]+@[\w\.]+\.\w{2,6}/)
+            raise 'The email address is not valid.'
+        end
+
         user.email = params[:user][:email]
 
         if user.save_without_validation

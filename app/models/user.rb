@@ -42,35 +42,33 @@ class User < ActiveRecord::Base
 
     before_create :create_check
 
-    validates_format_of :email, :with => /[\w\.]+@[\w\.]+\.\w{2,6}/, :on => :update
-
-    def first_check
-
-    end
-
-    def encrypt (value)
+    def self.encrypt (value)
         Digest::SHA512.hexdigest(value)
     end
 
     def create_check
-        if self.passed_password.length < 1
-            raise "Min password length is 1."
-        elsif self.passed_password.length > 50
-            raise "Max password length is 50."
-        elsif self.passed_password != self.passed_password_confirmation
-            raise "Password confirmation doesn't match the given password."
+        if !self.password
+            if self.passed_password.length < 1
+                raise "Min password length is 1."
+            elsif self.passed_password.length > 50
+                raise "Max password length is 50."
+            elsif self.passed_password != self.passed_password_confirmation
+                raise "Password confirmation doesn't match the given password."
+            end
+
+            self.password = self.passed_password
         end
 
-        self.password = self.encrypt(self.passed_password)
+        self.password = User.encrypt(self.password)
     end
 
     def remember_me!
-        self.remember_token = self.encrypt("#{rand}--#{id}")
+        self.remember_token = User.encrypt("#{rand}--#{id}")
         save_without_validation
     end
 
     def password? (value)
-        self.encrypt(value) == self.password
+        User.encrypt(value) == self.password
     end
 
     def self.authenticate (name, password)

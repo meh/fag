@@ -32,7 +32,7 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Code < ActiveRecord::Base
-    attr_accessible :language, :content, :name
+    attr_accessible :private, :language, :content, :name
 
     belongs_to :user
 end

@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: news
+#
+#  id         :integer         not null, primary key
+#  title      :string(255)
+#  content    :text
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]
@@ -17,23 +29,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class NewsController < ApplicationController
-    def index
-        @title = 'News'
+class News < ActiveRecord::Base
+    attr_accessible :title, :content
 
-        @news = News.all(:order => 'created_at', :limit => 5)
-    end
-
-    def show
-        @news = News.find(params[:id])
-
-        @title = "News - #{@news.title}"
-    end
-
-    def new
-        @title = 'News.new'
-    end
-
-    def create
-    end
+    belongs_to :user
 end

@@ -1,6 +1,8 @@
 class CreateCodes < ActiveRecord::Migration
     def self.up
         create_table :codes do |t|
+            t.boolean :private
+
             t.string :language
             t.text   :content
 
