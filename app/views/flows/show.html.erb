@@ -11,6 +11,10 @@
         <div class="user <%= UsersHelper.output :class, user(drop) %>">
             <%= gravatar_for drop.user if drop.user %>
             <span class="name"><%= UsersHelper.output :user, user(drop) %></span>
+
+            <% if current_user && current_user.modes[:can_edit] %>
+
+            <% end %>
         </div>
 
         <div class="content"><%= FlowsHelper.output :content, drop %></div>

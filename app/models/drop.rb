@@ -40,10 +40,8 @@ class Drop < ActiveRecord::Base
     def self.parse (content, user)
         content.gsub!(/\r/, '')
 
-        content.scan(/(((\r)?\n|^)(-)+\s*([^\s\-]+?)\s*(-)+(\r)?\n(.+?)(\r)?\n(-)+)$/m).each {|match|
-            code = Code.new(:language => match[4], :content => match[7])
-
-            puts "LOLOLOL #{user.inspect}"
+        content.scan(/^((-)+\s*([^\s\-]+?)\s*(-)+\n(.+?)\n(-)+(\n)?)/m).uniq.each {|match|
+            code = Code.new(:language => match[2], :content => match[4])
 
             if user.is_a?(User)
                 code.user = user
@@ -53,7 +51,7 @@ class Drop < ActiveRecord::Base
 
             code.save
 
-            content.sub!(/#{Regexp.escape(match[0])}/, "#{match[1]}< #{CodesHelper.path(code)}\n")
+            content.gsub!(/#{Regexp.escape(match[0])}/, "< #{CodesHelper.path(code)}\n")
         }
 
         return content

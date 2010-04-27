@@ -4,6 +4,7 @@
 # Table name: codes
 #
 #  id         :integer         not null, primary key
+#  private    :boolean
 #  language   :string(255)
 #  content    :text
 #  user_id    :integer

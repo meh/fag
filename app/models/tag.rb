@@ -38,11 +38,11 @@ class Tag < ActiveRecord::Base
 
         if options[:tree]
         else
-            string.scan(/(("(([^\\"]|\\.)*)")|([^\s]+))/) {|match|
-                result.push(match[2] || match[4])
+            string.scan(/(("(([^\\"]|\\.)*)")|([^\s]+?))(,|;|\s|$)/) {|match|
+                result.push((match[2] || match[4] || 'undefined').downcase)
             }
         end
 
-        return result
+        return result.uniq
     end
 end

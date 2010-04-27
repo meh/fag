@@ -32,6 +32,12 @@ class CodesController < ApplicationController
         @title = "Code [#{SyntaxHighlighter.language(@code.language, true)}]"
     end
 
+    def raw
+        @code = Code.find(params[:id])
+
+        render :text => @code.content, :content_type => 'text/plain', :layout => false
+    end
+
     def new
         @title = "Code.new"
     end

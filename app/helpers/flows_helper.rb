@@ -40,7 +40,7 @@ module FlowsHelper
 
         content.gsub!('"', '&quot;')
 
-        content.scan(/^(\s*&lt; \/code(s)?\/(\d+)\n)$/).uniq.each {|match|
+        content.scan(/^(\s*&lt;\s*\/code(s)?\/(\d+)(\n)?)/).uniq.each {|match|
             content.gsub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[2]), :inDrop => true }).strip)
         }
 
