@@ -36,15 +36,15 @@ class Ruby < Language
                 'begin', 'BEGIN', 'end', 'END', 'rescue', 'retry', 'ensure',
                 'if', 'elsif', 'else', 'case', 'when', 'and', 'or', 'not',
                 'do', 'while', 'for', 'in', 'unless', 'until', 'break', 'next', 'redo',
-                'yield', 'undef', :defined?
+                'yield', 'undef', 'defined?'
             ]) => '\1<span class="ruby keyword">\2</span>\3',
 
             Ruby.functions([
                 'require', 'load',
-                :puts
+                'puts'
             ]) => '\1<span class="ruby function">\2</span>\3',
             
-            /(\s|\G|\(|\)|[-~^@\/%|=+*!?\.'\-']|&amp;|&lt;|&gt;)([A-Z]\w*)(\(|\)|\[\]|[-~^@\/%|=+*!?\.'\-']|&amp;|&lt;|&gt;|\(|\)|$)/ => '\1<span class="ruby type">\2</span>\3',
+            /(\s|\G|[-\[\]\)\(~^@\/%|=+*!?\.\-,;:]|&amp;|&lt;|&gt;)([A-Z]\w*)([-\[\]\)\(~^@\/%|=+*!?\.\-,;:]|&amp;|&lt;|&gt;|\s|$)/ => '\1<span class="ruby type">\2</span>\3',
 
             Ruby.constants([
                 'self', 'nil', 'NIL', 'true', 'TRUE', 'false', 'FALSE',
@@ -85,7 +85,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G||[-\[\]\)\(~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\(\)~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;|\s|$)/
+        return /(\s|\G||[-\[\]\)\(~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\(\)~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;|\s|$)/
     end
 
     def self.constants (value)
@@ -95,7 +95,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\)|[-\[\]~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-\[\]~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;|\(|\)|$)/
+        return /(\s|\G|\(|\)|[-\[\]~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-\[\]~^@\/%|=+*!?\.\-;,]|&amp;|&lt;|&gt;|\(|\)|$)/
     end
 end
 
