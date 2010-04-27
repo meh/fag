@@ -325,6 +325,10 @@ span.variable {
     color: green;
 }
 
+span.constant {
+    color: purple;
+}
+
 span.symbol {
     color: orange;
 }

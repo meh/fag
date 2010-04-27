@@ -32,7 +32,7 @@ class Hybris < Language
             /(\/\*.*?\*\/)/m => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
             /(\/\/.*)$/ => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
 
-            [Hybris.keywords([
+            Hybris.keywords([
                 :include, :import,
                 :typeof, :sizeof,
                 :true, :false, :null,
@@ -40,7 +40,7 @@ class Hybris < Language
                 :throw, :try, :catch, :finally,
                 :function, :return, :class, :public, :protected, :private, :method, :operator, :new, :extends, :me,
 
-            ]), /(\s|\G|\(|\)|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;)(me)(\(|\)|\[\]|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;|\(|\)|$)/] => '\1<span class="hybris keyword">\2</span>\3',
+            ]) => '\1<span class="hybris keyword">\2</span>\3',
 
             Hybris.functions([
                 :isint, :isfloat, :ischar, :isarray, :ismap, :isalias, :toint, :tostring, :fromxml, :toxml,
@@ -69,6 +69,8 @@ class Hybris < Language
                 :map, :mapelements, :mappop, :unmap, :ismappd, :haskey,
                 :matrix, :columns, :rows,
             ]) => '\1<span class="hybris function">\2</span>\3',
+
+            Hybris.constants([:me]) => '\1<span class="hybris constant">\2</span>\3',
         }
 
         super(content, options)
@@ -92,6 +94,16 @@ class Hybris < Language
         }
 
         return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+    end
+
+    def self.constants (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|\G|\(|\)|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;|\(|\)|$)/
     end
 end
 

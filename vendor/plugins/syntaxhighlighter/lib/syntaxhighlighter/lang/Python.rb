@@ -62,6 +62,8 @@ class Python < Language
                 :zip,
                 :__import__,
             ]) => '\1<span class="python function">\2</span>\3',
+
+            Python.constants([:True, :False]) => '\1<span class="python constant">\2</span>\3',
         }
 
         super(content, options)
@@ -85,6 +87,16 @@ class Python < Language
         }
 
         return /(\s|\G|\(|\)|,)(#{result[1, result.length]})(\s|\(|$)/
+    end
+
+    def self.constants (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|\G|\(|\)|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;|\(|\)|$)/
     end
 end
 
