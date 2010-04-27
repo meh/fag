@@ -28,9 +28,10 @@ class SyntaxHighlighter
         'Bash' => /^(ba)?sh$/i,
 
         'Ruby'       => [/^ruby$/i, /^rb$/i],
-        'Javascript' => [/^js$/i, /^javascript$/i],
+        'Javascript' => [/^javascript$/i, /^js$/i],
         'PHP'        => /^php$/i,  
         'Hybris'     => [/^hybris$/i, /^hy$/i],
+        'Python'     => [/^python$/i, /^py$/i],
 
         'C'        => /^c$/i,
         'C++'      => { :regexes => /^c(\+\+|pp)$/i, :class => 'Cpp' },

@@ -44,6 +44,10 @@ class FlowsController < ApplicationController
     end
 
     def create
+        if current_user && current_user.modes[:admin]
+            raise "Admins can't post, because I say so."
+        end
+
         type = params[:type]
 
         if params[:type] == 'flow'
