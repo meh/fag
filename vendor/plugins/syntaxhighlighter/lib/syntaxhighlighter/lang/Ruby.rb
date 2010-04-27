@@ -31,9 +31,28 @@ class Ruby < Language
 
             /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
 
-            Ruby.keywords([:class, :module, :def, :end, :if, :elsif, :else, :do, :while, :for, :unless, :return, :begin, :rescue, :fail]) => '\1<span class="ruby keyword">\2</span>\3',
-            Ruby.classes([:Array, :Hash, :Regexp, :File, :URI, 'Net::HTTP']) => '\1<span class="ruby type">\2</span>\3',
-            Ruby.functions([:require, :load, :puts]) => '\1<span class="ruby function">\2</span>\3',
+            Ruby.keywords([
+                'class', 'super', 'module', 'def', 'end', 'return', 'alias', 'nil',
+                'begin', 'BEGIN', 'end', 'END', 'rescue', 'retry', 'ensure',
+                'if', 'elsif', 'else', 'case', 'when', 'and', 'or', 'not',
+                'do', 'while', 'for', 'in', 'unless', 'until', 'break', 'next', 'redo',
+                'yield', 'undef', :defined?
+            ]) => '\1<span class="ruby keyword">\2</span>\3',
+
+            Ruby.functions([
+                'require', 'load',
+                :puts
+            ]) => '\1<span class="ruby function">\2</span>\3',
+            
+            /(\s|\G|\(|\)|[-~^@\/%|=+*!?\.'\-']|&amp;|&lt;|&gt;)([A-Z]\w*)(\(|\)|\[\]|[-~^@\/%|=+*!?\.'\-']|&amp;|&lt;|&gt;|\(|\)|$)/ => '\1<span class="ruby type">\2</span>\3',
+
+            Ruby.constants([
+                'self', 'nil', 'NIL', 'true', 'TRUE', 'false', 'FALSE',
+                'STDIN', 'STDOUT', 'STDERR',
+                'ENV', 'ARGF', 'ARGV', 'DATA',
+                'RUBY_VERSION', 'RUBY_RELEASE_DATE', 'RUBY_PLATFORM',
+                '__FILE__', '__LINE__', '__ENCODING__', '__END__',
+            ]) => '\1<span class="ruby constant">\2</span>\3',
         }
 
         super(content, options)
@@ -66,7 +85,17 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|\G||[-\[\]\)\(~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\(\)~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;|\s|$)/
+    end
+
+    def self.constants (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|\G|\(|\)|[-\[\]~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-\[\]~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;|\(|\)|$)/
     end
 end
 

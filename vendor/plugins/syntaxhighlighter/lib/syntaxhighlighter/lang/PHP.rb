@@ -34,8 +34,8 @@ class PHP < Language
 
             /(\s|^)(\$)(\w+)/ => '\1<span class="php variable"><span class="php variable symbol">$</span>\3</span>',
 
-            PHP.keywords([:function, :if, :while, :for, :return]) => '\1<span class="php keyword">\2</span>\3',
-            PHP.functions([:require, :require_once, :include, :include_once, :echo]) => '\1<span class="php function">\2</span>\3',
+            PHP.keywords(['function', 'if', 'while', 'for', 'return']) => '\1<span class="php keyword">\2</span>\3',
+            PHP.functions(['require', 'require_once', 'include', 'include_once', 'echo']) => '\1<span class="php function">\2</span>\3',
         }
 
         super(content, options)

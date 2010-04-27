@@ -31,9 +31,9 @@ class Javascript < Language
             /(\/\*.*?\*\/)/m => lambda {|match| "<span class='javascript comment'>#{Language.escape(match)}</span>"},
             /(\/\/.*)$/ => lambda {|match| "<span class='javascript comment'>#{Language.escape(match)}</span>"},
 
-            Javascript.keywords([:function, :if, :while, :for, :return]) => '\1<span class="javascript keyword">\2</span>\3',
-            Javascript.classes([:Array, :String]) => '\1<span class="javascript type">\2</span>\3',
-            Javascript.functions([:alert, :document]) => '\1<span class="javascript function">\2</span>\3',
+            Javascript.keywords(['function', 'if', 'while', 'for', 'return']) => '\1<span class="javascript keyword">\2</span>\3',
+            Javascript.classes(['Array', 'String']) => '\1<span class="javascript type">\2</span>\3',
+            Javascript.functions(['alert', 'document']) => '\1<span class="javascript function">\2</span>\3',
         }
 
         super(content, options)

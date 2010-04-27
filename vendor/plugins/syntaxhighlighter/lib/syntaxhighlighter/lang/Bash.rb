@@ -29,8 +29,8 @@ class Bash < Language
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => lambda {|match| "<span class=\"bash string\">#{Language.escape(match)}</span>"},
             /^(#.*?)$/ => '<span class="bash comment">\1</span>',
 
-            Bash.keywords([:if, :fi, :while, :do, :case, :esac, :for, :function]) => '\1<span class="bash keyword">\2</span>\3',
-            Bash.functions([:echo, :cat, :grep, :sed, :curl]) => '\1<span class="bash function">\2</span>\3',
+            Bash.keywords(['if', 'fi', 'while', 'do', 'case', 'esac', 'for', 'function']) => '\1<span class="bash keyword">\2</span>\3',
+            Bash.functions(['echo', 'cat', 'grep', 'sed', 'curl']) => '\1<span class="bash function">\2</span>\3',
         }
 
         super(content, options)

@@ -33,44 +33,44 @@ class Hybris < Language
             /(\/\/.*)$/ => lambda {|match| "<span class='hybris comment'>#{Language.escape(match)}</span>"},
 
             Hybris.keywords([
-                :include, :import,
-                :typeof, :sizeof,
-                :true, :false, :null,
-                :if, :else, :while, :do, :for, :foreach, :of, :break, :next, :switch, :case, :default,
-                :throw, :try, :catch, :finally,
-                :function, :return, :class, :public, :protected, :private, :method, :operator, :new, :extends, :me,
+                'include', 'import',
+                'typeof', 'sizeof',
+                'true', 'false', 'null',
+                'if', 'else', 'while', 'do', 'for', 'foreach', 'of', 'break', 'next', 'switch', 'case', 'default',
+                'throw', 'try', 'catch', 'finally',
+                'function', 'return', 'class', 'public', 'protected', 'private', 'method', 'operator', 'new', 'extends', 'me',
 
             ]) => '\1<span class="hybris keyword">\2</span>\3',
 
             Hybris.functions([
-                :isint, :isfloat, :ischar, :isarray, :ismap, :isalias, :toint, :tostring, :fromxml, :toxml,
-                :var_names, :var_values, :user_funcions, :dyn_functions, :call,
+                'isint', 'isfloat', 'ischar', 'isarray', 'ismap', 'isalias', 'toint', 'tostring', 'fromxml', 'toxml',
+                'var_names', 'var_values', 'user_funcions', 'dyn_functions', 'call',
 
-                :print, :println, :printf, 
-                :sqrt, :sin, :sinh, :cos, :cosh, :pow, :tan, :tanh, :log, :log10, :fmod, :floor, :ceil, :fabs, :exp, :atan, :atan2, :acos, # math
-                :crc32, :sha1, :sha2, :md5,
-                :rex_match, :rex_matches, :rex_replace,
-                :smtp_send,
-                :http, :http_get, :http_post,
-                :urlencode, :urldecode, :base64encode, :base64decode,
-                :input,
-                :xml_load, :xml_parse,
-                :fopen, :fseek, :ftell, :fsize, :fread, :fwrte, :fgets, :fclose, :file, :readdir,
-                :strlen, :strfind, :substr, :strreplace, :strsplit,
-                :settimeout, :server, :accept, :recv, :send, :close,
-                :exit, :popen, :pclose, :wait, :getpid, :fork, :exec,
-                :dlopen, :dlllink, :dllcall, :dllclose,
-                :pthread_create, :pthread_exit, :pthread_join,
-                :ticks, :usleep, :sleep,
-                :time, :strtime, :strdate,
+                'print', 'println', 'printf', 
+                'sqrt', 'sin', 'sinh', 'cos', 'cosh', 'pow', 'tan', 'tanh', 'log', 'log10', 'fmod', 'floor', 'ceil', 'fabs', 'exp', 'atan', 'atan2', 'acos', # math
+                'crc32', 'sha1', 'sha2', 'md5',
+                'rex_match', 'rex_matches', 'rex_replace',
+                'smtp_send',
+                'http', 'http_get', 'http_post',
+                'urlencode', 'urldecode', 'base64encode', 'base64decode',
+                'input',
+                'xml_load', 'xml_parse',
+                'fopen', 'fseek', 'ftell', 'fsize', 'fread', 'fwrte', 'fgets', 'fclose', 'file', 'readdir',
+                'strlen', 'strfind', 'substr', 'strreplace', 'strsplit',
+                'settimeout', 'server', 'accept', 'recv', 'send', 'close',
+                'exit', 'popen', 'pclose', 'wait', 'getpid', 'fork', 'exec',
+                'dlopen', 'dlllink', 'dllcall', 'dllclose',
+                'pthread_create', 'pthread_exit', 'pthread_join',
+                'ticks', 'usleep', 'sleep',
+                'time', 'strtime', 'strdate',
 
-                :binary, :pack,
-                :array, :contains, :elements, :pop, :remove,
-                :map, :mapelements, :mappop, :unmap, :ismappd, :haskey,
-                :matrix, :columns, :rows,
+                'binary', 'pack',
+                'array', 'contains', 'elements', 'pop', 'remove',
+                'map', 'mapelements', 'mappop', 'unmap', 'ismappd', 'haskey',
+                'matrix', 'columns', 'rows',
             ]) => '\1<span class="hybris function">\2</span>\3',
 
-            Hybris.constants([:me]) => '\1<span class="hybris constant">\2</span>\3',
+            Hybris.constants(['me']) => '\1<span class="hybris constant">\2</span>\3',
         }
 
         super(content, options)
@@ -93,7 +93,7 @@ class Hybris < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|\G|[-\[\]\)\(~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\)\(~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;|\s|\(|$)/
     end
 
     def self.constants (value)
@@ -103,7 +103,7 @@ class Hybris < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\)|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-~^@\/%|=+*!?\.\-]|&amp;|&lt;|&gt;|\(|\)|$)/
+        return /(\s|\G|[-\[\]\)\(~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\)\(~^@\/%|=+*!?\.\-,]|&amp;|&lt;|&gt;|\s|$)/
     end
 end
 

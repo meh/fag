@@ -34,8 +34,8 @@ class Cpp < Language
             /(\/\*.*?\*\/)/m => lambda {|match| "<span class='cpp comment'>#{Language.escape(match)}</span>"},
             /(\/\/.*)$/ => lambda {|match| "<span class='cpp comment'>#{Language.escape(match)}</span>"},
 
-            Cpp.keywords([:if, :while, :for, :return, :extern, :const, :static]) => '\1<span class="cpp keyword">\2</span>\3',
-            Cpp.keywords([:void, :int, :char]) => '\1<span class="cpp type">\2</span>\3'
+            Cpp.keywords(['if', 'while', 'for', 'return', 'extern', 'const', 'static']) => '\1<span class="cpp keyword">\2</span>\3',
+            Cpp.keywords(['void', 'int', 'char']) => '\1<span class="cpp type">\2</span>\3'
         }
 
         super(content, options)
