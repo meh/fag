@@ -1,8 +1,12 @@
 <div class="user_view">
-    <div class="avatar"><%= gravatar_for @user %></div>
-
     <div class="data">
-        <%= @user.name %><br/>
-        <%= @user.email %>
+        <div class="avatar"><%= gravatar_for @user %></div>
+
+        <p>
+            <%= @user.name %><br/>
+            <%= @user.email if @user.modes[:email_show] || (current_user && (@user.id == current_user.id || current_user.modes[:can_see])) %>
+        </p>
     </div>
+
+    <div class="stuff"><%= FlowsHelper.output :content, @user.stuff %></div>
 </div>

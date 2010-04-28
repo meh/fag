@@ -23,7 +23,7 @@ class CodesController < ApplicationController
     attr_accessor :code
 
     def index
-
+        @title = 'Code.all'
     end
 
     def show
@@ -43,5 +43,26 @@ class CodesController < ApplicationController
     end
 
     def create
+        if params[:code][:language].empty? || params[:code][:source].empty?
+            flash.now[:error] = 'The language or the source are empty.'
+            self.new; render 'new'
+            return
+        end
+
+        code = Code.new(:language => params[:code][:language], :content => params[:code][:source].gsub(/\r/, ''))
+
+        if !current_user
+            if params[:code][:name].empty?
+                params[:code][:name] = 'Anonymous'
+            end
+
+            code.name = params[:code][:name]
+        else
+            code.user = current_user
+        end
+
+        code.save
+
+        redirect_to "/codes/#{code.id}"
     end
 end

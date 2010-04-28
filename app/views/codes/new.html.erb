@@ -1,0 +1,28 @@
+<% form_for(:code, :url => '/codes/create') do |f| %>
+    <%= f.error_messages %>
+
+    <% if !current_user %>
+        <div class="field">
+            <div class="label"><%= f.label :name %></div>
+            <%= f.text_field :name, :value => 'Anonymous' %>
+        </div>
+    <% end %>
+
+    <br/>
+
+    <div class="field">
+        <div class="label"><%= f.label :language %></div>
+        <%= f.text_field :language %>
+    </div>
+
+    <br/>
+
+    <div class="field">
+        <div class="label"><%= f.label :source %></div>
+        <div style="text-align: center;"><%= f.text_area :source, :class => 'source' %></div>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Paste' %>
+    </div>
+<% end %>

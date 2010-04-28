@@ -26,7 +26,7 @@ class Language
 class C < Language
     def initialize (content, options={})
         @regexes = {
-            /^\s*(#.*)$/ => lambda {|match| "<span class='c preprocessor'>#{Language.escape(match)}</span>"},
+            /^(\s*)(#.*)$/ => lambda {|match| "<span class='c preprocessor'>#{Language.escape(match)}</span>"},
 
             /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='c string'>#{Language.escape(match)}</span>"},
             /('(\\.|[^\\'])')/ => lambda {|match| "<span class='c char'>#{Language.escape(match)}</span>"},
@@ -35,7 +35,7 @@ class C < Language
             /(\/\/.*)$/ => lambda {|match| "<span class='c comment'>#{Language.escape(match)}</span>"},
 
             C.keywords([
-                'extern', 'const', 'static', 'volatile', 'register', 'auto', 'signed', 'unsigned',
+                'extern', 'const', 'static', 'inline', 'volatile', 'register', 'auto', 'signed', 'unsigned',
                 'if', 'else', 'switch', 'case', 'defaul',
                 'while', 'do', 'for', 'break', 'continue',
                 'return', 'goto', 'typedef', 'sizeof', 'struct', 'union', 'enum',

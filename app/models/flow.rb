@@ -45,4 +45,16 @@ class Flow < ActiveRecord::Base
             self.used_tags << UsedTag.new(:tag => tag, :flow => self)
         }
     end
+
+    def subcribe (user)
+        if !user
+            return
+        end
+
+        subscription = Subscription.new
+        subscription.flow = self
+        subscription.user = user
+
+        subscription.save
+    end
 end

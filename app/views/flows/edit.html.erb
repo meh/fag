@@ -1,0 +1,19 @@
+<% form_for(:flow, :url => '/flows/update') {|f| %>
+    <%= f.error_messages %>
+
+    <div class="field">
+        <div class="label"><%= f.label :title %></div>
+        <%= f.text_field :title %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :floats, 'Floats' %></div>
+        <%= f.text_field :floats, :value => TagsHelper.get_tags(@flow) %>
+    </div>
+
+    <input type="hidden" name="id" value="<%= @flow.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Edit' %>
+    </div>
+<% } %>

@@ -84,24 +84,34 @@ div#footer a {
     text-decoration: none;
 }
 
+/* User */
+
 div.user_view {
     width: 500px;
-    height: 100px;
     margin: 10px auto;
 }
 
-div.avatar {
-    float: left;
+div.user_view div.data {
+    height: 70px;
 }
 
-div.data {
+div.user_view div.data div.avatar {
     float: left;
+    margin-right: 10px;
+}
 
-    margin-left: 10px;
-
+div.user_view div.data p {
     font-size: 16px;
     font-weight: bold;
 }
+
+div.user_view div.stuff {
+    border: 1px solid gray;
+    padding: 5px;
+    white-space: pre;
+}
+
+/* Forms */
 
 div.field {
     margin-bottom: 7px;
@@ -109,6 +119,13 @@ div.field {
 
 div.field div.label {
 }
+
+div.field textarea.source {
+    width: 99%;
+    margin: 0 auto;
+}
+
+/* Random */
 
 div.right {
     width: 100%;
@@ -281,6 +298,8 @@ div#debug {
 div.flash.error {
     border: 2px solid red;
     background: #ffdddd;
+    padding: 5px;
+    margin-bottom: 15px;
 }
 
 /* Languages */

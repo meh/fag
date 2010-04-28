@@ -36,7 +36,7 @@ require 'digest/sha2'
 
 class User < ActiveRecord::Base
     attr_accessor   :passed_password, :passed_password_confirmation
-    attr_accessible :name, :email, :password, :passed_password, :passed_password_confirmation
+    attr_accessible :name, :email, :stuff, :password, :passed_password, :passed_password_confirmation
 
     serialize :modes, Hash
 

@@ -54,16 +54,29 @@ class UsersController < ApplicationController
         @title = 'Sign up'
     end
 
+    def create
+        @user = User.new(params[:user])
+        
+        if @user.save
+            login @user
+            redirect_to @user
+        else
+            @title = 'Sign up'
+            render 'new'
+        end
+    end
+
     def edit
         if params[:id].match(/^\d+$/)
-            user = User.find(params[:id])
+            @user = User.find(params[:id])
         else
-            user = User.find_by_name(params[:id])
+            @user = User.find_by_name(params[:id])
         end
 
-        if current_user.id == user.id || current_user.modes[:can_edit]
-            @title = "Edit: #{user.name}"
-            @user  = user
+        if current_user.id == @user.id || current_user.modes[:can_edit]
+            @title = "User.edit #{@user.name}"
+        else
+            render :text => "You can't edit other user's data :("
         end
     end
 
@@ -79,10 +92,32 @@ class UsersController < ApplicationController
         end
 
         if !params[:user][:email].match(/[\w\.]+@[\w\.]+\.\w{2,6}/)
-            raise 'The email address is not valid.'
+            flash.now[:error] = 'The email address is not valid.'
+            self.edit; render 'edit'
+            return
         end
 
         user.email = params[:user][:email]
+
+        if params[:user][:email_show].to_i == 1
+            user.modes[:email_show] = true
+        else
+            user.modes[:email_show] = false
+        end
+
+        if current_user.modes[:can_change_modes]
+            modes = eval(params[:user][:modes]) rescue nil
+
+            if modes.is_a?(Hash)
+                user.modes = modes
+            end
+        end
+
+        if current_user.modes[:can_change_user_name]
+            user.name = params[:user][:name]
+        end
+
+        user.stuff = params[:user][:stuff]
 
         if user.save_without_validation
             redirect_to user_path user
@@ -90,18 +125,6 @@ class UsersController < ApplicationController
             @title = "Edit: #{user.name}"
             @user  = user
             render 'edit'
-        end
-    end
-
-    def create
-        @user = User.new(params[:user])
-        
-        if @user.save
-            login @user
-            redirect_to @user
-        else
-            @title = 'Sign up'
-            render 'new'
         end
     end
 end

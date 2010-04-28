@@ -21,7 +21,21 @@ class FlowsController < ApplicationController
     def index
         @title = 'Ocean'
 
-        @tags = Tag.all
+        @tags = Tag.find_by_sql(%Q{
+            SELECT id, name, length
+        
+            FROM tags, (
+                SELECT tag_id, COUNT(*) AS length
+            
+                FROM used_tags
+    
+                GROUP BY tag_id
+            ) AS tmp
+        
+            WHERE tmp.tag_id = tags.id
+
+            ORDER BY length DESC, name ASC
+        })
     end
 
     def projects
@@ -30,6 +44,14 @@ class FlowsController < ApplicationController
 
     def show
         @flow = Flow.find(params[:id])
+    end
+
+    def subscribe
+        @flow = Flow.find(params[:id])
+
+        Flow.subscribe(current_user)
+
+        redirect_to "/flows/#{parms[:id]}"
     end
 
     def new
@@ -44,20 +66,16 @@ class FlowsController < ApplicationController
     end
 
     def create
-        if current_user && current_user.modes[:admin]
-            raise "Admins can't post, because I say so."
-        end
-
         type = params[:type]
 
         if params[:type] == 'flow'
-            flow = Flow.new(:title => params[:drop][:title])
-
-            if (tags = params[:drop][:floats]).empty?
-                tags = 'undefined'
+            if params[:drop][:title].strip.empty?
+                raise "You can't pass an empty title."
             end
 
-            flow.add_tags(tags)
+            flow = Flow.new(:title => params[:drop][:title])
+
+            flow.add_tags(params[:drop][:floats].empty? ? 'undefined' : params[:drop][:floats])
         elsif params[:type] == 'drop'
             flow = Flow.find(params[:flow])
         end
@@ -72,6 +90,8 @@ class FlowsController < ApplicationController
             drop.content = Drop.parse(params[:drop][:content], drop.name)
         end
 
+        flow.touch
+
         flow.drops << drop
 
         if flow.save
@@ -79,5 +99,34 @@ class FlowsController < ApplicationController
         else
             render 'new'
         end
+    end
+
+    def edit
+        if current_user && current_user.modes[:can_edit_flow]
+            @flow  = Flow.find(params[:id])
+            @title = "Flow.edit #{@flow.title}"
+        else
+            render :text => "You can't edit flows, faggot."
+        end
+    end
+
+    def update
+        if !current_user || !current_user.modes[:can_edit_flow]
+            raise "You can't edit flows, faggot."
+        end
+
+        if params[:flow][:title].strip.empty?
+            raise "You can't pass an empty title."
+        end
+
+        flow = Flow.find(params[:id])
+
+        UsedTag.delete_all(['flow_id = ?', flow.id])
+
+        flow.add_tags(params[:flow][:floats].empty? ? 'undefined' : params[:flow][:floats])
+
+        flow.save
+
+        redirect_to "/ocean/flow/#{flow.id}"
     end
 end

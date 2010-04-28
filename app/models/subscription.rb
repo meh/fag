@@ -17,5 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-module PagesHelper
+class Subscription < ActiveRecord::Base
+    belongs_to :user
+    belongs_to :flow
 end

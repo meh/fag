@@ -19,6 +19,10 @@
 
 require 'syntaxhighlighter/language'
 
+def templatify (string, binding)
+    eval("\"#{string.gsub(/([\\"])/, '\\\\\1')}\"", binding)
+end
+
 class SyntaxHighlighter
     attr_reader :language
 
@@ -54,7 +58,6 @@ class SyntaxHighlighter
         if !(highlighter = SyntaxHighlighter.class!(lang))
             SyntaxHighlighter.include('Plain')
             highlighter = SyntaxHighlighter.class!('Plain')
-            puts "LOLOL #{highlighter.inspect}"
         end
 
         if highlighter

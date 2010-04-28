@@ -5,23 +5,23 @@ class CreateUsers < ActiveRecord::Migration
             t.string :email, :default => ''
             t.string :password
 
+            t.text :stuff
+
             t.string :modes, :default => {}.to_yaml
+
+            t.string :remember_token
 
             t.timestamps
         end
-
-        add_column :users, :remember_token, :string
 
         add_index :users, :name, :unique => true
         add_index :users, :remember_token
     end
 
     def self.down
-        drop_table :users
-
         remove_index :users, :name
         remove_index :users, :remember_token
 
-        remove_column :users, :remember_token
+        drop_table :users
     end
 end
