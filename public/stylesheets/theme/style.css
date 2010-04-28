@@ -70,12 +70,13 @@ div#container {
 
 div#footer {
     width: 100%;
+    height: 15px;
     background: white;
     position: fixed;
     bottom: 0;
     left: 0;
 
-    text-align: right;
+    padding-top: 2px;
 
     border-top: 2px solid gray;
 }
@@ -190,9 +191,8 @@ div#container div.flow div.drop {
     margin-bottom: 3px;
 }
 
-div#container div.flow div.drop div.user {
+div#container div.flow div.drop div.timestamp {
     border-bottom: 2px solid gray;
-    color: blue;
 }
 
 div#container div.flow div.drop div.user {
@@ -200,7 +200,9 @@ div#container div.flow div.drop div.user {
     color: blue;
 }
 
-div#container div.flow div.drop div.user span.name {
+div#container div.flow div.drop div.user {
+    border-bottom: 2px solid gray;
+    color: blue;
 }
 
 div#container div.flow div.drop div.user a {

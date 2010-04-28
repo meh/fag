@@ -8,5 +8,7 @@
         </p>
     </div>
 
-    <div class="stuff"><%= FlowsHelper.output :content, @user.stuff %></div>
+    <% if !@user.stuff.empty? %>
+        <div class="stuff"><%= FlowsHelper.output :content, @user.stuff %></div>
+    <% end %>
 </div>

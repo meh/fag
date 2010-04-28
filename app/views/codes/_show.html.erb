@@ -2,8 +2,14 @@
     <div class="language">
         <%= h SyntaxHighlighter.language(code.language, true) %>
         (<%= CodesHelper.output :owner, code %>)
-        <%= "(<a href='/codes/#{code.id}'>link</a>)" if inDrop rescue false %>
-        <%= "[<a href='/codes/#{code.id}.raw'>raw</a>]" %>
+
+        <% if (inDrop rescue false) %>
+            (<a href='/codes/<%= code.id %>'>link</a>)
+        <% end %>
+
+        [<a href='/codes/<%= code.id %>.raw'>raw</a>]
+
+        { <%= code.created_at %> }
     </div>
 
     <div class="source"><%= SyntaxHighlighter.new(code.language).highlight(code.content) %></div>
