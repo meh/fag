@@ -1,11 +1,11 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 9
 #
 # Table name: tags
 #
 #  id         :integer         not null, primary key
 #  name       :string(255)
-#  modes      :string(255)     default("--- {}\n\n")
+#  type       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -30,7 +30,7 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Tag < ActiveRecord::Base
-    attr_accessible :name
+    attr_accessible :name, :type
     serialize :modes, Hash
 
     def self.parse (string, options={})

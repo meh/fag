@@ -18,6 +18,16 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 module UsersHelper
+    def self.check_password (password, password_confirmation)
+        if password.length < 1
+            return "Min password length is 1."
+        elsif password.length > 50
+            return "Max password length is 50."
+        elsif password != password_confirmation
+            return "Password confirmation doesn't match the given password."
+        end
+    end
+
     def self.output (what, *args)
         UsersHelper.method("output_#{what.to_s}".to_sym).call(*args)
     end

@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 9
+#
+# Table name: subscriptions
+#
+#  id         :integer         not null, primary key
+#  user_id    :integer
+#  flow_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 # fag, forums are gay
 #
 # Copyleft meh. [http://meh.doesntexist.org | meh.ffff@gmail.com]

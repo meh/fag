@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 9
 #
 # Table name: drops
 #
@@ -40,7 +40,7 @@ class Drop < ActiveRecord::Base
     def self.parse (content, user)
         content.gsub!(/\r/, '')
 
-        content.scan(/^((-)+\s*([^\s\-]+?)\s*(-)+\n(.+?)\n(-)+(\n)?)/m).uniq.each {|match|
+        content.scan(/^((-)+\s*([^\s\-]+?)\s*(-)+\n(.+?)\n(-)+$)/m).uniq.each {|match|
             code = Code.new(:language => match[2], :content => match[4])
 
             if user.is_a?(User)
@@ -51,10 +51,10 @@ class Drop < ActiveRecord::Base
 
             code.save
 
-            content.gsub!(/#{Regexp.escape(match[0])}/, "< #{CodesHelper.path(code)}\n")
+            content.gsub!(/#{Regexp.escape(match[0])}/, "< #{CodesHelper.path(code)}")
         }
 
-        content.gsub!(/^\s*<\s*(http:\/\/#{Regexp.escape(DOMAIN)}[^\s]*)?\/code(s)?\/(\d+)$/, '< /code/\3')
+        content.gsub!(/^<\s*(http:\/\/#{Regexp.escape(DOMAIN)}[^\s]*)?\/code(s)?\/(\d+)$/, '< /codes/\3')
 
         return content
     end

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 9
 #
 # Table name: users
 #
@@ -7,10 +7,11 @@
 #  name           :string(255)
 #  email          :string(255)     default("")
 #  password       :string(255)
+#  stuff          :text
 #  modes          :string(255)     default("--- {}\n\n")
+#  remember_token :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
-#  remember_token :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

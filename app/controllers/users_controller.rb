@@ -50,19 +50,30 @@ class UsersController < ApplicationController
             return
         end
 
-        @user  = User.new
         @title = 'Sign up'
     end
 
     def create
-        @user = User.new(params[:user])
+        if params[:user][:name].length < 1 || params[:user][:name].length > 50
+            flash.now[:error] = "The name isn't long enough. (1 .. 50)"
+            self.new; render 'new'
+            return
+        end
+
+        if error = UsersHelper.check_password(params[:user][:password], params[:user][:password_confirmation])
+            flash.now[:error] = error
+            self.new; render 'new'
+            return
+        end
+
+        @user          = User.new(params[:user])
+        @user.password = params[:user][:password]
         
         if @user.save
             login @user
             redirect_to @user
         else
-            @title = 'Sign up'
-            render 'new'
+            self.new; render 'new'
         end
     end
 
@@ -119,12 +130,35 @@ class UsersController < ApplicationController
 
         user.stuff = params[:user][:stuff]
 
-        if user.save_without_validation
+        if user.save
             redirect_to user_path user
         else
-            @title = "Edit: #{user.name}"
-            @user  = user
-            render 'edit'
+            self.edit; render 'edit'
         end
+    end
+
+    def change_password
+        if !current_user
+            redirect_to '/login'
+        end
+
+        params[:id] = current_user.id.to_s
+
+        if !current_user.password?(params[:change][:old_password])
+            flash.now[:error] = "Wrong password"
+            self.edit; render 'edit'
+            return
+        end
+
+        if error = UsersHelper.check_password(params[:change][:new_password], params[:change][:new_password])
+            flash.now[:error] = error
+            self.edit; render 'edit'
+            return
+        end
+
+        current_user.set_password params[:change][:new_password]
+        current_user.save
+
+        redirect_to user_path(current_user)
     end
 end

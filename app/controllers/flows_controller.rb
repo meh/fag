@@ -22,7 +22,7 @@ class FlowsController < ApplicationController
         @title = 'Ocean'
 
         @tags = Tag.find_by_sql(%Q{
-            SELECT id, name, length
+            SELECT id, name, type, length
         
             FROM tags, (
                 SELECT tag_id, COUNT(*) AS length
@@ -68,9 +68,17 @@ class FlowsController < ApplicationController
     def create
         type = params[:type]
 
+        if params[:drop][:content].empty?
+            flash.now[:error] = "You can't pass an empty content."
+            self.new; render 'new'
+            return
+        end
+
         if params[:type] == 'flow'
             if params[:drop][:title].strip.empty?
-                raise "You can't pass an empty title."
+                flash.now[:error] = "You can't pass an empty title."
+                self.new; render 'new'
+                return
             end
 
             flow = Flow.new(:title => params[:drop][:title])
@@ -128,5 +136,17 @@ class FlowsController < ApplicationController
         flow.save
 
         redirect_to "/ocean/flow/#{flow.id}"
+    end
+
+    def delete
+        flow = Flow.find(params[:id])
+
+        if current_user && current_user.modes[:can_delete_flow]
+            Drop.delete_all(['flow_id = ?', flow.id])
+            UsedTag.delete_all(['flow_id = ?', flow.id])
+            flow.delete
+        end
+
+        redirect_to '/ocean'
     end
 end

@@ -32,7 +32,7 @@ class Gas < Language
 
             /(\s|^)(\.[^\s]+)/ => '\1<span class="gas section">\2</span>',
 
-            /(\w+)(\s*['='][^'"])/ => '<span class=\'gas label\'>\1</span>\2',
+            /(\w+)(\s*[:=][^'"])/ => '<span class=\'gas label\'>\1</span>\2',
 
             /(%\w+)/ => '<span class="gas register">\1</span>',
             /(\$\w+)/ => '<span class="gas constant">\1</span>',

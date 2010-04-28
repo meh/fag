@@ -1,21 +1,19 @@
 <h2>Sign up</h2>
 
-<% form_for(@user) do |f| %>
-    <%= f.error_messages %>
-
+<% form_for(:user, :url => '/users/create') do |f| %>
     <div class="field">
         <div class="label"><%= f.label :name %></div>
         <%= f.text_field :name %>
     </div>
     
     <div class="field">
-        <div class="label"><%= f.label :passed_password, 'Password' %></div>
-        <%= f.password_field :passed_password %>
+        <div class="label"><%= f.label :password, 'Password' %></div>
+        <%= f.password_field :password %>
     </div>
     
     <div class="field">
-        <div class="label"><%= f.label :passed_password_confirmation, 'Confirmation' %></div>
-        <%= f.password_field :passed_password_confirmation %>
+        <div class="label"><%= f.label :password_confirmation, 'Confirmation' %></div>
+        <%= f.password_field :password_confirmation %>
     </div>
     
     <div class="actions">

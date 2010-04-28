@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 9
 #
 # Table name: users
 #
@@ -7,10 +7,11 @@
 #  name           :string(255)
 #  email          :string(255)     default("")
 #  password       :string(255)
+#  stuff          :text
 #  modes          :string(255)     default("--- {}\n\n")
+#  remember_token :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
-#  remember_token :string(255)
 #
 
 # fag, forums are gay
@@ -35,31 +36,16 @@
 require 'digest/sha2'
 
 class User < ActiveRecord::Base
-    attr_accessor   :passed_password, :passed_password_confirmation
-    attr_accessible :name, :email, :stuff, :password, :passed_password, :passed_password_confirmation
+    attr_accessible :name, :email, :stuff, :password
 
     serialize :modes, Hash
-
-    before_create :create_check
 
     def self.encrypt (value)
         Digest::SHA512.hexdigest(value)
     end
 
-    def create_check
-        if !self.password
-            if self.passed_password.length < 1
-                raise "Min password length is 1."
-            elsif self.passed_password.length > 50
-                raise "Max password length is 50."
-            elsif self.passed_password != self.passed_password_confirmation
-                raise "Password confirmation doesn't match the given password."
-            end
-
-            self.password = self.passed_password
-        end
-
-        self.password = User.encrypt(self.password)
+    def set_password (password)
+        self.password = User.encrypt(password)
     end
 
     def remember_me!

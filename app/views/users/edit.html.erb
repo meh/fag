@@ -1,4 +1,4 @@
-<% form_for(@user) {|f| %>
+<% form_for(@user) do |f| %>
     <%= f.error_messages %>
 
     <div class="field">
@@ -27,4 +27,27 @@
     <div class="actions">
         <%= f.submit 'Edit' %>
     </div>
-<% } %>
+<% end %>
+
+<br/><br/>
+
+<% form_for(:change, :url => '/users/change_password') do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :old_password, 'Old Password' %></div>
+        <%= f.password_field :old_password %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :new_password, 'New Password' %></div>
+        <%= f.password_field :new_password %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :new_password_confirmation, 'New Password Confirmation' %></div>
+        <%= f.password_field :new_password_confirmation %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Change Password' %>
+    </div>
+<% end %>

@@ -170,6 +170,21 @@ div#container div.flow div.floats a:after {
     content: '"';
 }
 
+div#container div.flow div.manage {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+
+    padding: 3px;
+
+    border-left: 2px solid gray;
+    border-bottom: 2px solid gray;
+}
+
+div#container div.flow div.manage a {
+    text-decoration: none;
+}
+
 div#container div.flow div.drop {
     border: 2px solid gray;
     margin-bottom: 3px;

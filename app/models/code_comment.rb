@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 9
 #
 # Table name: code_comments
 #

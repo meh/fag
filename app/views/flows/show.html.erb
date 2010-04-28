@@ -7,6 +7,18 @@
         <%= FlowsHelper.output :tags, @flow %>
     </div>
 
+    <% if current_user && (current_user.modes[:can_edit_flow] || current_user.modes[:can_delete_flow]) %>
+        <div class="manage">
+            <% if current_user.modes[:can_edit_flow] %>
+                <a href="/flows/edit/<%= @flow.id %>">Edit</a>
+            <% end %>
+
+            <% if current_user.modes[:can_delete_flow] %>
+                <a href="/flows/delete/<%= @flow.id %>">Delete</a>
+            <% end %>
+        </div>
+    <% end %>
+
     <% @flow.drops.each do |drop| %><div class="drop">
         <div class="user <%= UsersHelper.output :class, user(drop) %>">
             <%= gravatar_for drop.user if drop.user %>
