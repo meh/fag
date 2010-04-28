@@ -33,9 +33,7 @@ class CodesController < ApplicationController
     end
 
     def raw
-        @code = Code.find(params[:id])
-
-        render :text => @code.content, :content_type => 'text/plain', :layout => false
+        render :text => Code.find(params[:id]).content, :content_type => 'text/plain', :layout => false
     end
 
     def new
