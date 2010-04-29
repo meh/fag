@@ -97,6 +97,7 @@ div#container div.manage {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 23;
 
     padding: 3px;
 
