@@ -5,7 +5,7 @@
         <% end %>
 
         <% if current_user.modes[:can_delete_users] %>
-            <a href="/users/delete/<%= @user.id %>">Delete</a>
+            <a href="/users/delete/<%= @user.id %>" onclick="return confirm('Are you sure?')">Delete</a>
         <% end %>
     </div>
 <% end %>

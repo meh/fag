@@ -5,7 +5,7 @@
         <% end %>
 
         <% if current_user.modes[:can_delete_flows] %>
-            <a href="/flows/delete/<%= @flow.id %>">Delete</a>
+            <a href="/flows/delete/<%= @flow.id %>" onclick="return confirm('Are you sure?')">Delete</a>
         <% end %>
     </div>
 <% end %>
@@ -24,7 +24,7 @@
             <%= drop.created_at %>
 
             <% if current_user && current_user.modes[:can_delete_drops] %>
-                <a class="manage" href="/flows/drop/delete/<%= drop.id %>">Delete</a>
+                <a class="manage" href="/flows/drop/delete/<%= drop.id %>" onclick="return confirm('Are you sure?');">Delete</a>
             <% end %>
         </div>
 
