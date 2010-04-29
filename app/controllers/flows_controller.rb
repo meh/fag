@@ -39,7 +39,8 @@ class FlowsController < ApplicationController
     end
 
     def search
-        @flows = Flow.find(:all, :order => 'updated_at DESC')
+        @search = params[:id]
+        @flows  = Flow.find(:all, :order => 'updated_at DESC')
     end
 
     def projects

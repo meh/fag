@@ -1,10 +1,16 @@
-<h2>Latest active flows</h2><br/>
+<% if @search %>
+    <center><h2><%= @search %></h2></center>
+<% else %>
+    <center><h2>Latest active flows</h2></center>
+<% end %>
+<br/>
 
 <table class="flows">
-    <tr><th>Last Drop On</th><th>Last Drop By</th><th>Flow</th></tr>
+    <tr><th>Last Drop On</th><th>Last Drop By</th><th>Flow</th><th>Floats</th></tr>
 
     <% @flows.each do |flow| %><tr>
         <%= FlowsHelper.output :last_post, flow, '<td>%s</td><td>%s</td>' %>
         <td><%= FlowsHelper.output :link, flow %></td>
+        <td><%= FlowsHelper.output :tags, flow %></td>
     </tr><% end %>
 </table>
