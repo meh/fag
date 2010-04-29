@@ -18,17 +18,6 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class TagsController < ApplicationController
-    def index
-
-    end
-
-    def show
-        @tag   = params[:id]
-        @flows = UsedTag.find_flows_by_expression(@tag)
-
-        @title = "Tag [#{@tag}]"
-    end
-
     def new
     end
 

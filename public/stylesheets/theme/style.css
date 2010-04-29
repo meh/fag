@@ -178,11 +178,11 @@ div#container div.flow div.floats a {
     text-decoration: none;
 }
 
-div#container div.flow div.floats a:before {
+a.float:before {
     content: '"';
 }
 
-div#container div.flow div.floats a:after {
+a.float:after {
     content: '"';
 }
 

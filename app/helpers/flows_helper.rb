@@ -40,7 +40,7 @@ module FlowsHelper
 
     def self.output_tags (flow, wholeFormat=nil, tagFormat=nil)
         wholeFormat ||= '#{tags}'
-        tagFormat   ||= '<a href="#{url}" class="#{type}">#{name}</a>'
+        tagFormat   ||= '<a href="#{url}" class="float #{type}">#{name}</a>'
 
         tags = String.new
 
