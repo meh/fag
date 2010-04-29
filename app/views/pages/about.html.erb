@@ -1,5 +1,72 @@
 <center><h1><i>F</i>orums <i>A</i>re <i>G</i>ay.</h2></center><br/>
 <br/>
-<h2>F.A.Q.</h2><br/>
-<h3>How to post some code.</h3><br/>
+<div>
+    <h2>Preamble</h2><br/>
+    <p>This is not a forum. Period.</p>
+    <br/>
+    <p>This means that you won't get all the stuff you get in the forums, you won't be able to edit your posts, you wont be able to delete them, you won't be able to change the flow's floats, you can only post text, links and code.</p>
+    <br/>
+    <p>This also means NO SHITTY BBCODE, so don't try to use BBCode in your drops or you'll just get laughed at, forewarned is forearmed.</p>
+</div><br/>
+
+<div>
+    <h2>Legend</h2>
+
+    <table>
+        <tr><td>Ocean</td><td>&nbsp;= The tag cloud</td></tr>
+        <tr><td>Flow</td><td>&nbsp;= A thread</td></tr>
+        <tr><td>Drop</td><td>&nbsp;= A post in a thread</td></tr>
+        <tr><td>Float</td><td>&nbsp;= A thread's tag</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>Dropping</td><td>&nbsp;= posting</td></tr>
+        <tr><td>Floating</td><td>&nbsp;= tagging</td></tr>
+    </table>
+</div><br/>
+
+<div>
+    <h2>F.A.Q.</h2><br/>
+    <h3>How do I post some code?</h3><br/>
+    <p>
+        You have two options:<br/>
+        <br/>
+        1) You insert the code while dropping with this syntax:<br/>
+        <pre>
+
+-- language --
+code
+--
+        </pre>
+        2) You go <a href="/codes/new">here</a>, pastebin the code and reference it back with:
+        <pre>
+
+&lt; the link to the pasted code
+        </pre>
+    </p>
+
+    <h3>What are the languages supported by the syntax highlighter?</h3><br/>
+    Consider that syntaxes aren't hard linked to the language you set while posting, this means that you can use the name of an unsupported language and when the syntax will get implemented the sources will be properly highlighted.<br/>
+    <br/>
+    Here's a list of currently implemented syntaxes anyway:<br/>
+    <br/>
+    <table>
+        <tr><th>Language</th><th>Regexes</th></tr>
+        <% SyntaxHighlighter.languages.each do |name, stuff| %>
+            <tr><td><%= h name %>&nbsp;</td><td>&nbsp;<%= h (stuff.class == Hash ? stuff[:regexes] : stuff).inspect %></td></tr>
+        <% end %>
+    </table>
+    <br/>
+    <h3>What about links if there's no BBCode?</h3></br>
+    All URIs are transformed into <i>a</i> tags anyway, but if you want to use a specific text for your link the syntax is the following:<br/>
+    <pre>
+
+"text":http://example.com
+
+</pre>
+    It can be whatever protocol you like, just remember to put a protocol at the beginning or it won't be recognized.<br/>
+    <br/>
+    <h3>And what about bold, italic and the other text modifier?</h3><br/>
+    You won't get those, ever. Period.<br/>
+    <br/>
+    If you need to underline something just use some underscores or aterisks and all will go well.
+</div>
 

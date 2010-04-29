@@ -142,4 +142,8 @@ class SyntaxHighlighter
             return nil
         end
     end
+
+    def self.languages
+        @@languages
+    end
 end
