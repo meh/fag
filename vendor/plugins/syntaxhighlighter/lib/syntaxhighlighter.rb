@@ -37,6 +37,8 @@ class SyntaxHighlighter
         'Hybris'     => [/^hybris$/i, /^hy$/i],
         'Python'     => [/^python$/i, /^py$/i],
 
+        'SQL' => /^(my|postgre|ms)?sql$/i,
+
         'C'        => /^c$/i,
         'C++'      => { :regexes => /^c(\+\+|pp)$/i, :class => 'Cpp' },
         'ASM AT&T' => { :regexes => /^gas$/i, :class => 'Gas' },

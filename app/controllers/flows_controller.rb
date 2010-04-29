@@ -47,7 +47,7 @@ class FlowsController < ApplicationController
         parameters = []
 
         value.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
-            if match[0].match(/(OR|NOT|AND)/)
+            if match[0].match(/^(or|and|not)$/i)
                 next
             end
 
@@ -67,7 +67,7 @@ class FlowsController < ApplicationController
             @parameters = expression
 
             @flows = Flow.find_by_sql([%Q{
-                SELECT flows.id, flows.title, flows.created_at, flows.updated_at
+                SELECT DISTINCT flows.id, flows.title, flows.created_at, flows.updated_at
                 
                 FROM (
                     SELECT * 
