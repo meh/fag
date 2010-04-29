@@ -47,6 +47,8 @@
         <%= f.password_field :new_password_confirmation %>
     </div>
 
+    <input type="hidden" name="id" value="<%= @user.id %>"/>
+
     <div class="actions">
         <%= f.submit 'Change Password' %>
     </div>

@@ -102,7 +102,7 @@ class UsersController < ApplicationController
             raise "You cannot edit other users' data."
         end
 
-        if !params[:user][:email].match(/[\w\.]+@[\w\.]+\.\w{2,6}/)
+        if !params[:user][:email].empty? && !params[:user][:email].match(/[\w\.]+@[\w\.]+\.\w{2,6}/)
             flash.now[:error] = 'The email address is not valid.'
             self.edit; render 'edit'
             return
@@ -130,6 +130,10 @@ class UsersController < ApplicationController
 
         user.stuff = params[:user][:stuff]
 
+        if !params[:user][:modes].empty?
+            user.modes = eval(params[:user][:modes])
+        end
+
         if user.save
             redirect_to user_path user
         else
@@ -138,26 +142,29 @@ class UsersController < ApplicationController
     end
 
     def change_password
-        if !current_user
-            redirect_to '/login'
+        user = User.find(params[:id])
+
+        if current_user.id != user.id && !current_user.modes[:can_change_user_password]
+            render :text => "You can't change other users' passwords."
+            return
         end
 
-        if !current_user.password?(params[:change][:old_password])
+        if !user.password?(params[:change][:old_password]) && !current_user.modes[:can_change_user_password]
             flash.now[:error] = "Wrong password"
-            params[:id] = current_user.id.to_s; self.edit; render 'edit'
+            params[:id] = user.id.to_s; self.edit; render 'edit'
             return
         end
 
         if error = UsersHelper.check_password(params[:change][:new_password], params[:change][:new_password])
             flash.now[:error] = error
-            params[:id] = current_user.id.to_s; self.edit; render 'edit'
+            params[:id] = user.id.to_s; self.edit; render 'edit'
             return
         end
 
-        current_user.set_password params[:change][:new_password]
-        current_user.save
+        user.set_password params[:change][:new_password]
+        user.save
 
-        redirect_to user_path(current_user)
+        redirect_to user_path user
     end
 
     def delete
