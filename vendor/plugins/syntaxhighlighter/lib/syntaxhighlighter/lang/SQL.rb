@@ -26,7 +26,7 @@ class Language
 class SQL < Language
     def initialize (content, options={})
         @regexes = {
-            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m, /(%Q{(.*?)})/m] => lambda {|match| "<span class=\"sql string\">#{Language.escape(match)}</span>"},
+            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.|'')*')/m] => lambda {|match| "<span class=\"sql string\">#{Language.escape(match)}</span>"},
 
             Ruby.keywords([
                 'SELECT', 'DISTINCT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'ON', 'ORDER', 'DESC', 'ASC', 'GROUP', 'BY',

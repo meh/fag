@@ -124,7 +124,7 @@ div.user_view div.data p {
 div.user_view div.stuff {
     border: 1px solid gray;
     padding: 5px;
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 /* Forms */
@@ -219,7 +219,7 @@ div#container div.flow div.drop div.user.anonymous {
 
 div#container div.flow div.drop div.content {
     padding: 3px;
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 div#container div.flow div.reply {

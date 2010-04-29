@@ -26,7 +26,7 @@ class Language
 class Ruby < Language
     def initialize (content, options={})
         @regexes = {
-            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
+            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m, /(%Q{(.*?)})/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
             /^(#.*?)$/ => '<span class="ruby comment">\1</span>',
 
             /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
