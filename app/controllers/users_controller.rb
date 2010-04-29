@@ -130,7 +130,7 @@ class UsersController < ApplicationController
 
         user.stuff = params[:user][:stuff]
 
-        if !params[:user][:modes].empty?
+        if current_user.modes[:can_change_user_modes] && !params[:user][:modes].empty?
             user.modes = eval(params[:user][:modes])
         end
 

@@ -5,12 +5,16 @@
 <% end %>
 <br/>
 
-<table class="flows">
-    <tr><th>Last Drop On</th><th>Last Drop By</th><th>Floats</th><th>Flow</th></tr>
+<% if @flows.empty? %>
+    There are no flows that match what you searched for :(((
+<% else %>
+    <table class="flows">
+        <tr><th>Last Drop On</th><th>Last Drop By</th><th>Floats</th><th>Flow</th></tr>
 
-    <% @flows.each do |flow| %><tr>
-        <%= FlowsHelper.output :last_post, flow, '<td>%s</td><td>%s</td>' %>
-        <td><%= FlowsHelper.output :tags, flow %></td>
-        <td><%= FlowsHelper.output :link, flow %></td>
-    </tr><% end %>
-</table>
+        <% @flows.each do |flow| %><tr>
+            <%= FlowsHelper.output :last_post, flow, '<td>%s</td><td>%s</td>' %>
+            <td><%= FlowsHelper.output :tags, flow %></td>
+            <td><%= FlowsHelper.output :link, flow %></td>
+        </tr><% end %>
+    </table>
+<% end %>

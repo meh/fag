@@ -38,11 +38,35 @@ class FlowsController < ApplicationController
         })
     end
 
+    def expression_to_sql (value)
+        value.gsub!(/\s*&&\s*/, ' AND ')
+        value.gsub!(/\s*\|\|\s*/, ' OR ')
+        value.gsub!(/\s*!\s*/, ' NOT ')
+
+        result     = value.clone
+        parameters = []
+
+        value.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
+            if match[0].match(/(OR|NOT|AND)/)
+                next
+            end
+
+            result.gsub!(/#{Regexp.escape(match[0])}/, 'name = ?');
+            parameters.push(match[2] || match[4])
+        }
+
+        return parameters.unshift result
+    end
+
     def search
         @search = params[:tag]
 
         if @search
-            @flows = Flow.find_by_sql(%Q{
+            expression  = self.expression_to_sql(@search)
+            @query      = expression.shift
+            @parameters = expression
+
+            @flows = Flow.find_by_sql([%Q{
                 SELECT flows.id, flows.title, flows.created_at, flows.updated_at
                 
                 FROM (
@@ -53,14 +77,14 @@ class FlowsController < ApplicationController
                     INNER JOIN tags
                         ON used_tags.tag_id = tags.id
                         
-                    WHERE name = '#{@search.gsub(/'/, "''")}'
+                    WHERE #{@query}
                 ) as used_tags
                     
                 INNER JOIN flows
                     ON flows.id = flow_id
                     
                 ORDER BY updated_at DESC;
-            })
+            }].concat(@parameters))
         else
             @flows = Flow.find(:all, :order => 'updated_at DESC')
         end
