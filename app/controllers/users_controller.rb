@@ -144,13 +144,13 @@ class UsersController < ApplicationController
 
         if !current_user.password?(params[:change][:old_password])
             flash.now[:error] = "Wrong password"
-            self.edit; render 'edit'
+            params[:id] = current_user.id.to_s; self.edit; render 'edit'
             return
         end
 
         if error = UsersHelper.check_password(params[:change][:new_password], params[:change][:new_password])
             flash.now[:error] = error
-            self.edit; render 'edit'
+            params[:id] = current_user.id.to_s; self.edit; render 'edit'
             return
         end
 
