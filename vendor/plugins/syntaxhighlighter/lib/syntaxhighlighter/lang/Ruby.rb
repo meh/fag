@@ -28,8 +28,11 @@ class Ruby < Language
         @regexes = {
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m, /%Q{({[^}]*}|.*?)*}/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
             /^(#.*?)$/ => '<span class="ruby comment">\1</span>',
+            /(\s|\G|[-\[\]\(\)\{~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(:(("([^\\"]|\\.)*")|[^\s]+))([-\[\]\(\)\{\}~^@\/%|=+*!?\.\-;,]|&amp;|&lt;|&gt;|$)/ => '\1<span class="ruby string">\2</span>\5',
 
             /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
+
+            /(\s|\G)((@)?@\w+)(\s|\A)/ => '\1<span class="ruby variable">\2</span>\4',
 
             Ruby.keywords([
                 'class', 'super', 'module', 'def', 'end', 'return', 'alias', 'nil',
@@ -41,6 +44,7 @@ class Ruby < Language
 
             Ruby.functions([
                 'require', 'load',
+                'attr_reader', 'attr_writer', 'attr_accessor',
                 'puts'
             ]) => '\1<span class="ruby function">\2</span>\3',
             
@@ -95,7 +99,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\)|[-\[\]~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(#{result[1, result.length]})(\(|\)|\[\]|[-\[\]~^@\/%|=+*!?\.\-;,]|&amp;|&lt;|&gt;|\(|\)|$)/
+        return /(\s|\G|[-\[\]\(\)\{~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\(\)\{\}~^@\/%|=+*!?\.\-;,]|&amp;|&lt;|&gt;|$)/
     end
 end
 
