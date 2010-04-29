@@ -39,8 +39,31 @@ class FlowsController < ApplicationController
     end
 
     def search
-        @search = params[:id]
-        @flows  = Flow.find(:all, :order => 'updated_at DESC')
+        @search = params[:tag]
+
+        if @search
+            @flows = Flow.find_by_sql(%Q{
+                SELECT flows.id, flows.title, flows.created_at, flows.updated_at
+                
+                FROM (
+                    SELECT * 
+                    
+                    FROM used_tags
+                    
+                    INNER JOIN tags
+                        ON tag_id = tag_id
+                        
+                    WHERE name = '#{@search.gsub(/'/, "''")}'
+                ) as used_tags
+                    
+                INNER JOIN flows
+                    ON flows.id = flow_id
+                    
+                ORDER BY updated_at DESC;
+            })
+        else
+            @flows = Flow.find(:all, :order => 'updated_at DESC')
+        end
     end
 
     def projects

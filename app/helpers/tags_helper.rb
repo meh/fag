@@ -28,7 +28,7 @@ module TagsHelper
         end
 
         type   = tag.type
-        url    = "/tags/#{ApplicationHelper.escape tag.name}"
+        url    = "/ocean/search/#{ApplicationHelper.escape tag.name}"
         name   = ERB::Util.h tag.name
         length = tag.length rescue 0
 
