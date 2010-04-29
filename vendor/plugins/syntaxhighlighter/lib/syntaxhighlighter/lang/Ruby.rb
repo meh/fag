@@ -25,14 +25,16 @@ class Language
 
 class Ruby < Language
     def initialize (content, options={})
+        @operators = '[-\[\]\(\)\{\}~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;'
+
         @regexes = {
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m, /%Q{({[^}]*}|.*?)*}/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
             /^(#.*?)$/ => '<span class="ruby comment">\1</span>',
-            /(\s|\G|[-\[\]\(\)\{~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(:(("([^\\"]|\\.)*")|[^\s]+))([-\[\]\(\)\{\}~^@\/%|=+*!?\.\-;,]|&amp;|&lt;|&gt;|$)/ => '\1<span class="ruby string">\2</span>\5',
+            /(\s|\G|#{@operators})(:(("([^\\"]|\\.)*")|\w+))(#{@operators}|\s|\A)/ => '\1<span class="ruby string">\2</span>\6',
 
             /(do|{\s*)\|(.+?)\|/ => '\1|<span class="ruby parameters">\2</span>|',
 
-            /(\s|\G)((@)?@\w+)(\s|\A)/ => '\1<span class="ruby variable">\2</span>\4',
+            /(\s|\G|#{@operators})((@)?@\w+)(#{@operators}|\s|$)/ => '\1<span class="ruby variable">\2</span>\4',
 
             Ruby.keywords([
                 'class', 'super', 'module', 'def', 'end', 'return', 'alias', 'nil',
@@ -48,7 +50,7 @@ class Ruby < Language
                 'puts'
             ]) => '\1<span class="ruby function">\2</span>\3',
             
-            /(\s|\G|[-\[\]\)\(~^@\/%|=+*!?\.\-,;:]|&amp;|&lt;|&gt;)([A-Z]\w*)([-\[\]\)\(~^@\/%|=+*!?\.\-,;:]|&amp;|&lt;|&gt;|\s|$)/ => '\1<span class="ruby type">\2</span>\3',
+            /(\s|\G|#{@operators})([A-Z]\w*)(#{@operators}|\s|$)/ => '\1<span class="ruby type">\2</span>\3',
 
             Ruby.constants([
                 'self', 'nil', 'NIL', 'true', 'TRUE', 'false', 'FALSE',
@@ -89,7 +91,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G||[-\[\]\)\(~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\(\)~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;|\s|$)/
+        return /(\s|\G|#{@operators})(#{result[1, result.length]})(#{@operators}|\s|$)/
     end
 
     def self.constants (value)
@@ -99,7 +101,7 @@ class Ruby < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|[-\[\]\(\)\{~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;)(#{result[1, result.length]})([-\[\]\(\)\{\}~^@\/%|=+*!?\.\-;,]|&amp;|&lt;|&gt;|$)/
+        return /(\s|\G|#{@operators})(#{result[1, result.length]})(#{@operators}|\s|$)/
     end
 end
 
