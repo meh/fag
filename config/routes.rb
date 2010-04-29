@@ -1,8 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
-    map.root :controller => 'news'
+    map.root :controller => 'flows', :action => 'search'
 
     map.connect 'ocean',                :controller => 'flows'
-    map.connect 'ocean/new/flow',       :controller => 'flows', :action => 'new'
+    map.connect 'ocean/new/flow/:tag',  :controller => 'flows', :action => 'new'
     map.connect 'ocean/flow/:id',       :controller => 'flows', :action => 'show'
     map.connect 'projects',             :controller => 'flows', :action => 'projects'
     map.connect 'subscribed',           :controller => 'flows', :action => 'subscribed'

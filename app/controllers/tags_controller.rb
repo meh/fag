@@ -23,9 +23,10 @@ class TagsController < ApplicationController
     end
 
     def show
-        @flows = UsedTag.find_flows_by_expression(params[:id])
+        @tag   = params[:id]
+        @flows = UsedTag.find_flows_by_expression(@tag)
 
-        @title = "Tag [#{params[:id]}]"
+        @title = "Tag [#{@tag}]"
     end
 
     def new

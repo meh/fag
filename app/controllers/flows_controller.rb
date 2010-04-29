@@ -38,6 +38,10 @@ class FlowsController < ApplicationController
         })
     end
 
+    def search
+        @flows = Flow.find(:all, :order => 'updated_at DESC')
+    end
+
     def projects
         @title = 'Projects'
     end
@@ -56,6 +60,7 @@ class FlowsController < ApplicationController
 
     def new
         @title = 'Flow.new'
+        @tag   = %Q{"#{params[:tag]}"}
     end
 
     def create
