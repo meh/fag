@@ -48,7 +48,7 @@ class SQL < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\()(#{keywords[1, keywords.length]})(\s|$)/i
+        return /(\s|\G|\()(#{keywords[1, keywords.length]})(;|\s|$)/i
     end
 
     def self.functions (value)
@@ -58,7 +58,7 @@ class SQL < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G)(#{result[1, result.length]})(\(|\s|$)/i
+        return /(\s|\G)(#{result[1, result.length]})(;|\(|\s|$)/i
     end
 end
 
