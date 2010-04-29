@@ -1,0 +1,19 @@
+<% if params[:what] == 'new' %>
+    <% form_for(:drop, :url => '/flows/drop/create') do |f| %>
+        <div class="field">
+            <div class="label"><%= f.label :name %></div>
+            <%= f.text_field :name, text_field_options %>
+        </div>
+
+        <div class="field">
+            <div class="label"><%= f.label :content %></div>
+            <%= f.text_area :content %>
+        </div>
+
+        <div class="actions">
+            <%= f.submit 'Drop' %>
+        </div>
+
+        <input type="hidden" name="flow" value="<%= @flow %>"/>
+    <% end %>
+<% end %>

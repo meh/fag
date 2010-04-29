@@ -84,7 +84,7 @@ class UsersController < ApplicationController
             @user = User.find_by_name(params[:id])
         end
 
-        if current_user.id == @user.id || current_user.modes[:can_edit]
+        if current_user.id == @user.id || current_user.modes[:can_edit_users]
             @title = "User.edit #{@user.name}"
         else
             render :text => "You can't edit other user's data :("
@@ -98,7 +98,7 @@ class UsersController < ApplicationController
             user = User.find_by_name(params[:id])
         end
 
-        if current_user.id != user.id && !current_user.modes[:can_edit]
+        if current_user.id != user.id && !current_user.modes[:can_edit_users]
             raise "You cannot edit other users' data."
         end
 
@@ -142,8 +142,6 @@ class UsersController < ApplicationController
             redirect_to '/login'
         end
 
-        params[:id] = current_user.id.to_s
-
         if !current_user.password?(params[:change][:old_password])
             flash.now[:error] = "Wrong password"
             self.edit; render 'edit'
@@ -160,5 +158,21 @@ class UsersController < ApplicationController
         current_user.save
 
         redirect_to user_path(current_user)
+    end
+
+    def delete
+        user = User.find(params[:id])
+
+        if current_user.id != user.id && !current_user.modes[:can_delete_users]
+            render :text => "You can't delete other users :("
+            return
+        end
+
+        Drop.update_all({ :user_id => nil, :name => user.name }, ['user_id = ?', user.id])
+        Code.update_all({ :user_id => nil, :name => user.name }, ['user_id = ?', user.id])
+
+        user.delete
+
+        redirect_to root_path
     end
 end

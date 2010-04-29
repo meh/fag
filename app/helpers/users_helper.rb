@@ -18,6 +18,14 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 module UsersHelper
+    def text_field_options
+        if current_user
+            return { :value => current_user.name, :disabled => true }
+        else
+            return { :value => 'Anonymous', :disabled => false }
+        end
+    end
+
     def self.check_password (password, password_confirmation)
         if password.length < 1
             return "Min password length is 1."

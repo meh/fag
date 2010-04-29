@@ -1,21 +1,17 @@
 <% form_for(:drop, :url => '/flows/create') do |f| %>
-    <%= f.error_messages %>
-
-    <% if @type == 'flow' %>
-        <div class="field">
-            <div class="label"><%= f.label :title %></div>
-            <%= f.text_field :title %>
-        </div>
-        
-        <div class="field">
-            <div class="label"><%= f.label :floats %></div>
-            <%= f.text_field :floats %>
-        </div>
-    <% end %>
+    <div class="field">
+        <div class="label"><%= f.label :title %></div>
+        <%= f.text_field :title %>
+    </div>
+    
+    <div class="field">
+        <div class="label"><%= f.label :floats %></div>
+        <%= f.text_field :floats %>
+    </div>
 
     <div class="field">
         <div class="label"><%= f.label :name %></div>
-        <%= f.text_field :name, @name_options%>
+        <%= f.text_field :name, text_field_options %>
     </div>
 
     <div class="field">
@@ -26,7 +22,4 @@
     <div class="actions">
         <%= f.submit 'Drop' %>
     </div>
-
-    <input type="hidden" name="type" value="<%= @type %>"/>
-    <input type="hidden" name="flow" value="<%= @flow %>"/>
 <% end %>

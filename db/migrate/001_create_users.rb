@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration
             t.string :email, :default => ''
             t.string :password
 
-            t.text :stuff
+            t.text :stuff, :default => String.new
 
             t.string :modes, :default => {}.to_yaml
 

@@ -51,3 +51,11 @@
         <%= f.submit 'Change Password' %>
     </div>
 <% end %>
+
+<% form_for(:delete, :url => '/users/delete', :html => { :style => 'position: absolute; top: 5px; right: 5px;' }) do |f| %>
+    <input type="hidden" name="id" value="<%= @user.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Delete Account', :onclick => 'return confirm("By doing this your account will get baleeted for all eternity and will not be back, ever.")' %>
+    </div>
+<% end %>

@@ -1,3 +1,15 @@
+<% if current_user && (current_user.modes[:can_edit_flows] || current_user.modes[:can_delete_flows]) %>
+    <div class="manage">
+        <% if current_user.modes[:can_edit_flows] %>
+            <a href="/flows/edit/<%= @flow.id %>">Edit</a>
+        <% end %>
+
+        <% if current_user.modes[:can_delete_flows] %>
+            <a href="/flows/delete/<%= @flow.id %>">Delete</a>
+        <% end %>
+    </div>
+<% end %>
+
 <div class="flow">
     <div class="title">
         <%= FlowsHelper.output :title, @flow %>
@@ -7,20 +19,14 @@
         <%= FlowsHelper.output :tags, @flow %>
     </div>
 
-    <% if current_user && (current_user.modes[:can_edit_flow] || current_user.modes[:can_delete_flow]) %>
-        <div class="manage">
-            <% if current_user.modes[:can_edit_flow] %>
-                <a href="/flows/edit/<%= @flow.id %>">Edit</a>
-            <% end %>
+    <% @flow.drops.each do |drop| %><div class="drop">
+        <div class="timestamp">
+            <%= drop.created_at %>
 
-            <% if current_user.modes[:can_delete_flow] %>
-                <a href="/flows/delete/<%= @flow.id %>">Delete</a>
+            <% if current_user && current_user.modes[:can_delete_drops] %>
+                <a class="manage" href="/flows/drop/delete/<%= drop.id %>">Delete</a>
             <% end %>
         </div>
-    <% end %>
-
-    <% @flow.drops.each do |drop| %><div class="drop">
-        <div class="timestamp"><%= drop.created_at %></div>
 
         <div class="user <%= UsersHelper.output :class, user(drop) %>">
             <%= gravatar_for drop.user if drop.user %>
@@ -34,5 +40,5 @@
         <div class="content"><%= FlowsHelper.output :content, drop %></div>
     </div><% end %>
 
-    <div class="reply right"><a class="reply" href="/flows/new/drop.<%= @flow.id %>">Reply</a></div>
+    <div class="reply right"><a class="reply" href="/flows/drop/new/<%= @flow.id %>">Reply</a></div>
 </div>

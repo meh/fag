@@ -1,12 +1,8 @@
 <% form_for(:code, :url => '/codes/create') do |f| %>
-    <%= f.error_messages %>
-
-    <% if !current_user %>
-        <div class="field">
-            <div class="label"><%= f.label :name %></div>
-            <%= f.text_field :name, :value => 'Anonymous' %>
-        </div>
-    <% end %>
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name, text_field_options %>
+    </div>
 
     <br/>
 

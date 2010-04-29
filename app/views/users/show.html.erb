@@ -1,3 +1,15 @@
+<% if current_user && (current_user.modes[:can_edit_users] || current_user.modes[:can_delete_users]) %>
+    <div class="manage">
+        <% if current_user.modes[:can_edit_users] %>
+            <a href="/users/edit/<%= @user.id %>">Edit</a>
+        <% end %>
+
+        <% if current_user.modes[:can_delete_users] %>
+            <a href="/users/delete/<%= @user.id %>">Delete</a>
+        <% end %>
+    </div>
+<% end %>
+
 <div class="user_view">
     <div class="data">
         <div class="avatar"><%= gravatar_for @user %></div>

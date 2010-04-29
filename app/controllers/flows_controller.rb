@@ -55,18 +55,15 @@ class FlowsController < ApplicationController
     end
 
     def new
-        @type = params[:type]
-        @flow = params[:id]
-
-        if current_user
-            @name_options = { :value => current_user.name, :disabled => true }
-        else
-            @name_options = { :value => 'Anonymous', :disabled => false }
-        end
+        @title = 'Flow.new'
     end
 
     def create
-        type = params[:type]
+        if params[:drop][:title].strip.empty?
+            flash.now[:error] = "You can't pass an empty title."
+            self.new; render 'new'
+            return
+        end
 
         if params[:drop][:content].empty?
             flash.now[:error] = "You can't pass an empty content."
@@ -74,19 +71,8 @@ class FlowsController < ApplicationController
             return
         end
 
-        if params[:type] == 'flow'
-            if params[:drop][:title].strip.empty?
-                flash.now[:error] = "You can't pass an empty title."
-                self.new; render 'new'
-                return
-            end
-
-            flow = Flow.new(:title => params[:drop][:title])
-
-            flow.add_tags(params[:drop][:floats].empty? ? 'undefined' : params[:drop][:floats])
-        elsif params[:type] == 'drop'
-            flow = Flow.find(params[:flow])
-        end
+        flow = Flow.new(:title => params[:drop][:title])
+        flow.add_tags(params[:drop][:floats].empty? ? 'undefined' : params[:drop][:floats])
 
         drop = Drop.new(:flow => flow)
 
@@ -110,7 +96,7 @@ class FlowsController < ApplicationController
     end
 
     def edit
-        if current_user && current_user.modes[:can_edit_flow]
+        if current_user && current_user.modes[:can_edit_flows]
             @flow  = Flow.find(params[:id])
             @title = "Flow.edit #{@flow.title}"
         else
@@ -119,7 +105,7 @@ class FlowsController < ApplicationController
     end
 
     def update
-        if !current_user || !current_user.modes[:can_edit_flow]
+        if !current_user || !current_user.modes[:can_edit_flows]
             raise "You can't edit flows, faggot."
         end
 
@@ -141,12 +127,63 @@ class FlowsController < ApplicationController
     def delete
         flow = Flow.find(params[:id])
 
-        if current_user && current_user.modes[:can_delete_flow]
+        if current_user && current_user.modes[:can_delete_flows]
             Drop.delete_all(['flow_id = ?', flow.id])
             UsedTag.delete_all(['flow_id = ?', flow.id])
             flow.delete
         end
 
         redirect_to '/ocean'
+    end
+
+    def drop
+        case params[:what]
+
+        when 'new'
+            if !params[:id]
+                render :text => "On what flow should I drop, Sir?"
+                return
+            end
+
+            @flow = params[:id]
+
+        when 'create'
+            flow = Flow.find(params[:flow])
+
+            if params[:drop][:content].empty?
+                flash.now[:error] = "You can't pass an empty content."
+                params.merge!({ :what => 'new', :id => flow.id }); self.drop; render 'drop'
+                return
+            end
+
+            drop = Drop.new(:flow => flow)
+    
+            if current_user
+                drop.user    = current_user
+                drop.content = Drop.parse(params[:drop][:content], drop.user)
+            else
+                drop.name    = params[:drop][:name] || 'Anonymous'
+                drop.content = Drop.parse(params[:drop][:content], drop.name)
+            end
+    
+            flow.touch
+    
+            flow.drops << drop
+    
+            if flow.save
+                redirect_to "/ocean/flow/#{flow.id}"
+            else
+                params.merge!({ :what => 'new', :id => flow.id }); self.drop; render 'drop'
+            end
+
+        when 'delete'
+            drop = Drop.find(params[:id])
+
+            if current_user && current_user.modes[:can_delete_drops]
+                Drop.delete(params[:id])
+            end
+
+            redirect_to "/ocean/flow/#{drop.flow.id}"
+        end
     end
 end
