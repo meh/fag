@@ -51,7 +51,7 @@ class FlowsController < ApplicationController
                     FROM used_tags
                     
                     INNER JOIN tags
-                        ON tag_id = tag_id
+                        ON used_tags.tag_id = tags.id
                         
                     WHERE name = '#{@search.gsub(/'/, "''")}'
                 ) as used_tags
@@ -84,7 +84,10 @@ class FlowsController < ApplicationController
 
     def new
         @title = 'Flow.new'
-        @tag   = %Q{"#{params[:tag]}"}
+
+        if params[:tag]
+            @tag = %Q{"#{params[:tag]}"}
+        end
     end
 
     def create
