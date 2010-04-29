@@ -22,7 +22,7 @@ module TagsHelper
         TagsHelper.method("output_#{what.to_s}".to_sym).call(*args)
     end
 
-    def self.output_link (tag, template='<a href="#{url}" class="float #{type}">#{name}</a> (#{length})')
+    def self.output_link (tag, template='&quot;<a href="#{url}" class="float #{type}">#{name}</a>&quot;{#{length}}')
         if tag.is_a?(UsedTag)
             tag = tag.tag
         end

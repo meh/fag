@@ -178,14 +178,6 @@ div#container div.flow div.floats a {
     text-decoration: none;
 }
 
-a.float:before {
-    content: '"';
-}
-
-a.float:after {
-    content: '"';
-}
-
 div#container div.flow div.drop {
     border: 2px solid gray;
     margin-bottom: 3px;
