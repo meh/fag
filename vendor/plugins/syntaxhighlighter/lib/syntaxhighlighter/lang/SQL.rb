@@ -28,12 +28,12 @@ class SQL < Language
         @regexes = {
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.|'')*')/m] => lambda {|match| "<span class=\"sql string\">#{Language.escape(match)}</span>"},
 
-            Ruby.keywords([
+            SQL.keywords([
                 'SELECT', 'DISTINCT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'ON', 'ORDER', 'DESC', 'ASC', 'GROUP', 'BY',
                 'AND', 'OR', 'NOT',
             ]) => '\1<span class="sql keyword">\2</span>\3',
 
-            Ruby.functions([
+            SQL.functions([
                 'COUNT', 'MAX', 'MIN',
             ]) => '\1<span class="sql function">\2</span>\3',
         }
