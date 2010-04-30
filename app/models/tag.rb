@@ -30,6 +30,8 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Tag < ActiveRecord::Base
+    set_inheritance_column :ruby_type
+
     attr_accessible :name, :type
     serialize :modes, Hash
 

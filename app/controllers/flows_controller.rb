@@ -22,7 +22,7 @@ class FlowsController < ApplicationController
         @title = 'Ocean'
 
         @tags = Tag.find_by_sql(%Q{
-            SELECT id, name, type, length
+            SELECT id, name, type, priority, length
         
             FROM tags, (
                 SELECT tag_id, COUNT(*) AS length
