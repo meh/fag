@@ -5,7 +5,8 @@
 #
 #  id         :integer         not null, primary key
 #  name       :string(255)
-#  type       :string(255)
+#  type       :string(255)     default("normal")
+#  priority   :integer         default(9001)
 #  created_at :datetime
 #  updated_at :datetime
 #

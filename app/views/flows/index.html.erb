@@ -12,7 +12,6 @@ I can't swim anymore, I'm sinking in flows of thoughts.
         %>
 
         <% @tags.sort {|a, b| a.priority <=> b.priority}.each do |tag| %>
-            <% puts max, min, divisor, (tag.length.to_i - min) / divisor, "\n" %>
             <a title="<%= tag.length %> flows" href="/ocean/search/<%= escape tag.name %>" class="float <%= tag.type %> <%= classes[(tag.length.to_i - min) / divisor] %>"><%= h tag.name %></a>
         <% end %>
     <% end %>
