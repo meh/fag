@@ -39,14 +39,13 @@ class FlowsController < ApplicationController
     end
 
     def expression_to_sql (value)
+        value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
+        value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
+        value.gsub!(/(\s+not\s+|\s*!\s*)/i, ' !')
+
         joins      = String.new
         names      = []
         expression = value.clone
-
-        expression.gsub!(/\s+and\s+/i, ' && ')
-        expression.gsub!(/\s+or\s+/i, ' || ')
-        expression.gsub!(/\s*!\s*/, ' !')
-        expression.gsub!(/\s+(not)\s+/i, ' !')
 
         expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
             names.push(match[2] || match[4])
@@ -71,8 +70,8 @@ class FlowsController < ApplicationController
             expression.gsub!(/#{Regexp.escape(names[index])}/, " ____t_i_#{index}.flow_id IS NOT NULL ")
         }
 
-        expression.gsub!(/\s*(&&)\s*/i, ' AND ')
-        expression.gsub!(/\s*(\|\|)\s*/i, ' OR ')
+        expression.gsub!(/\s*&&\s*/i, ' AND ')
+        expression.gsub!(/\s*\|\|\s*/i, ' OR ')
 
         return [joins, names, expression]
     end
@@ -82,10 +81,6 @@ class FlowsController < ApplicationController
 
         if @search
             @joins, @names, @expression = self.expression_to_sql(@search)
-
-            @search.gsub!(/\s*(&&|and)\s*/i, ' && ')
-            @search.gsub!(/\s*(\|\||or)\s*/i, ' || ')
-            @search.gsub!(/\s*(!|not)\s*/i, ' !')
 
             @flows = Flow.find_by_sql([%Q{
                 SELECT DISTINCT flows.*
