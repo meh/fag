@@ -1,7 +1,7 @@
 class CreateFlows < ActiveRecord::Migration
     def self.up
         create_table :flows do |t|
-            t.boolean :closed, :default => false
+            t.boolean :stopped, :default => false
 
             t.string :title
 

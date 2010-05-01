@@ -52,12 +52,13 @@ class FlowsController < ApplicationController
         value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
         value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
         value.gsub!(/(\s+not\s+|\s*!\s*)/i, ' !')
+        value.gsub!(/\(\s*!/, '(!')
 
         joins      = String.new
         names      = []
         expression = value.clone
 
-        expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
+        expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|()]+))/) {|match|
             names.push((match[2] || match[4]).downcase)
         }
 
@@ -76,8 +77,8 @@ class FlowsController < ApplicationController
                     ON flows.id = ____t_i_#{index}.flow_id
             }
 
-            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(names[index])}([\s()]|$)/, " ____t_i_#{index}.flow_id IS NULL ")
-            expression.gsub!(/([\s()]|\G)#{Regexp.escape(names[index])}([\s()]|$)/, " ____t_i_#{index}.flow_id IS NOT NULL ")
+            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(names[index])}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NULL \\2")
+            expression.gsub!(/([\s()]|\G)#{Regexp.escape(names[index])}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NOT NULL \\2")
         }
 
         expression.gsub!(/\s*&&\s*/i, ' AND ')
@@ -208,6 +209,26 @@ class FlowsController < ApplicationController
         redirect_to '/ocean'
     end
 
+    def stop
+        flow = Flow.find(params[:id])
+
+        if !current_user || !current_user.modes[:can_stop_flow]
+            raise "You can't stop a flow."
+        end
+
+        redirect_to "/ocean/flow/#{flow.id}"
+    end
+
+    def restart
+        flow = Flow.find(params[:id])
+
+        if !current_user || !current_user.modes[:can_restart_flow]
+            raise "You can't stop a flow."
+        end
+
+        redirect_to "/ocean/flow/#{flow.id}"
+    end
+
     def drop
         case params[:what]
 
@@ -217,7 +238,12 @@ class FlowsController < ApplicationController
                 return
             end
 
-            @flow = params[:id]
+            @flow = Flow.find(params[:id])
+
+            if @flow.closed
+                render :text => "<span class='error'>You can't drop in a stopped flow.</span>", :layout => 'application'
+                return
+            end
 
         when 'create'
             flow = Flow.find(params[:flow])
