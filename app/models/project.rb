@@ -1,12 +1,14 @@
 # == Schema Information
 # Schema version: 9
 #
-# Table name: tags
+# Table name: projects
 #
 #  id         :integer         not null, primary key
 #  name       :string(255)
-#  type       :string(255)     default("normal")
-#  priority   :integer         default(9001)
+#  language   :string(255)
+#  page       :text
+#  user_id    :integer
+#  tag_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -30,38 +32,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class Tag < ActiveRecord::Base
-    set_inheritance_column :ruby_type
+class Project < ActiveRecord::Base
+    attr_accessible :name, :language, :page
 
-    attr_accessible :name, :type
-    serialize :modes, Hash
-
-    def find_by_flow (flow)
-        Tag.find_by_sql(%Q{
-            SELECT tags.*
-
-            FROM tags, used_tags
-
-            WHERE used_tags.flow_id = #{flow.id} AND used_tags.tag_id = tags.id
-        })
-    end
-
-    def self.parse (string, options={})
-        result = []
-
-        if options[:tree]
-        else
-            string.scan(/(("(([^\\"]|\\.)*)")|([^\s]+?))(,|;|\s|$)/) {|match|
-                tag = (match[2] || match[4] || 'undefined').downcase
-
-                if tag.match(/(&&|\|\||!)/)
-                    next
-                end
-
-                result.push(tag)
-            }
-        end
-
-        return result.uniq
-    end
+    has_one :user
+    has_one :tag
 end

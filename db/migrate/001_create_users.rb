@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration
 
             t.text :stuff, :default => String.new
 
-            t.string :modes, :default => {}.to_yaml
+            t.text :modes, :default => { :priority_cap => 1000 }.to_yaml
 
             t.string :remember_token
 

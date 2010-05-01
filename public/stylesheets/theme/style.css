@@ -132,6 +132,22 @@ div#container div.manage a {
     text-decoration: none;
 }
 
+div#container div.usage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 23;
+
+    padding: 3px;
+
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+}
+
+div#container div.usage a {
+    text-decoration: none;
+}
+
 div.user_view div.data {
     height: 70px;
 }
@@ -173,6 +189,18 @@ div.right {
     text-align: right;
 }
 
+/* Floats */
+
+.float.project {
+    color: green;
+}
+
+.float.announcement {
+    color: red;
+    font-weight: 1000;
+    font-style: italic;
+}
+
 /* Ocean */
 
 div.ocean {
@@ -182,7 +210,7 @@ div.ocean {
     border: 1px solid gray;
 }
 
-div.ocean.project {
+div.ocean .float.project, div.ocean .float.announcement {
     display: none;
 }
 

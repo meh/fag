@@ -17,38 +17,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
-class TagsController < ApplicationController
-    def new
+class ProjectsController < ApplicationController
+    def index
+        @title = 'Project.all'
+
+        @projects = Project.find(:all, :order => 'name')
     end
 
-    def create
-    end
+    def show
+        @project = Project.find_by_name(params[:id])
 
-    def edit
-        if !current_user || !current_user.modes[:can_edit_tags]
-            render :text => "<span class='error'>You can't edit tags.</span>", :layout => 'application'
+        if @project
+            @title = "Project.show :#{h @project.name}"
         end
-
-        @tag = Tag.find_by_name(params[:id])
-
-        if @tag
-            @title = "Tag.edit :#{@tag.name}"
-        end
-    end
-
-    def update
-        tag = Tag.find(params[:id])
-
-        if !current_user || !current_user.modes[:can_edit_tags]
-            raise "You can't edit tags."
-        end
-
-        tag.name     = params[:tag][:name]
-        tag.type     = params[:tag][:type]
-        tag.priority = params[:tag][:priority]
-
-        tag.save
-
-        redirect_to root_path
     end
 end

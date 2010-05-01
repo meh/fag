@@ -79,7 +79,7 @@ class FlowsController < ApplicationController
     def search
         @search = params[:tag]
 
-        if @search
+        if @search && !@search.empty?
             @joins, @names, @expression = self.expression_to_sql(@search)
 
             @flows = Flow.find_by_sql([%Q{
@@ -90,14 +90,12 @@ class FlowsController < ApplicationController
                 #{@joins}
                 
                 WHERE #{@expression}
+
+                ORDER BY flows.updated_at DESC
             }].concat(@names))
         else
             @flows = Flow.find(:all, :order => 'updated_at DESC')
         end
-    end
-
-    def projects
-        @title = 'Projects'
     end
 
     def show
@@ -133,8 +131,10 @@ class FlowsController < ApplicationController
             return
         end
 
+        cap = current_user ? current_user.modes[:priority_cap].to_i : 2000
+
         flow = Flow.new(:title => params[:drop][:title])
-        flow.add_tags(params[:drop][:floats].empty? ? 'undefined' : params[:drop][:floats])
+        flow.add_tags(params[:drop][:floats].empty? ? 'undefined' : params[:drop][:floats], cap)
 
         drop = Drop.new(:flow => flow)
 
@@ -162,7 +162,7 @@ class FlowsController < ApplicationController
             @flow  = Flow.find(params[:id])
             @title = "Flow.edit #{@flow.title}"
         else
-            render :text => "You can't edit flows, faggot."
+            render :text => "<span class='error'>You can't edit flows, faggot.</span>", :layout => 'application'
         end
     end
 
@@ -203,7 +203,7 @@ class FlowsController < ApplicationController
 
         when 'new'
             if !params[:id]
-                render :text => "On what flow should I drop, Sir?"
+                render :text => "<span class='error'>On what flow should I drop, Sir?</span>", :layout => 'application'
                 return
             end
 
@@ -211,6 +211,19 @@ class FlowsController < ApplicationController
 
         when 'create'
             flow = Flow.find(params[:flow])
+
+            if current_user
+                cap = current_user.modes[:priority_cap].to_i
+            else
+                cap = 2000
+            end
+
+            Tag.find_by_flow(flow).each {|tag|
+                if tag.priority.to_i < cap
+                    render :text => "<span class='error'>You don't have the right permissions to drop in this flow.</span>", :layout => 'application'
+                    return
+                end
+            }
 
             if params[:drop][:content].empty?
                 flash.now[:error] = "You can't pass an empty content."

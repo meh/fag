@@ -35,15 +35,27 @@ class Flow < ActiveRecord::Base
     has_many :drops,     :autosave => true
     has_many :used_tags, :autosave => true
 
-    def add_tags (text)
+    def add_tags (text, cap=2000)
+        once = false
+
         Tag.parse(text).each {|name|
             if !(tag = Tag.find_by_name(name))
                 tag = Tag.new(:name => name)
                 tag.save
             end
 
+            if tag.priority.to_i < cap
+                next
+            end
+
             self.used_tags << UsedTag.new(:tag => tag, :flow => self)
+
+            once = true
         }
+
+        if !once
+            self.add_tags('undefined')
+        end
     end
 
     def subcribe (user)

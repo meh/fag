@@ -8,7 +8,7 @@
 #  email          :string(255)     default("")
 #  password       :string(255)
 #  stuff          :text            default("")
-#  modes          :string(255)     default("--- {}\n\n")
+#  modes          :text            default("--- \n:priority_cap: 1000\n")
 #  remember_token :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime

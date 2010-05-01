@@ -1,0 +1,28 @@
+<% if !@tag %>
+    That tag doesn't exist.
+<% else %>
+
+<% form_for(:tag, :url => '/tags/update') do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :type %></div>
+        <%= f.text_field :type %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :priority %></div>
+        <%= f.text_field :priority %>
+    </div>
+
+    <input type="hidden" name="id" value="<%= @tag.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Edit' %>
+    </div>
+<% end %>
+
+<% end %>
