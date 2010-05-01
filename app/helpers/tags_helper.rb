@@ -22,13 +22,21 @@ module TagsHelper
         TagsHelper.method("output_#{what.to_s}".to_sym).call(*args)
     end
 
+    def self.output_url (tag)
+        if (name = tag.name).match(/\s/)
+            name = %{"#{tag.name}"}
+        end
+
+        return "/ocean/search/#{ApplicationHelper.escape name}"
+    end
+
     def self.output_link (tag, template='&quot;<a href="#{url}" class="float #{type}">#{name}</a>&quot;{#{length}}')
         if tag.is_a?(UsedTag)
             tag = tag.tag
         end
 
         type   = tag.type
-        url    = "/ocean/search/#{ApplicationHelper.escape tag.name}"
+        url    = TagsHelper.output :url, tag
         name   = ERB::Util.h tag.name
         length = tag.length rescue 0
 

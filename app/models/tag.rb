@@ -37,7 +37,7 @@ class Tag < ActiveRecord::Base
     serialize :modes, Hash
 
     def self.find_by_flow (flow)
-        Tag.find_by_sql(%Q{
+        Tag.find_by_sql(%{
             SELECT tags.*
 
             FROM tags, used_tags

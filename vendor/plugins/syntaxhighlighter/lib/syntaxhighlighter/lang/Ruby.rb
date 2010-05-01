@@ -50,7 +50,7 @@ class Ruby < Language
                 'puts'
             ]) => '\1<span class="ruby function">\2</span>\3',
             
-            /(\s|\G|#{@operators})([A-Z]\w*)(#{@operators}|:|\s|$)/ => '\1<span class="ruby type">\2</span>\3',
+            /(\s|\G|#{@operators}|:)([A-Z]\w*)(#{@operators}|:|\s|$)/ => '\1<span class="ruby type">\2</span>\3',
 
             Ruby.constants([
                 'self', 'nil', 'NIL', 'true', 'TRUE', 'false', 'FALSE',

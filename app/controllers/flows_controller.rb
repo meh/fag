@@ -30,7 +30,7 @@ class FlowsController < ApplicationController
     def index
         @title = 'Ocean'
 
-        @tags = Tag.find_by_sql(%Q{
+        @tags = Tag.find_by_sql(%{
             SELECT id, name, type, priority, length
         
             FROM tags, (
@@ -62,10 +62,11 @@ class FlowsController < ApplicationController
             names.push((match[2] || match[4]).downcase)
         }
 
+        names.compact!
         names.uniq!
 
         names.each_index {|index|
-            joins << %Q{
+            joins << %{
                 LEFT JOIN (
                     SELECT ____u_t_#{index}.flow_id
                     
@@ -77,8 +78,12 @@ class FlowsController < ApplicationController
                     ON flows.id = ____t_i_#{index}.flow_id
             }
 
-            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(names[index])}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NULL \\2")
-            expression.gsub!(/([\s()]|\G)#{Regexp.escape(names[index])}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NOT NULL \\2")
+            if (replace = names[index]).match(/[\s&!|]/)
+                replace = %{"#{replace}"}
+            end
+
+            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(replace)}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NULL \\2")
+            expression.gsub!(/([\s()]|\G)#{Regexp.escape(replace)}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NOT NULL \\2")
         }
 
         expression.gsub!(/\s*&&\s*/i, ' AND ')
@@ -93,7 +98,7 @@ class FlowsController < ApplicationController
         if @search && !@search.empty?
             @joins, @names, @expression = self.expression_to_sql(@search)
 
-            @flows = Flow.find_by_sql([%Q{
+            @flows = Flow.find_by_sql([%{
                 SELECT DISTINCT flows.*
                 
                 FROM flows
@@ -125,7 +130,7 @@ class FlowsController < ApplicationController
         @title = 'Flow.new'
 
         if params[:tag]
-            @tag = %Q{"#{params[:tag]}"}
+            @tag = %{"#{params[:tag]}"}
         end
     end
 
