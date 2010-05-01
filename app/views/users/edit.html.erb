@@ -17,6 +17,11 @@
         <%= f.text_area :stuff, :rows => 8 %>
     </div>
 
+    <div class="field">
+        <div class="label"><%= f.label :home %> (search shown as homepage)</div>
+        <input type="text" name="user[home_expression]"/>
+    </div>
+
     <% if @user.modes[:can_change_modes] %>
         <div class="field">
             <div class="lable"><%= f.label :modes %></div>

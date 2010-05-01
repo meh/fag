@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-    map.root :controller => 'flows', :action => 'search'
+    map.root :controller => 'flows', :action => 'home'
 
     map.connect 'ocean',                :controller => 'flows'
     map.connect 'ocean/new/flow',       :controller => 'flows', :action => 'new'

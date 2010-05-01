@@ -20,7 +20,7 @@ I can't swim anymore, I'm sinking in flows of thoughts.
 <a href="/ocean/new/flow">Start flowing</a>
 
 <% form_for(:flow, :url => '/ocean/search', :html => { :method => 'get', :style => 'position: absolute; bottom: 5px; right: 5px;' }) do |f| %>
-    <%= f.text_field :tag, :name => 'tag' %>
+    <%= f.text_field :expression, :name => 'expression' %>
 
     <input type="submit" value="Search"/>
 <% end %>

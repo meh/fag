@@ -33,7 +33,7 @@ class SQL < Language
             SQL.keywords([
                 'CREATE', 'UNIQUE', 'TABLE', 'DATABASE', 'INDEX', 'SEQUENCE', 'PRIMARY', 'KEY',
                 'COMMENT', 'SCHEMA', 'INCREMENT', 'OWNED', 'OWNER', 'CACHE', 'COPY',
-                'SELECT', 'DISTINCT', 'UNION', 'FROM', 'AS', 'TO', 'IS', 'ON', 'IN', 'WITH', 'NO',
+                'SELECT', 'DISTINCT', 'UNION', 'FROM', 'AS', 'TO', 'IS', 'ON', 'IN', 'WITH', 'NO', 'ANY',
                 'JOIN', 'INNER', 'LEFT', 'RIGHT',
                 'WHERE', 'ALL', 'BETWEEN', 'HAVING', 'ONLY',
                 'TOP', 'ORDER', 'DESC', 'ASC',

@@ -18,6 +18,15 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class FlowsController < ApplicationController
+    def home
+        if current_user
+            params[:expression] = current_user.modes[:home_expression]
+        end
+
+        self.search
+        render 'search'
+    end
+
     def index
         @title = 'Ocean'
 
@@ -39,6 +48,7 @@ class FlowsController < ApplicationController
     end
 
     def expression_to_sql (value)
+        value.downcase!
         value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
         value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
         value.gsub!(/(\s+not\s+|\s*!\s*)/i, ' !')
@@ -48,7 +58,7 @@ class FlowsController < ApplicationController
         expression = value.clone
 
         expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
-            names.push(match[2] || match[4])
+            names.push((match[2] || match[4]).downcase)
         }
 
         names.uniq!
@@ -66,8 +76,8 @@ class FlowsController < ApplicationController
                     ON flows.id = ____t_i_#{index}.flow_id
             }
 
-            expression.gsub!(/!\s*#{Regexp.escape(names[index])}/, " ____t_i_#{index}.flow_id IS NULL ")
-            expression.gsub!(/#{Regexp.escape(names[index])}/, " ____t_i_#{index}.flow_id IS NOT NULL ")
+            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(names[index])}([\s()]|$)/, " ____t_i_#{index}.flow_id IS NULL ")
+            expression.gsub!(/([\s()]|\G)#{Regexp.escape(names[index])}([\s()]|$)/, " ____t_i_#{index}.flow_id IS NOT NULL ")
         }
 
         expression.gsub!(/\s*&&\s*/i, ' AND ')
@@ -77,7 +87,7 @@ class FlowsController < ApplicationController
     end
 
     def search
-        @search = params[:tag]
+        @search = params[:expression]
 
         if @search && !@search.empty?
             @joins, @names, @expression = self.expression_to_sql(@search)
