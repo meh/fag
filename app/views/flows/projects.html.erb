@@ -1,2 +1,24 @@
-NEVER FORGIVE<br/>
-NEVER FORGET
+<div class="ocean">
+    <% if @tags.empty? %>
+        This ocean is so empty.
+    <% else %>
+        <%
+            classes = ['nube1', 'nube2', 'nube3', 'nube4', 'nube5']
+            max     = @tags.max {|a, b| a.length.to_i <=> b.length.to_i}.length.to_i
+            min     = @tags.min {|a, b| a.length.to_i <=> b.length.to_i}.length.to_i
+            divisor = ((max - min) / classes.length) + 1
+        %>
+
+        <% @tags.sort {|a, b| a.priority <=> b.priority}.each do |tag| %>
+            <a title="<%= tag.length %> flows" href="/ocean/search/<%= escape tag.name %>" class="float <%= tag.type %> <%= classes[(tag.length.to_i - min) / divisor] %>"><%= h tag.name %></a>
+        <% end %>
+    <% end %>
+</div>
+
+<a href="/ocean/new/flow">Start flowing</a>
+
+<% form_for(:flow, :url => '/ocean/search', :html => { :method => 'get', :style => 'position: absolute; bottom: 5px; right: 5px;' }) do |f| %>
+    <%= f.text_field :tag, :name => 'tag' %>
+
+    <input type="submit" value="Search"/>
+<% end %>

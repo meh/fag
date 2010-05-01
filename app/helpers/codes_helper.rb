@@ -31,4 +31,11 @@ module CodesHelper
             UsersHelper.output :user, code.user || code.name
         }</span>"
     end
+
+    def self.output_last_code (code, template='')
+        at = code.created_at
+        by = UsersHelper.output(:user, ApplicationHelper.user(code))
+
+        return templatify(template, binding)
+    end
 end

@@ -24,6 +24,8 @@ class CodesController < ApplicationController
 
     def index
         @title = 'Code.all'
+
+        @codes = Code.find(:all, :limit => 23, :order => 'created_at DESC')
     end
 
     def show

@@ -39,52 +39,63 @@ class FlowsController < ApplicationController
     end
 
     def expression_to_sql (value)
-        value.gsub!(/\s*&&\s*/, ' AND ')
-        value.gsub!(/\s*\|\|\s*/, ' OR ')
-        value.gsub!(/\s*!\s*/, ' NOT ')
+        joins      = String.new
+        names      = []
+        expression = value.clone
 
-        result     = value.clone
-        parameters = []
+        expression.gsub!(/\s+and\s+/i, ' && ')
+        expression.gsub!(/\s+or\s+/i, ' || ')
+        expression.gsub!(/\s*!\s*/, ' !')
+        expression.gsub!(/\s+(not)\s+/i, ' !')
 
-        value.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
-            if match[0].match(/^(or|and|not)$/i)
-                next
-            end
-
-            result.gsub!(/#{Regexp.escape(match[0])}/, 'name = ?');
-            parameters.push(match[2] || match[4])
+        expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|]+))/) {|match|
+            names.push(match[2] || match[4])
         }
 
-        return parameters.unshift result
+        names.uniq!
+
+        names.each_index {|index|
+            joins << %Q{
+                LEFT JOIN (
+                    SELECT ____u_t_#{index}.flow_id
+                    
+                    FROM used_tags AS ____u_t_#{index}
+                    
+                    INNER JOIN tags AS ____t_#{index}
+                        ON ____u_t_#{index}.tag_id = ____t_#{index}.id AND ____t_#{index}.name = ?
+                ) AS ____t_i_#{index}
+                    ON flows.id = ____t_i_#{index}.flow_id
+            }
+
+            expression.gsub!(/!\s*#{Regexp.escape(names[index])}/, " ____t_i_#{index}.flow_id IS NULL ")
+            expression.gsub!(/#{Regexp.escape(names[index])}/, " ____t_i_#{index}.flow_id IS NOT NULL ")
+        }
+
+        expression.gsub!(/\s*(&&)\s*/i, ' AND ')
+        expression.gsub!(/\s*(\|\|)\s*/i, ' OR ')
+
+        return [joins, names, expression]
     end
 
     def search
         @search = params[:tag]
 
         if @search
-            expression  = self.expression_to_sql(@search)
-            @query      = expression.shift
-            @parameters = expression
+            @joins, @names, @expression = self.expression_to_sql(@search)
+
+            @search.gsub!(/\s*(&&|and)\s*/i, ' && ')
+            @search.gsub!(/\s*(\|\||or)\s*/i, ' || ')
+            @search.gsub!(/\s*(!|not)\s*/i, ' !')
 
             @flows = Flow.find_by_sql([%Q{
-                SELECT DISTINCT flows.id, flows.title, flows.created_at, flows.updated_at
+                SELECT DISTINCT flows.*
                 
-                FROM (
-                    SELECT * 
-                    
-                    FROM used_tags
-                    
-                    INNER JOIN tags
-                        ON used_tags.tag_id = tags.id
-                        
-                    WHERE #{@query}
-                ) as used_tags
-                    
-                INNER JOIN flows
-                    ON flows.id = flow_id
-                    
-                ORDER BY updated_at DESC;
-            }].concat(@parameters))
+                FROM flows
+
+                #{@joins}
+                
+                WHERE #{@expression}
+            }].concat(@names))
         else
             @flows = Flow.find(:all, :order => 'updated_at DESC')
         end
@@ -241,5 +252,20 @@ class FlowsController < ApplicationController
 
             redirect_to "/ocean/flow/#{drop.flow.id}"
         end
+    end
+
+    def subcriptions
+        if !current_user
+            redirect_to root_path
+            return
+        end
+    end
+
+    def subcribe
+
+    end
+
+    def unsubscribe
+
     end
 end

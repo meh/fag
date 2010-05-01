@@ -1,3 +1,13 @@
+<% if current_user %>
+    <div class="usage">
+        <% if current_user.subscribed? @flow %>
+            <a href="/flows/unsubscribe/<%= @flow.id %>">Unsubscribe</a>
+        <% else %>
+            <a href="/flows/subscribe/<%= @flow.id %>">Subscribe</a>
+        <% end %>
+    </div>
+<% end %>
+
 <% if current_user && (current_user.modes[:can_edit_flows] || current_user.modes[:can_delete_flows]) %>
     <div class="manage">
         <% if current_user.modes[:can_edit_flows] %>

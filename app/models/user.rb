@@ -40,12 +40,12 @@ class User < ActiveRecord::Base
 
     serialize :modes, Hash
 
-    def self.encrypt (value)
-        Digest::SHA512.hexdigest(value)
-    end
-
-    def set_password (password)
-        self.password = User.encrypt(password)
+    def subscribed? (flow)
+        return !Subscription.find(
+            :all,
+            :conditions => ['flow_id = ? AND user_id = ?', flow.id, self.id],
+            :limit => 1
+        ).empty?
     end
 
     def remember_me!
@@ -53,8 +53,16 @@ class User < ActiveRecord::Base
         save_without_validation
     end
 
+    def set_password (password)
+        self.password = User.encrypt(password)
+    end
+
     def password? (value)
         User.encrypt(value) == self.password
+    end
+
+    def self.encrypt (value)
+        Digest::SHA512.hexdigest(value)
     end
 
     def self.authenticate (name, password)

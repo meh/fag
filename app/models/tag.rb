@@ -42,7 +42,13 @@ class Tag < ActiveRecord::Base
         if options[:tree]
         else
             string.scan(/(("(([^\\"]|\\.)*)")|([^\s]+?))(,|;|\s|$)/) {|match|
-                result.push((match[2] || match[4] || 'undefined').downcase)
+                tag = (match[2] || match[4] || 'undefined').downcase
+
+                if tag.match(/(&&|\|\||!)/)
+                    next
+                end
+
+                result.push(tag)
             }
         end
 

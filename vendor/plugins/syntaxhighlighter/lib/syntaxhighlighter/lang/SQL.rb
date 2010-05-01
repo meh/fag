@@ -28,13 +28,15 @@ class SQL < Language
         @regexes = {
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.|'')*')/m] => lambda {|match| "<span class=\"sql string\">#{Language.escape(match)}</span>"},
 
+            [/^(--.*?)$/, /({({[^}]*}|.*?)*})/m] => '<span class="sql comment">\1</span>',
+
             SQL.keywords([
-                'SELECT', 'DISTINCT', 'FROM', 'WHERE', 'JOIN', 'INNER', 'ON', 'ORDER', 'DESC', 'ASC', 'GROUP', 'BY',
-                'AND', 'OR', 'NOT',
+                'SELECT', 'DISTINCT', 'UNION', 'FROM', 'AS', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'ON', 'IN', 'ALL', 'BETWEEN', 'HAVING', 'TOP', 'ORDER', 'DESC', 'ASC', 'GROUP', 'BY',
+                'AND', 'OR', 'NOT', 'NULL',
             ]) => '\1<span class="sql keyword">\2</span>\3',
 
             SQL.functions([
-                'COUNT', 'MAX', 'MIN',
+                'COUNT', 'MAX', 'MIN', 'AVG', 'SUBSTR', 'LEN', 'SUM',
             ]) => '\1<span class="sql function">\2</span>\3',
         }
 
