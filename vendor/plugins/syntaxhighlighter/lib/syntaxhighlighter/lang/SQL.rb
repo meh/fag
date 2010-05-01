@@ -31,7 +31,15 @@ class SQL < Language
             [/^(--.*?)$/, /({({[^}]*}|.*?)*})/m] => '<span class="sql comment">\1</span>',
 
             SQL.keywords([
-                'SELECT', 'DISTINCT', 'UNION', 'FROM', 'AS', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'ON', 'IN', 'ALL', 'BETWEEN', 'HAVING', 'TOP', 'ORDER', 'DESC', 'ASC', 'GROUP', 'BY',
+                'CREATE', 'UNIQUE', 'TABLE', 'DATABASE', 'INDEX', 'SEQUENCE', 'PRIMARY', 'KEY',
+                'COMMENT', 'SCHEMA', 'INCREMENT', 'OWNED', 'CACHE', 'COPY',
+                'SELECT', 'DISTINCT', 'UNION', 'FROM', 'AS', 'TO', 'IS', 'ON', 'IN', 'WITH', 'NO',
+                'JOIN', 'INNER', 'LEFT', 'RIGHT',
+                'WHERE', 'ALL', 'BETWEEN', 'HAVING', 'ONLY',
+                'TOP', 'ORDER', 'DESC', 'ASC',
+                'GROUP', 'BY',
+                'INSERT', 'INTO', 'VALUES',
+                'ALTER', 'ADD', 'CONSTRAINT', 'SET',
                 'AND', 'OR', 'NOT', 'NULL',
             ]) => '\1<span class="sql keyword">\2</span>\3',
 
