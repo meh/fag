@@ -210,7 +210,7 @@ div.ocean {
     border: 1px solid gray;
 }
 
-div.ocean .float.project, div.ocean .float.announcement {
+div.ocean .float.announcement {
     display: none;
 }
 

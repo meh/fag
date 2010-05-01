@@ -36,7 +36,7 @@ class Tag < ActiveRecord::Base
     attr_accessible :name, :type
     serialize :modes, Hash
 
-    def find_by_flow (flow)
+    def self.find_by_flow (flow)
         Tag.find_by_sql(%Q{
             SELECT tags.*
 

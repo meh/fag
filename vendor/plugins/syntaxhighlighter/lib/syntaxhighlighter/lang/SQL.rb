@@ -32,7 +32,7 @@ class SQL < Language
 
             SQL.keywords([
                 'CREATE', 'UNIQUE', 'TABLE', 'DATABASE', 'INDEX', 'SEQUENCE', 'PRIMARY', 'KEY',
-                'COMMENT', 'SCHEMA', 'INCREMENT', 'OWNED', 'CACHE', 'COPY',
+                'COMMENT', 'SCHEMA', 'INCREMENT', 'OWNED', 'OWNER', 'CACHE', 'COPY',
                 'SELECT', 'DISTINCT', 'UNION', 'FROM', 'AS', 'TO', 'IS', 'ON', 'IN', 'WITH', 'NO',
                 'JOIN', 'INNER', 'LEFT', 'RIGHT',
                 'WHERE', 'ALL', 'BETWEEN', 'HAVING', 'ONLY',
@@ -40,7 +40,7 @@ class SQL < Language
                 'GROUP', 'BY',
                 'INSERT', 'INTO', 'VALUES',
                 'ALTER', 'ADD', 'CONSTRAINT', 'SET',
-                'AND', 'OR', 'NOT', 'NULL',
+                'AND', 'OR', 'NOT', 'NULL', 'DEFAULT',
             ]) => '\1<span class="sql keyword">\2</span>\3',
 
             SQL.functions([
@@ -58,7 +58,7 @@ class SQL < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\()(#{keywords[1, keywords.length]})(;|\s|$)/i
+        return /(\s|\G|\()(#{keywords[1, keywords.length]})([,;]|\s|$)/i
     end
 
     def self.functions (value)
@@ -68,7 +68,7 @@ class SQL < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G)(#{result[1, result.length]})(;|\(|\s|$)/i
+        return /(\s|\G)(#{result[1, result.length]})([,;]|\(|\s|$)/i
     end
 end
 
