@@ -326,6 +326,15 @@ table.flows a {
     text-decoration: none;
 }
 
+/* Errors */
+
+div.flash.error {
+    border: 2px solid red;
+    background: #ffdddd;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
 /* Code */
 
 div.code {
@@ -340,10 +349,21 @@ div.code div.language {
     font-weight: bold;
 }
 
-div.code div.source {
-    white-space: pre;
+div.code pre {
+    line-height: 1.4em;
+}
+
+div.code pre.lines {
+    padding: 0.5em 0.5em;
+    border-right: 1px solid gray;
+}
+
+div.code pre.source {
     padding: 5px;
     overflow: auto;
+}
+
+div.code pre.source .line {
 }
 
 table.codes td {
@@ -357,134 +377,81 @@ table.codes a {
 }
 
 
-/* Errors */
-
-.fieldWithErrors label {
-    color: red;
-    font-weight: bold;
-}
-
-div#errorExplanation {
-    width: 400px;
-    border: 2px solid red;
-    padding: 7px;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-    background-color: #f0f0f0;
-}
-
-div#errorExplanation h2 {
-    text-align: left;
-    font-weight: bold;
-    padding: 5px 5px 5px 15px;
-    font-size: 12px;
-    margin: -7px;
-    background-color: #c00;
-    color: #fff;
-}
-
-div#errorExplanation p {
-    color: #333;
-    margin-bottom: 0;
-    padding: 5px;
-}
-
-div#errorExplanation ul li {
-    font-size: 12px;
-    list-style: none;
-}
-
-/* Debug */
-
-div#debug {
-    width: 100%;
-    background: white;
-    border-top: 1px solid gray;
-    position: fixed;
-    bottom: 0;
-}
-
-div.flash.error {
-    border: 2px solid red;
-    background: #ffdddd;
-    padding: 5px;
-    margin-bottom: 15px;
-}
 
 /* Languages */
 
-span.comment {
+pre.source span.comment {
     color: gray;
 }
 
-span.comment * {
+pre.source span.comment * {
     color: gray !important;
 }
 
-span.preprocessor {
+pre.source span.preprocessor {
     color: green;
 }
     
-span.preprocessor * {
+pre.source span.preprocessor * {
     color: green !important;
 }
 
-span.string {
+pre.source span.string {
     color: red;
 }
 
-span.string * {
+pre.source span.string * {
     color: red !important;
 }
 
-span.keyword {
+pre.source span.keyword {
     color: orange;
 }
 
-span.type {
+pre.source span.type {
     color: red;
 }
 
-span.function {
+pre.source span.function {
     color: green;
 }
 
-span.variable {
+pre.source span.variable {
     color: green;
 }
 
-span.constant {
+pre.source span.constant {
     color: purple;
 }
 
-span.symbol {
+pre.source span.symbol {
     color: orange;
 }
 
-span.ruby.parameters {
+pre.source span.ruby.parameters {
     color: blue;
 }
 
-span.gas.keyword {
+pre.source span.gas.keyword {
     color: green;
 }
 
-span.gas.section {
+pre.source span.gas.section {
     color: orange;
 }
 
-span.gas.label {
+pre.source span.gas.label {
     color: blue;
 }
 
-span.gas.register {
+pre.source span.gas.register {
     color: purple;
 }
 
-span.gas.constant {
+pre.source span.gas.constant {
     color: blue;
 }
 
-span.c.char {
+pre.source span.c.char {
     color: orange;
 }

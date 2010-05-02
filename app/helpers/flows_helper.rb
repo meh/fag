@@ -63,13 +63,14 @@ module FlowsHelper
         }
 
         content.gsub!('"', '&quot;')
+        content.gsub!("\n", '<br/>')
 
-        content.scan(/^(&lt; \/codes\/(\d+)(\n?))/).uniq.each {|match|
+        content.scan(%r{^(&lt; /codes/(\d+)(<br/>)?)}).uniq.each {|match|
             content.gsub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[1]), :inDrop => true }).strip)
         }
 
         URI.extract(content).uniq.each {|uri|
-            if !uri.match(/^\w+:\/\//)
+            if !uri.match(%r{^\w+://})
                 next
             end
 
