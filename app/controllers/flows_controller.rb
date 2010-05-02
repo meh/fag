@@ -242,7 +242,7 @@ class FlowsController < ApplicationController
 
             @flow = Flow.find(params[:id])
 
-            if @flow.closed
+            if @flow.stopped
                 render :text => "<span class='error'>You can't drop in a stopped flow.</span>", :layout => 'application'
                 return
             end

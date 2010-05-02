@@ -69,10 +69,12 @@ class UsersController < ApplicationController
         @user          = User.new(params[:user])
         @user.password = params[:user][:password]
         
-        if @user.save
+        begin
+            @user.save
             login @user
             redirect_to @user
-        else
+        rescue 
+            flash.now[:error] 'The user already exists.'
             self.new; render 'new'
         end
     end
