@@ -40,9 +40,31 @@ require 'digest/sha2'
 class User < ActiveRecord::Base
     attr_accessible :name, :email, :stuff, :password, :theme, :home_expression
 
-    has_many :subscriptions
+    has_many :subscriptions, :autosave => true, :dependent => :destroy
 
     serialize :modes, Hash
+
+    def subscribe (flow)
+        if !flow
+            return
+        end
+
+        subscription = Subscription.new
+        subscription.flow = flow
+        subscription.user = self
+
+        self.subscriptions << subscription
+
+        self.save
+    end
+
+    def unsubscribe (flow)
+        if !flow
+            return
+        end
+
+        Subscription.delete_all(['user_id = ? AND flow_id = ?', self.id, flow.id])
+    end
 
     def subscribed? (flow)
         return !Subscription.find(

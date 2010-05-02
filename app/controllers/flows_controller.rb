@@ -118,14 +118,6 @@ class FlowsController < ApplicationController
         @flow = Flow.find(params[:id])
     end
 
-    def subscribe
-        @flow = Flow.find(params[:id])
-
-        Flow.subscribe(current_user)
-
-        redirect_to "/flows/#{parms[:id]}"
-    end
-
     def new
         @title = 'Flow.new'
 
@@ -313,34 +305,40 @@ class FlowsController < ApplicationController
         end
     end
 
-    def subcriptions
+    def subscriptions
         if !current_user
             redirect_to root_path
             return
         end
 
-        @flows = Subscription.find(:all, :conditions => ['user_id = ?', current_user.id], :include => :flow)
+        @flows = Flow.find_by_sql(%{
+            SELECT flows.*
+
+            FROM flows, subscriptions
+
+            WHERE user_id = #{current_user.id}
+
+            ORDER BY updated_at DESC
+        })
     end
 
-    def subcribe
-        if !current_user
-            redirect_to root_path
-            return
+    def subscribe
+        if current_user
+            flow = Flow.find(params[:id])
+
+            current_user.subscribe(flow)
         end
 
-        flow = Flow.find(params[:id])
-
-        current_user.subscriptions << Subscription.new(:user => current_user, :flow => flow)
+        redirect_to "/flows/#{params[:id]}"
     end
 
     def unsubscribe
-        if !current_user
-            redirect_to root_path
-            return
+        if current_user
+            flow = Flow.find(params[:id])
+            
+            current_user.unsubscribe(flow)
         end
 
-        flow = Flow.find(params[:id])
-
-        Subscription.delete_all(['user_id = ? AND flow_id = ?', current_user.id, flow.id])
+        redirect_to "/flows/#{params[:id]}"
     end
 end

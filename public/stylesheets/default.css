@@ -41,6 +41,12 @@ div#navigation_menu {
     padding: 3px;
 }
 
+div#navigation_menu div.addition {
+    position: absolute;
+    top: 2px;
+    right: -50px;
+}
+
 div#navigation_menu a {
     text-decoration: none;
 }
@@ -55,6 +61,12 @@ div#user_menu {
     border-left: 2px solid gray;
     border-bottom: 2px solid gray;
     padding: 3px;
+}
+
+div#user_menu div.addition {
+    position: absolute;
+    top: 2px;
+    left: -70px;
 }
 
 div#user_menu a {
@@ -240,6 +252,21 @@ div.ocean .float.announcement {
 
 .nube6 {
     font-size: 2.0em;
+}
+
+form.search {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+form.search.alone {
+    width: 100%;
+    position: static;
+}
+
+form.search.alone input[type=text] {
+    width: 80%;
 }
 
 /* Flow */

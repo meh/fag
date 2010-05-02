@@ -32,8 +32,8 @@
 class Flow < ActiveRecord::Base
     attr_accessible :closed, :title
 
-    has_many :drops,     :autosave => true
-    has_many :used_tags, :autosave => true
+    has_many :drops,     :autosave => true, :dependent => :destroy
+    has_many :used_tags, :autosave => true, :dependent => :destroy
 
     def add_tags (text, cap=2000)
         once = false
@@ -56,17 +56,5 @@ class Flow < ActiveRecord::Base
         if !once
             self.add_tags('undefined')
         end
-    end
-
-    def subcribe (user)
-        if !user
-            return
-        end
-
-        subscription = Subscription.new
-        subscription.flow = self
-        subscription.user = user
-
-        subscription.save
     end
 end

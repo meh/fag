@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
     map.connect 'flows/following',          :controller => 'flows', :action => 'subscriptions'
     map.connect 'flows/follow/:id',         :controller => 'flows', :action => 'subscribe'
     map.connect 'flows/unfollow/:id',       :controller => 'flows', :action => 'unsubscribe'
+    map.connect 'flows/search!',            :controller => 'flows', :action => 'do_search'
 
     map.connect 'codes/:id.raw', :controller => 'codes', :action => 'raw'
 

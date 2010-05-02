@@ -14,6 +14,10 @@
         <a href="/ocean">Ocean</a>
         <a href="/projects">Projects</a>
         <a href="/codes">Codes</a>
+
+        <div class="addition">
+            <a href="/flows/search!">Search</a>
+        </div>
     </div>
 
     <div id="user_menu">
@@ -25,6 +29,10 @@
             <span class="username"><a href="<%= user_path current_user %>"><%= current_user.name %></a></span>
             <a href="/users/edit/<%= current_user.id %>">Edit</a>
             <a href="/logout">Logout</a>
+
+            <div class="addition">
+                <a href="/flows/following">Following</a>
+            </div>
         <% end %>
     </div>
 
