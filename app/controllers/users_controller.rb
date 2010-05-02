@@ -74,7 +74,7 @@ class UsersController < ApplicationController
             login @user
             redirect_to @user
         rescue 
-            flash.now[:error] 'The user already exists.'
+            flash.now[:error] = 'The user already exists.'
             self.new; render 'new'
         end
     end
