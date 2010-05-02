@@ -54,20 +54,20 @@ class UsersController < ApplicationController
     end
 
     def create
-        if params[:user][:name].length < 1 || params[:user][:name].length > 50
+        if params[:new_user][:name].length < 1 || params[:new_user][:name].length > 50
             flash.now[:error] = "The name isn't long enough. (1 .. 50)"
             self.new; render 'new'
             return
         end
 
-        if error = UsersHelper.check_password(params[:user][:password], params[:user][:password_confirmation])
+        if error = UsersHelper.check_password(params[:new_user][:password], params[:new_user][:password_confirmation])
             flash.now[:error] = error
             self.new; render 'new'
             return
         end
 
-        @user          = User.new(params[:user])
-        @user.password = params[:user][:password]
+        @user          = User.new(params[:new_user])
+        @user.password = params[:new_user][:password]
         
         begin
             @user.save

@@ -1,6 +1,6 @@
 <h2>Sign up</h2>
 
-<% form_for(:user, :url => '/users/create') do |f| %>
+<% form_for(:new_user, :url => '/users/create') do |f| %>
     <div class="field">
         <div class="label"><%= f.label :name %></div>
         <%= f.text_field :name %>

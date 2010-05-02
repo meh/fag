@@ -227,6 +227,7 @@ class FlowsController < ApplicationController
         end
 
         flow.stopped = false
+        flow.save
 
         redirect_to "/ocean/flow/#{flow.id}"
     end

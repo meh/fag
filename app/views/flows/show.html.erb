@@ -10,6 +10,15 @@
 
 <% if current_user && (current_user.modes[:can_edit_flows] || current_user.modes[:can_delete_flows]) %>
     <div class="manage">
+        
+        <% if !@flow.stopped && current_user.modes[:can_stop_flows] %>
+            <a href="/flows/stop/<%= @flow.id %>">Stop</a>
+        <% end %>
+
+        <% if @flow.stopped && current_user.modes[:can_restart_flows] %>
+            <a href="/flows/restart/<%= @flow.id %>">Restart</a>
+        <% end %>
+
         <% if current_user.modes[:can_edit_flows] %>
             <a href="/flows/edit/<%= @flow.id %>">Edit</a>
         <% end %>
@@ -46,5 +55,7 @@
         <div class="content"><%= FlowsHelper.output :content, drop %></div>
     </div><% end %>
 
-    <div class="reply right"><a class="reply" href="/flows/drop/new/<%= @flow.id %>">Reply</a></div>
+    <% if !@flow.stopped %>
+        <div class="reply right"><a class="reply" href="/flows/drop/new/<%= @flow.id %>">Reply</a></div>
+    <% end %>
 </div>
