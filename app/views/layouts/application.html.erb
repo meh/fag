@@ -5,7 +5,7 @@
 
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 
-    <%= stylesheet_link_tag((current_user ? current_user.theme : 'default'), :media => 'screen') %>
+    <%= stylesheet_link_tag("themes/#{(current_user ? current_user.theme : 'default')}", :media => 'screen') %>
 </head>
 
 <body>

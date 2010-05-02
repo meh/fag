@@ -29,9 +29,9 @@ module ApplicationHelper
     end
 
     def get_styles
-        Dir.glob("#{Rails.public_path}/stylesheets/*.css").collect {|path|
+        [Dir.glob("#{Rails.public_path}/stylesheets/themes/*.css").collect {|path|
             [File.basename(path, '.css'), File.basename(path)]
-        }
+        }, { :selected => (current_user ? current_user.theme : 'default') }]
     end
 
     def user (*args)
