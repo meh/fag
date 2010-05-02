@@ -28,6 +28,12 @@ module ApplicationHelper
         return result
     end
 
+    def get_styles
+        Dir.glob("#{Rails.public_path}/stylesheets/*.css").collect {|path|
+            [File.basename(path, '.css'), File.basename(path)]
+        }
+    end
+
     def user (*args)
         ApplicationHelper.user(*args)
     end

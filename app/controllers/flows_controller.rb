@@ -217,9 +217,12 @@ class FlowsController < ApplicationController
     def stop
         flow = Flow.find(params[:id])
 
-        if !current_user || !current_user.modes[:can_stop_flow]
+        if !current_user || !current_user.modes[:can_stop_flows]
             raise "You can't stop a flow."
         end
+
+        flow.stopped = true
+        flow.save
 
         redirect_to "/ocean/flow/#{flow.id}"
     end
@@ -227,9 +230,11 @@ class FlowsController < ApplicationController
     def restart
         flow = Flow.find(params[:id])
 
-        if !current_user || !current_user.modes[:can_restart_flow]
+        if !current_user || !current_user.modes[:can_restart_flows]
             raise "You can't stop a flow."
         end
+
+        flow.stopped = false
 
         redirect_to "/ocean/flow/#{flow.id}"
     end
@@ -252,6 +257,11 @@ class FlowsController < ApplicationController
 
         when 'create'
             flow = Flow.find(params[:flow])
+
+            if flow.stopped
+                render :text => "<span class='error'>You can't drop in a stopped flow.</span>", :layout => 'application'
+                return
+            end
 
             if current_user
                 cap = current_user.modes[:priority_cap].to_i
@@ -308,13 +318,29 @@ class FlowsController < ApplicationController
             redirect_to root_path
             return
         end
+
+        @flows = Subscription.find(:all, :conditions => ['user_id = ?', current_user.id], :include => :flow)
     end
 
     def subcribe
+        if !current_user
+            redirect_to root_path
+            return
+        end
 
+        flow = Flow.find(params[:id])
+
+        current_user.subscriptions << Subscription.new(:user => current_user, :flow => flow)
     end
 
     def unsubscribe
+        if !current_user
+            redirect_to root_path
+            return
+        end
 
+        flow = Flow.find(params[:id])
+
+        Subscription.delete_all(['user_id = ? AND flow_id = ?', current_user.id, flow.id])
     end
 end

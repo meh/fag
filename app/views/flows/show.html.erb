@@ -1,9 +1,9 @@
 <% if current_user %>
     <div class="usage">
         <% if current_user.subscribed? @flow %>
-            <a href="/flows/unsubscribe/<%= @flow.id %>">Unsubscribe</a>
+            <a href="/flows/unfollow/<%= @flow.id %>">Unfollow</a>
         <% else %>
-            <a href="/flows/subscribe/<%= @flow.id %>">Subscribe</a>
+            <a href="/flows/follow/<%= @flow.id %>">Follow</a>
         <% end %>
     </div>
 <% end %>
@@ -41,10 +41,6 @@
         <div class="user <%= UsersHelper.output :class, user(drop) %>">
             <%= gravatar_for drop.user if drop.user %>
             <span class="name"><%= UsersHelper.output :user, user(drop) %></span>
-
-            <% if current_user && current_user.modes[:can_edit] %>
-
-            <% end %>
         </div>
 
         <div class="content"><%= FlowsHelper.output :content, drop %></div>

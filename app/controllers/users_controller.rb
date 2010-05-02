@@ -130,7 +130,8 @@ class UsersController < ApplicationController
 
         user.stuff = params[:user][:stuff]
 
-        user.modes[:home_expression] = params[:user][:home_expression]
+        user.home_expression = params[:user][:home_expression]
+        user.theme           = params[:user][:theme]
 
         if current_user.modes[:can_change_user_modes] && !params[:user][:modes].empty?
             user.modes = eval(params[:user][:modes])

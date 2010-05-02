@@ -28,10 +28,13 @@ module FlowsHelper
         "<a href='/ocean/flow/#{flow.id}'>#{FlowsHelper.output :title, flow}</a>"
     end
 
-    def self.output_last_post (flow, template='%s %s')
+    def self.output_last_post (flow, template='#{at} #{by}')
         drop = flow.drops.last
 
-        template % [drop.created_at, UsersHelper.output(:user, ApplicationHelper.user(drop))]
+        at = drop.created_at
+        by = UsersHelper.output(:user, ApplicationHelper.user(drop))
+
+        return templatify(template, binding)
     end
 
     def self.output_title (flow)

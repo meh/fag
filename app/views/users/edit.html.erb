@@ -18,8 +18,13 @@
     </div>
 
     <div class="field">
-        <div class="label"><%= f.label :home %> (search shown as homepage)</div>
-        <input type="text" name="user[home_expression]"/>
+        <div class="label"><%= f.label :theme %></div>
+        <%= f.select :theme, get_styles %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label 'Home' %> (search shown as homepage)</div>
+        <%= f.text_field :home_expression %>
     </div>
 
     <% if @user.modes[:can_change_modes] %>

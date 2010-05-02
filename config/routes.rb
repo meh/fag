@@ -9,6 +9,9 @@ ActionController::Routing::Routes.draw do |map|
     map.connect 'ocean/search/:expression', :controller => 'flows', :action => 'search'
     map.connect 'subscribed',               :controller => 'flows', :action => 'subscribed'
     map.connect 'flows/drop/:what/:id',     :controller => 'flows', :action => 'drop'
+    map.connect 'flows/following',          :controller => 'flows', :action => 'subscriptions'
+    map.connect 'flows/follow/:id',         :controller => 'flows', :action => 'subscribe'
+    map.connect 'flows/unfollow/:id',       :controller => 'flows', :action => 'unsubscribe'
 
     map.connect 'codes/:id.raw', :controller => 'codes', :action => 'raw'
 

@@ -177,6 +177,10 @@ div.field {
 div.field div.label {
 }
 
+div.field select {
+    padding-right: 5px;
+}
+
 div.field textarea.source {
     width: 99%;
     margin: 0 auto;

@@ -9,6 +9,9 @@ class CreateUsers < ActiveRecord::Migration
 
             t.text :modes, :default => { :priority_cap => 1000 }.to_yaml
 
+            t.string :theme, :default => 'default'
+            t.text   :home_expression
+
             t.string :remember_token
 
             t.timestamps

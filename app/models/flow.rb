@@ -4,7 +4,7 @@
 # Table name: flows
 #
 #  id         :integer         not null, primary key
-#  closed     :boolean
+#  stopped    :boolean
 #  title      :string(255)
 #  created_at :datetime
 #  updated_at :datetime

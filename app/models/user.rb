@@ -3,15 +3,17 @@
 #
 # Table name: users
 #
-#  id             :integer         not null, primary key
-#  name           :string(255)
-#  email          :string(255)     default("")
-#  password       :string(255)
-#  stuff          :text            default("")
-#  modes          :text            default("--- \n:priority_cap: 1000\n")
-#  remember_token :string(255)
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id              :integer         not null, primary key
+#  name            :string(255)
+#  email           :string(255)     default("")
+#  password        :string(255)
+#  stuff           :text            default("")
+#  modes           :text            default("--- \n:priority_cap: 1000\n")
+#  theme           :string(255)     default("default")
+#  home_expression :text
+#  remember_token  :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
 #
 
 # fag, forums are gay
@@ -36,7 +38,9 @@
 require 'digest/sha2'
 
 class User < ActiveRecord::Base
-    attr_accessible :name, :email, :stuff, :password
+    attr_accessible :name, :email, :stuff, :password, :theme, :home_expression
+
+    has_many :subscriptions
 
     serialize :modes, Hash
 
