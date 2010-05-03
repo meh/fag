@@ -202,6 +202,7 @@ div.user_view div.stuff {
     border: 1px solid gray;
     padding: 5px;
     white-space: pre-wrap;
+    text-align: justify;
 }
 
 /* Forms */
@@ -341,6 +342,14 @@ div#container div.flow div.drop {
 
 div#container div.flow div.drop div.timestamp {
     border-bottom: 2px solid gray;
+}
+
+div#container div.flow div.drop a.manage {
+    float: right;
+    text-decoration: none;
+    padding-right: 3px;
+    padding-left: 5px;
+    border-left: 2px solid gray;
 }
 
 div#container div.flow div.drop div.user {
