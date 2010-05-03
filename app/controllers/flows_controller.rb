@@ -226,7 +226,7 @@ class FlowsController < ApplicationController
     def delete
         flow = Flow.find(params[:id])
 
-        if current_user && current_user.modes[:can_delete_flows]
+        if flow && current_user && current_user.modes[:can_delete_flows]
             Drop.delete_all(['flow_id = ?', flow.id])
             UsedTag.delete_all(['flow_id = ?', flow.id])
             flow.delete
