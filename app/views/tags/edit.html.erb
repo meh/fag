@@ -1,7 +1,3 @@
-<% if !@tag %>
-    That tag doesn't exist.
-<% else %>
-
 <% form_for(@tag, :url => '/tags/update') do |f| %>
     <div class="field">
         <div class="label"><%= f.label :name %></div>
@@ -23,6 +19,4 @@
     <div class="actions">
         <%= f.submit 'Edit' %>
     </div>
-<% end %>
-
 <% end %>

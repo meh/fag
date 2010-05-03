@@ -118,7 +118,7 @@ class FlowsController < ApplicationController
                 
                 WHERE #{@expression}
 
-                ORDER BY flows.updated_at DESC
+                ORDER BY updated_at DESC
             }].concat(@names)) rescue Exception
 
             if @flows == Exception
@@ -142,6 +142,8 @@ class FlowsController < ApplicationController
                 
                 INNER JOIN flows
                     ON tags.flow_id = flows.id
+
+                ORDER BY updated_at DESC
             })
         end
     end

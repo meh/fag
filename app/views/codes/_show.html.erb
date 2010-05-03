@@ -1,7 +1,7 @@
 <div class="code">
     <div class="language">
         <%= h SyntaxHighlighter.language(code.language, true) %>
-        (<%= CodesHelper.output :owner, code %>)
+        &lt;<%= CodesHelper.output :owner, code %>&gt;
 
         <% if (inDrop rescue false) %>
             (<a href='/codes/<%= code.id %>'>link</a>)
@@ -9,7 +9,7 @@
 
         [<a href='/codes/<%= code.id %>.raw'>raw</a>]
 
-        { <%= code.created_at %> }
+        <div class="at"><%= code.created_at %></div>
     </div>
 
     <%

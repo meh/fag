@@ -67,12 +67,11 @@ class ProjectsController < ApplicationController
         end
 
         if !(tag = Tag.find_by_name(params[:project][:tag]))
-            tag = Tag.new(:name => params[:project][:tag])
+            tag = Tag.new(:name => params[:project][:tag].downcase)
         end
 
         tag.type     = 'project'
         tag.priority = 9001
-
         tag.save
 
         project      = Project.create(:name => params[:project][:name])
@@ -96,5 +95,49 @@ class ProjectsController < ApplicationController
     end
 
     def update
+        project = Project.find(params[:project][:id])
+
+        if !project
+            render :text => "<span class='error'>Project not found.</span>", :layout => 'application'
+            return
+        end
+
+        if !current_user || (current_user != project.user && !current_user.modes[:can_edit_projects])
+            redirect_to root_path
+            return
+        end
+
+        if current_user.modes[:can_edit_projects]
+            if !params[:project][:name].empty?
+                project.name = params[:project][:name]
+            end
+
+            if !params[:project][:tag].empty? && project.tag.name != params[:project][:tag].downcase
+                project.tag.name = params[:project][:tag].downcase
+                project.tag.save
+            end
+
+            if !params[:project][:user].empty? && project.user.name != params[:project][:user]
+                if !(user = User.find_by_name(params[:project][:user]))
+                    flash.now[:error] = "The user chosen as owner doesn't exist."
+                    self.edit; render 'edit';
+                    return
+                end
+
+                project.user = user
+            end
+        end
+
+        if !params[:project][:language].empty?
+            project.language = params[:project][:language]
+        end
+
+        if !params[:project][:page].empty?
+            project.page = params[:project][:page]
+        end
+
+        project.save
+
+        redirect_to "/projects/#{project.name}"
     end
 end

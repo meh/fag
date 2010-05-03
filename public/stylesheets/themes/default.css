@@ -477,6 +477,11 @@ div.code div.language {
     font-weight: bold;
 }
 
+div.code div.language div.at {
+    float: right;
+    margin-right: 3px;
+}
+
 div.code pre {
     line-height: 1.4em;
 }

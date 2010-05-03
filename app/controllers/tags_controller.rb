@@ -32,27 +32,33 @@ class TagsController < ApplicationController
     def edit
         if !current_user || !current_user.modes[:can_edit_tags]
             render :text => "<span class='error'>You can't edit tags.</span>", :layout => 'application'
+            return
         end
 
         @tag = Tag.find_by_name(params[:id])
 
-        if @tag
-            @title = "Tag.edit :#{@tag.name}"
+        if !@tag
+            render :text => "<span class='error'>The tag doesn't exist.</span>", :layout => 'application'
+            return
         end
+
+        @title = "Tag.edit :#{@tag.name}"
     end
 
     def update
         tag = Tag.find(params[:tag][:id])
 
-        if !current_user || !current_user.modes[:can_edit_tags]
-            raise "You can't edit tags."
+        if tag
+            if !current_user || !current_user.modes[:can_edit_tags]
+                raise "You can't edit tags."
+            end
+
+            tag.name     = params[:tag][:name]
+            tag.type     = params[:tag][:type]
+            tag.priority = params[:tag][:priority]
+
+            tag.save
         end
-
-        tag.name     = params[:tag][:name]
-        tag.type     = params[:tag][:type]
-        tag.priority = params[:tag][:priority]
-
-        tag.save
 
         redirect_to root_path
     end
