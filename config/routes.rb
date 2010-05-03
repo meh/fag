@@ -23,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     map.connect 'logout',   :controller => 'sessions', :action => 'destroy'
 
     map.connect 'about', :controller => 'pages', :action => 'about'
+    map.connect 'rules', :controller => 'pages', :action => 'rules'
 
     map.resources :users
     map.resources :sessions, :only => [:new, :create, :destroy]

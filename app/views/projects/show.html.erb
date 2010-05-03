@@ -1,5 +1,11 @@
 <div class="project">
     <div class="name"><%= h @project.name %></div>
+    
+    <% if @project.status %>
+        <div class="status"><%= h @project.status %></div>
+    <% end %>
+
+    <div class="floats"><%= TagsHelper.output :link, @project.tag %></div>
 
     <div class="owner"><%= gravatar_for @project.user %> <%= UsersHelper.output :user, @project.user %></div>
 

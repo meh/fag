@@ -30,7 +30,7 @@ module TagsHelper
         return "/ocean/search/#{ApplicationHelper.escape name}"
     end
 
-    def self.output_link (tag, template='&quot;<a href="#{url}" class="float #{type}">#{name}</a>&quot;{#{length}}')
+    def self.output_link (tag, template='&quot;<a title="#{length} flows" href="#{url}" class="float #{type}">#{name}</a>&quot;')
         if tag.is_a?(UsedTag)
             tag = tag.tag
         end
