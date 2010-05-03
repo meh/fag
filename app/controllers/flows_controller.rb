@@ -155,6 +155,15 @@ class FlowsController < ApplicationController
 
         cap = current_user ? current_user.modes[:priority_cap].to_i : 2000
 
+        Tag.parse(params[:drop][:floats]).each {|tag|
+            tag = Tag.find_by_name(tag)
+
+            if tag && tag.priority.to_i < cap
+                render :text => "<span class='error'>You don't have the right permissions to use `#{tag.name}`.</span>", :layout => 'application'
+                return
+            end
+        }
+
         flow = Flow.new(:title => params[:drop][:title])
         flow.add_tags(params[:drop][:floats].empty? ? 'undefined' : params[:drop][:floats], cap)
 
@@ -275,19 +284,6 @@ class FlowsController < ApplicationController
                 render :text => "<span class='error'>You can't drop in a stopped flow.</span>", :layout => 'application'
                 return
             end
-
-            if current_user
-                cap = current_user.modes[:priority_cap].to_i
-            else
-                cap = 2000
-            end
-
-            Tag.find_by_flow(flow).each {|tag|
-                if tag.priority.to_i < cap
-                    render :text => "<span class='error'>You don't have the right permissions to drop in this flow.</span>", :layout => 'application'
-                    return
-                end
-            }
 
             if params[:drop][:content].empty?
                 flash.now[:error] = "You can't pass an empty content."

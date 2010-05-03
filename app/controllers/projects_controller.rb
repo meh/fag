@@ -141,7 +141,8 @@ class ProjectsController < ApplicationController
         end
 
         if !params[:project][:page].empty?
-            project.page = params[:project][:page].gsub("\r", '')
+            params[:project][:page].gsub!("\r", '')
+            project.page = params[:project][:page]
         end
 
         project.save
