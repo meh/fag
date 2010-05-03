@@ -27,7 +27,7 @@
         <%= f.text_field :home_expression %>
     </div>
 
-    <% if @user.modes[:can_change_modes] %>
+    <% if current_user.modes[:can_change_modes] %>
         <div class="field">
             <div class="lable"><%= f.label :modes %></div>
             <%= f.text_area :modes, :rows => 8 %>

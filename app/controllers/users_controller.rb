@@ -86,6 +86,11 @@ class UsersController < ApplicationController
     end
 
     def edit
+        if !current_user
+            redirect_to root_path
+            return
+        end
+
         if params[:id].match(/^\d+$/)
             @user = User.find(params[:id])
         else
