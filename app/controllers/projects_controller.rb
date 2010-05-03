@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
 
         @projects = Project.find(:all, :conditions => 'user_id IS NOT NULL', :order => 'name')
 
-        if !@projects
+        if @projects.empty?
             render :text => 'There are no projects ;_;', :layout => 'application'
         end
     end
@@ -150,7 +150,7 @@ class ProjectsController < ApplicationController
     end
 
     def delete
-        project = Project.find_by_name(params[:id])
+        project = Project.find(params[:id])
 
         if project
             project.tag.type = 'normal'
@@ -158,5 +158,7 @@ class ProjectsController < ApplicationController
 
             Project.delete(project.id)
         end
+        
+        redirect_to root_path
     end
 end

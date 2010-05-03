@@ -155,6 +155,8 @@ div#container div.manage {
 
     border-left: 2px solid gray;
     border-bottom: 2px solid gray;
+
+    white-space: normal;
 }
 
 div#container div.manage a {
