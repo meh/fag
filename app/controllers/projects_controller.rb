@@ -21,14 +21,73 @@ class ProjectsController < ApplicationController
     def index
         @title = 'Project.all'
 
-        @projects = Project.find(:all, :order => 'name')
+        @projects = Project.find(:all, :conditions => 'user_id IS NOT NULL', :order => 'name')
     end
 
     def show
-        @project = Project.find_by_name(params[:id])
-
-        if @project
-            @title = "Project.show :#{h @project.name}"
+        if params[:id].match(/^\d+$/)
+            @project = Project.find(params[:id])
+        else
+            @project = Project.find_by_name(params[:id])
         end
+
+        if !@project
+            render :text => "<span class='error'>Project not found.</span>", :layout => 'application'
+            return
+        end
+
+        @title = "Project.show :#{@project.name}"
+    end
+
+    def new
+        if !current_user || !current_user.modes[:can_create_projects]
+            render :text => "<span class='error'>You can't create a project.</span>", :layout => 'application'
+            return
+        end
+
+        @title = 'Project.new'
+    end
+
+    def create
+        if !current_user || !current_user.modes[:can_create_projects]
+            raise "You can't create a project."
+            return
+        end
+
+        if params[:project][:name].empty? || params[:project][:tag].empty? || params[:project][:user].empty?
+            flash.now[:error] = 'You have to pass every field.'
+            self.new; render 'new';
+            return
+        end
+
+        if !(user = User.find_by_name(params[:project][:user]))
+            flash.now[:error] = "The user chosen as owner doesn't exist."
+            self.new; render 'new';
+            return
+        end
+
+        if !(tag = Tag.find_by_name(params[:project][:tag]))
+            tag = Tag.new(:name => params[:project][:tag])
+        end
+
+        tag.type     = 'project'
+        tag.priority = 9001
+
+        tag.save
+
+        project      = Project.create(:name => params[:project][:name])
+        project.user = user
+        project.tag  = tag
+        project.page = "This is the page for #{params[:project][:name]}."
+        project.save
+
+        redirect_to "/projects/#{project.name}"
+    end
+
+    def edit
+
+    end
+
+    def update
     end
 end

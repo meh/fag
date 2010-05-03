@@ -1,4 +1,4 @@
-<% form_for(:flow, :url => '/flows/update') {|f| %>
+<% form_for(:flow, :url => '/flows/update', :html => { :class => 'flow' }) {|f| %>
     <div class="field">
         <div class="label"><%= f.label :title %></div>
         <%= f.text_field :title %>

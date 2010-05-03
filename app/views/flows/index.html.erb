@@ -1,4 +1,4 @@
-I can't swim anymore, I'm sinking in flows of thoughts.
+<div class="text">I can't swim anymore, I'm sinking in flows of thoughts.</div>
 
 <div class="ocean">
     <% if @tags.empty? %>
@@ -17,7 +17,7 @@ I can't swim anymore, I'm sinking in flows of thoughts.
     <% end %>
 </div>
 
-<a href="/ocean/new/flow">Start flowing</a>
+<div class="text"><a href="/ocean/new/flow">Start flowing</a></div>
 
 <% form_for(:flow, :url => '/ocean/search', :html => { :method => 'get', :class => 'search' }) do |f| %>
     <%= f.text_field :expression, :name => 'expression' %>

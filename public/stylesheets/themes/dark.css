@@ -367,6 +367,38 @@ div.flash.error {
     margin-bottom: 15px;
 }
 
+/* Projects */
+
+div.project {
+}
+
+div.project div.name {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+div.project div.owner {
+    border: 2px solid darkred;
+}
+
+div.project div.owner a {
+    color: white;
+}
+
+div.project div.owner * {
+    vertical-align: middle;
+}
+
+div.project div.page {
+    border: 2px solid darkred;
+    border-top: 0;
+
+    padding: 5px;
+    white-space: pre-wrap;
+}
+
+
 /* Code */
 
 div.code {
@@ -407,8 +439,6 @@ table.codes td {
 table.codes a {
     text-decoration: none;
 }
-
-
 
 /* Languages */
 

@@ -1,8 +1,15 @@
-<div class="projects">
-    <% if @projects.empty? %>
-        There are no projects ;_;
-    <% else %>
-        <% @projects.each do |project| %>
-        <% end %>
-    <% end %>
-</div>
+<% if @projects.empty? %>
+    There are no projects ;_;
+<% else %>
+
+<table class="projects">
+    <tr><th>Owner</th><th>Language</th><th>Project</th></tr>
+    
+    <% @projects.each do |project| %><tr/>
+        <td><%= UsersHelper.output :user, project.user %></td>
+        <td><%= h project.language %></td>
+        <td><%= ProjectsHelper.output :link, project %></td>
+    </tr><% end %>
+</table>
+
+<% end %>

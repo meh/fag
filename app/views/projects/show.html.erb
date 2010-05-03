@@ -1,5 +1,7 @@
-<% if !@project %>
-    Project not found.
-<% else %>
+<div class="project">
+    <div class="name"><%= h @project.name %></div>
 
-<% end %>
+    <div class="owner"><%= gravatar_for @project.user %> <%= UsersHelper.output :user, @project.user %></div>
+
+    <div class="page"><%= if current_user && (current_user == @project.user || current_user.modes[:can_edit_projects]) then %{<div class="manage"><a href="/projects/edit/#{escape @project.name}">Edit</a></div>} end %><%= FlowsHelper.output :content, @project.page %></div>
+</div>

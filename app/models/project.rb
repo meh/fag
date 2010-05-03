@@ -35,6 +35,6 @@
 class Project < ActiveRecord::Base
     attr_accessible :name, :language, :page
 
-    has_one :user
-    has_one :tag
+    belongs_to :user
+    belongs_to :tag
 end

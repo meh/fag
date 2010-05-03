@@ -1,4 +1,4 @@
-<% form_for(@user) do |f| %>
+<% form_for(@user, :html => { :class => 'user' }) do |f| %>
     <%= f.error_messages %>
 
     <div class="field">
@@ -19,7 +19,7 @@
 
     <div class="field">
         <div class="label"><%= f.label :theme %></div>
-        <%= f.select :theme, *get_styles %>
+        <%= f.select :theme, *get_styles(@user) %>
     </div>
 
     <div class="field">

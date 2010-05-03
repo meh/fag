@@ -21,6 +21,10 @@ body {
     font-size: 12px;
 }
 
+form {
+    text-align: justify;
+}
+
 div.separator {
     display: inline;
     border-left: 2px solid gray;
@@ -101,6 +105,7 @@ div#container {
     border: 2px solid gray;
     margin: 42px auto;
     padding: 5px;
+    text-align: center;
 }
 
 div#footer {
@@ -121,7 +126,15 @@ div#footer a {
     text-decoration: none;
 }
 
+div.about {
+    text-align: justify;
+}
+
 /* User */
+
+form.user {
+    text-align: justify;
+}
 
 div.user_view {
     width: 500px;
@@ -200,6 +213,10 @@ div.field textarea.source {
 
 /* Random */
 
+div.text {
+    text-align: justify;
+}
+
 div.right {
     width: 100%;
     text-align: right;
@@ -224,6 +241,7 @@ div.ocean {
     padding: 5px;
     margin: 10px auto;
     border: 1px solid gray;
+    text-align: justify;
 }
 
 div.ocean .float.announcement {
@@ -270,6 +288,15 @@ form.search.alone input[type=text] {
 }
 
 /* Flow */
+
+form.flow {
+    text-align: justify;
+}
+
+form.flow textarea {
+    width: 99%;
+}
+
 div#container div.flow {
 
 }
@@ -293,6 +320,7 @@ div#container div.flow div.floats a {
 div#container div.flow div.drop {
     border: 2px solid gray;
     margin-bottom: 3px;
+    text-align: justify;
 }
 
 div#container div.flow div.drop div.timestamp {
@@ -345,6 +373,7 @@ div#container div.flow a.reply {
 /* Tag */
 
 table.flows {
+    margin: 0 auto;
 }
 
 table.flows td {
@@ -357,7 +386,64 @@ table.flows a {
     text-decoration: none;
 }
 
+/* Projects */
+
+form.project {
+    text-align: justify;
+}
+
+table.projects {
+    margin: 0 auto;
+}
+
+table.projects td {
+    padding: 3px 5px;
+    border: 1px solid gray;
+    text-align: center;
+}
+
+table.projects a {
+    text-decoration: none;
+}
+
+div.project {
+}
+
+div.project div.name {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+div.project div.owner {
+    border: 2px solid gray;
+    text-align: justify;
+}
+
+div.project div.owner a {
+    color: blue;
+}
+
+div.project div.owner * {
+    vertical-align: middle;
+}
+
+div.project div.page {
+    border: 2px solid gray;
+    border-top: 0;
+
+    padding: 5px;
+    white-space: pre-wrap;
+    text-align: justify;
+}
+
 /* Errors */
+
+span.error {
+    color: red;
+    font-weight: bold;
+}
 
 div.flash.error {
     border: 2px solid red;
@@ -368,10 +454,23 @@ div.flash.error {
 
 /* Code */
 
+form.code {
+    text-align: justify;
+}
+
+form.code textarea {
+    width: 99%;
+}
+
+div.codepost {
+    text-align: center;
+}
+
 div.code {
     font-family: Terminus, Courier New, Monospace;
     border: 1px solid gray;
     white-space: normal;
+    text-align: justify;
 }
 
 div.code div.language {
@@ -397,6 +496,10 @@ div.code pre.source {
 div.code pre.source .line {
 }
 
+table.codes {
+    margin: 0 auto;
+}
+
 table.codes td {
     padding: 3px 5px;
     border: 1px solid gray;
@@ -406,8 +509,6 @@ table.codes td {
 table.codes a {
     text-decoration: none;
 }
-
-
 
 /* Languages */
 

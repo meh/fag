@@ -41,13 +41,21 @@ class FlowsController < ApplicationController
                 GROUP BY tag_id
             ) AS tmp
         
-            WHERE tmp.tag_id = tags.id
+            WHERE tmp.tag_id = tags.id AND tags.priority >= 0
 
             ORDER BY length DESC, name ASC
         })
     end
 
-    def expression_to_sql (value)
+    def expression_to_sql_check (index, avoid)
+        if avoid
+            return ''
+        else
+            "AND ____t_i_#{index}.priority >= 0"
+        end
+    end
+
+    def expression_to_sql (value, avoid=false)
         value.downcase!
         value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
         value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
@@ -68,7 +76,7 @@ class FlowsController < ApplicationController
         names.each_index {|index|
             joins << %{
                 LEFT JOIN (
-                    SELECT ____u_t_#{index}.flow_id
+                    SELECT ____u_t_#{index}.flow_id, ____t_#{index}.priority
                     
                     FROM used_tags AS ____u_t_#{index}
                     
@@ -82,8 +90,10 @@ class FlowsController < ApplicationController
                 replace = %{"#{replace}"}
             end
 
-            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(replace)}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NULL \\2")
-            expression.gsub!(/([\s()]|\G)#{Regexp.escape(replace)}([\s()]|$)/, "\\1 ____t_i_#{index}.flow_id IS NOT NULL \\2")
+            check = self.expression_to_sql_check(index, avoid)
+
+            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(replace)}([\s()]|$)/, "\\1 (____t_i_#{index}.flow_id IS NULL #{check}) \\2")
+            expression.gsub!(/([\s()]|\G)#{Regexp.escape(replace)}([\s()]|$)/, "\\1 (____t_i_#{index}.flow_id IS NOT NULL #{check}) \\2")
         }
 
         expression.gsub!(/\s*&&\s*/i, ' AND ')
@@ -94,9 +104,10 @@ class FlowsController < ApplicationController
 
     def search
         @search = params[:expression]
+        @avoid  = params[:avoid]
 
         if @search && !@search.empty?
-            @joins, @names, @expression = self.expression_to_sql(@search)
+            @joins, @names, @expression = self.expression_to_sql(@search, @avoid)
 
             @flows = Flow.find_by_sql([%{
                 SELECT DISTINCT flows.*
@@ -108,9 +119,30 @@ class FlowsController < ApplicationController
                 WHERE #{@expression}
 
                 ORDER BY flows.updated_at DESC
-            }].concat(@names))
+            }].concat(@names)) rescue Exception
+
+            if @flows == Exception
+                render :text => "<span class='error'>Your search expression is borked.</span>", :layout => 'application'
+                return
+            end
         else
-            @flows = Flow.find(:all, :order => 'updated_at DESC')
+            @flows = Flow.find_by_sql(%{
+                SELECT DISTINCT flows.*
+                
+                FROM (
+                    SELECT flow_id
+                    
+                    FROM tags
+                    
+                    INNER JOIN used_tags
+                        ON used_tags.tag_id = tags.id
+                        
+                    WHERE tags.priority >= 0
+                ) AS tags
+                
+                INNER JOIN flows
+                    ON tags.flow_id = flows.id
+            })
         end
     end
 
@@ -315,9 +347,12 @@ class FlowsController < ApplicationController
         @flows = Flow.find_by_sql(%{
             SELECT flows.*
 
-            FROM flows, subscriptions
+            FROM subscriptions
 
-            WHERE user_id = #{current_user.id}
+            INNER JOIN flows
+                ON subscriptions.flow_id = flows.id
+
+            WHERE subscriptions.user_id = #{current_user.id}
 
             ORDER BY updated_at DESC
         })

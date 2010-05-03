@@ -19,9 +19,14 @@
 
 class TagsController < ApplicationController
     def new
+        @title ='Tag.new'
     end
 
     def create
+        tag = Tag.new(params[:tag])
+        tag.save
+
+        redirect_to root_path
     end
 
     def edit
@@ -37,7 +42,7 @@ class TagsController < ApplicationController
     end
 
     def update
-        tag = Tag.find(params[:id])
+        tag = Tag.find(params[:tag][:id])
 
         if !current_user || !current_user.modes[:can_edit_tags]
             raise "You can't edit tags."

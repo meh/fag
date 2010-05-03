@@ -66,8 +66,8 @@ class UsersController < ApplicationController
             return
         end
 
-        @user          = User.new(params[:new_user])
-        @user.password = params[:new_user][:password]
+        @user = User.new(params[:new_user])
+        @user.set_password params[:new_user][:password]
         
         begin
             @user.save
@@ -182,6 +182,11 @@ class UsersController < ApplicationController
 
         Drop.update_all({ :user_id => nil, :name => user.name }, ['user_id = ?', user.id])
         Code.update_all({ :user_id => nil, :name => user.name }, ['user_id = ?', user.id])
+
+        Project.find(:all, :conditions => ['user_id = ?', user.id]).each {|project|
+            project.user = nil
+            project.save
+        }
 
         user.delete
 
