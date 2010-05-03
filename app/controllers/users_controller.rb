@@ -130,7 +130,7 @@ class UsersController < ApplicationController
             user.name = params[:user][:name]
         end
 
-        user.stuff = params[:user][:stuff]
+        user.stuff = params[:user][:stuff].gsub("\r", '')
 
         user.home_expression = params[:user][:home_expression]
         user.theme           = params[:user][:theme]

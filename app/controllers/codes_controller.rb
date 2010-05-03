@@ -49,7 +49,7 @@ class CodesController < ApplicationController
             return
         end
 
-        code = Code.new(:language => params[:code][:language], :content => params[:code][:source].gsub(/\r/, ''))
+        code = Code.new(:language => params[:code][:language], :content => params[:code][:source].gsub("\r", ''))
 
         if !current_user
             if params[:code][:name].empty?

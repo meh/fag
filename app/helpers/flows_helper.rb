@@ -55,7 +55,10 @@ module FlowsHelper
     end
 
     def self.output_content (drop)
-        content = (drop.is_a?(Drop) ? drop.content : drop.to_s).gsub(/</, '&lt;').gsub(/>/, '&gt;')
+        content = (drop.is_a?(Drop) ? drop.content : drop.to_s).clone
+        
+        content.gsub!(/</, '&lt;')
+        content.gsub!(/>/, '&gt;')
 
         content.scan(/("([^"]+)":(\w+:\/\/[^\s]+))/).uniq.each {|match|
             if match[1].strip.empty?

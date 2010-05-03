@@ -29,6 +29,10 @@ li {
     margin-left: 23px;
 }
 
+input, textarea {
+    font-family: Terminus, Courier New;
+}
+
 div.separator {
     display: inline;
     border-left: 2px solid gray;
