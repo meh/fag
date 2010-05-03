@@ -22,6 +22,10 @@ class ProjectsController < ApplicationController
         @title = 'Project.all'
 
         @projects = Project.find(:all, :conditions => 'user_id IS NOT NULL', :order => 'name')
+
+        if !@projects
+            render :text => 'There are no projects ;_;', :layout => 'application'
+        end
     end
 
     def show
@@ -132,6 +136,10 @@ class ProjectsController < ApplicationController
             project.language = params[:project][:language]
         end
 
+        if !params[:project][:status].empty?
+            project.status = params[:project][:status]
+        end
+
         if !params[:project][:page].empty?
             project.page = params[:project][:page]
         end
@@ -139,5 +147,16 @@ class ProjectsController < ApplicationController
         project.save
 
         redirect_to "/projects/#{project.name}"
+    end
+
+    def delete
+        project = Project.find_by_name(params[:id])
+
+        if project
+            project.tag.type = 'normal'
+            project.tag.save
+
+            Project.delete(project.id)
+        end
     end
 end

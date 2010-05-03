@@ -33,7 +33,7 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class Project < ActiveRecord::Base
-    attr_accessible :name, :language, :page
+    attr_accessible :name, :language, :page, :status
 
     belongs_to :user
     belongs_to :tag

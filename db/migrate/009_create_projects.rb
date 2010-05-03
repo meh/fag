@@ -4,6 +4,8 @@ class CreateProjects < ActiveRecord::Migration
             t.string :name
             t.string :language
             t.text   :page
+            
+            t.string :status
 
             t.references :user
             t.references :tag

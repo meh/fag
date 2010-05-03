@@ -1,6 +1,8 @@
-<% if @projects.empty? %>
-    There are no projects ;_;
-<% else %>
+<% if current_user && current_user.modes[:can_create_projects] %>
+    <div class="manage">
+        <a href="/projects/new">Create</a>
+    </div>
+<% end %>
 
 <table class="projects">
     <tr><th>Owner</th><th>Language</th><th>Project</th></tr>
@@ -11,5 +13,3 @@
         <td><%= ProjectsHelper.output :link, project %></td>
     </tr><% end %>
 </table>
-
-<% end %>
