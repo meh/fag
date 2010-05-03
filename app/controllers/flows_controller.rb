@@ -23,8 +23,7 @@ class FlowsController < ApplicationController
             params[:expression] = current_user.home_expression
         end
 
-        self.search
-        render 'search'
+        self.search; render 'search' rescue nil
     end
 
     def index
@@ -227,8 +226,6 @@ class FlowsController < ApplicationController
         flow = Flow.find(params[:id])
 
         if flow && current_user && current_user.modes[:can_delete_flows]
-            Drop.delete_all(['flow_id = ?', flow.id])
-            UsedTag.delete_all(['flow_id = ?', flow.id])
             flow.delete
         end
 

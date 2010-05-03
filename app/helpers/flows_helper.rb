@@ -31,8 +31,14 @@ module FlowsHelper
     def self.output_last_post (flow, template='#{at} #{by}')
         drop = flow.drops.last
 
-        at = drop.created_at
-        by = UsersHelper.output(:user, ApplicationHelper.user(drop))
+
+        at = nil
+        by = nil
+
+        if drop
+            at = drop.created_at
+            by = UsersHelper.output(:user, ApplicationHelper.user(drop))
+        end
 
         return templatify(template, binding)
     end
