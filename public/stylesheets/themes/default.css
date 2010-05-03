@@ -148,12 +148,12 @@ div.user_view {
 div#container div.manage {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     z-index: 23;
 
     padding: 3px;
 
-    border-right: 2px solid gray;
+    border-left: 2px solid gray;
     border-bottom: 2px solid gray;
 }
 
@@ -164,12 +164,12 @@ div#container div.manage a {
 div#container div.usage {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     z-index: 23;
 
     padding: 3px;
 
-    border-left: 2px solid gray;
+    border-right: 2px solid gray;
     border-bottom: 2px solid gray;
 }
 

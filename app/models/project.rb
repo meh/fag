@@ -7,6 +7,7 @@
 #  name       :string(255)
 #  language   :string(255)
 #  page       :text
+#  status     :string(255)
 #  user_id    :integer
 #  tag_id     :integer
 #  created_at :datetime

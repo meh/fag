@@ -116,7 +116,7 @@ class FlowsController < ApplicationController
                 return
             end
         else
-            @flows = Flow.all
+            @flows = Flow.find(:all, :order => 'updated_at DESC')
         end
     end
 
