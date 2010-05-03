@@ -1,3 +1,7 @@
+<% if !code %>
+    <span class="error">Code not found.</span>
+<% else %>
+
 <div class="code">
     <div class="language">
         <%= h SyntaxHighlighter.language(code.language, true) %>
@@ -27,3 +31,5 @@
         <td width="100%"><pre class="source"><%= source %></td></pre>
     </tr></table>
 </div>
+
+<% end %>

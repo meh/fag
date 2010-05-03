@@ -117,11 +117,19 @@ class FlowsController < ApplicationController
             end
         else
             @flows = Flow.find(:all, :order => 'updated_at DESC')
+
+            if @flows.empty?
+                render :text => "I'm so empty ;_;", :layout => 'application'
+            end
         end
     end
 
     def show
         @flow = Flow.find(params[:id])
+
+        if !@flow
+            render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+        end
     end
 
     def new
@@ -174,6 +182,12 @@ class FlowsController < ApplicationController
     def edit
         if current_user && current_user.modes[:can_edit_flows]
             @flow  = Flow.find(params[:id])
+
+            if !@flow
+                render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+                return
+            end
+
             @title = "Flow.edit #{@flow.title}"
         else
             render :text => "<span class='error'>You can't edit flows, faggot.</span>", :layout => 'application'

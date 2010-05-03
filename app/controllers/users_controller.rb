@@ -25,9 +25,15 @@ class UsersController < ApplicationController
 
     def show
         if params[:id].match(/^\d+$/)
-            @user = User.find(params[:id])
+            @user = User.find(params[:id]) rescue nil
         else
-            @user = User.find_by_name(params[:id])
+            @user = User.find_by_name(params[:id]) rescue nil
+        end
+
+        if !@user
+            render :text => "<span class='error'>User not found.</span>", :layout => 'application'
+            return
+
         end
 
         @title = "User : #{@user.name}"
@@ -89,7 +95,7 @@ class UsersController < ApplicationController
         if current_user.id == @user.id || current_user.modes[:can_edit_users]
             @title = "User.edit #{@user.name}"
         else
-            render :text => "You can't edit other user's data :("
+            render :text => "<span class='error'>You can't edit other user's data :(</span>", :layout => 'application'
         end
     end
 
@@ -150,7 +156,7 @@ class UsersController < ApplicationController
         user = User.find(params[:id])
 
         if current_user.id != user.id && !current_user.modes[:can_change_user_password]
-            render :text => "You can't change other users' passwords."
+            render :text => "<span class='error'>You can't change other users' passwords.</span>", :layout => 'application'
             return
         end
 
@@ -176,7 +182,7 @@ class UsersController < ApplicationController
         user = User.find(params[:id])
 
         if current_user.id != user.id && !current_user.modes[:can_delete_users]
-            render :text => "You can't delete other users :("
+            render :text => "<span class='error'>You can't delete other users :(</span>", :layout => 'application'
             return
         end
 

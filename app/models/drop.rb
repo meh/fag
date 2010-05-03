@@ -54,8 +54,6 @@ class Drop < ActiveRecord::Base
             content.gsub!(/#{Regexp.escape(match[0])}/, "< #{CodesHelper.path(code)}")
         }
 
-        content.gsub!(/^<\s*(http:\/\/#{Regexp.escape(DOMAIN)}[^\s]*)?\/code(s)?\/(\d+)$/, '< /codes/\3')
-
         return content
     end
 end
