@@ -31,7 +31,14 @@
     <h3>What is this shit? There are no sections!</h3><br/>
     <p>
         This board is all about floats, there are no sections because sections are a static and deprecated
-        way of sorting threads
+        way of sorting threads.
+    </p>
+    <br/>
+    <h3>What are these floats you talk about?</h3><br/>
+    <p>
+        They're simply tags, meta-sections, they have to be downcase and can have two syntaxes, <i>tag</i> and <i>"tag with spaces"</i>.<br/>
+        <br/>
+        Remember to use floats that are related to the flow or your chance to get answers become less.
     </p>
     <br/>
 
@@ -54,19 +61,21 @@ code
     </p>
 
     <h3>What are the languages supported by the syntax highlighter?</h3><br/>
-    Consider that syntaxes aren't hard linked to the language you set while posting, this means that you can use the name of an unsupported language and when the syntax will get implemented the sources will be properly highlighted.<br/>
-    <br/>
-    Here's a list of currently implemented syntaxes anyway:<br/>
-    <br/>
-    <table>
-        <tr><th>Language</th><th>Regexes</th></tr>
-        <% SyntaxHighlighter.languages.each do |name, stuff| %>
-            <tr><td><%= h name %>&nbsp;</td><td>&nbsp;<%= h (stuff.class == Hash ? stuff[:regexes] : stuff).inspect %></td></tr>
-        <% end %>
-    </table>
+    <p>
+        Consider that syntaxes aren't hard linked to the language you set while posting, this means that you can use the name of an unsupported language and when the syntax will get implemented the sources will be properly highlighted.
+        <br/>
+        Here's a list of currently implemented syntaxes anyway:<br/>
+        <br/>
+        <table>
+            <tr><th>Language</th><th>Regexes</th></tr>
+            <% SyntaxHighlighter.languages.each do |name, stuff| %>
+                <tr><td><%= h name %>&nbsp;</td><td>&nbsp;<%= h (stuff.class == Hash ? stuff[:regexes] : stuff).inspect %></td></tr>
+            <% end %>
+        </table>
+    </p>
     <br/>
     <h3>What about links if there's no BBCode?</h3></br>
-    <br/>
+    <p>
     All URIs are transformed into <strong>&lt;a&gt;</strong> tags anyway, but if you want to use a specific text for your link the syntax is the following:<br/>
     <pre>
 
@@ -74,11 +83,29 @@ code
 
 </pre>
     It can be whatever protocol you like, just remember to put a protocol at the beginning or it won't be recognized.<br/>
+    </p>
     <br/>
     <h3>And what about bold, italic and the other text modifier?</h3><br/>
-    You won't get those, ever. Period.<br/>
+    <p>
+        You won't get those, ever. Period.
+        </p>
+        <br/>
+        If you need to underline something just use some underscores or aterisks and all will go well.
+    </p>
     <br/>
-    If you need to underline something just use some underscores or aterisks and all will go well.
+    <h3>How does the search function work?</h3><br/>
+    <p>
+        You simply use boolean expressions with float names as variables, for example
+        `(python || ruby || c || c++) && application && !php` would give you a list of flows that
+        evaluated true to that expression.
+    </p>
+    <br/>
+    <h3>What is "Home (search shown as homepage)"?</h3><br/>
+    <p>
+        You can set there a search expression and it will be shown whene visiting the website home, it can be
+        useful to strip floats that you're not interested in, for example `!random` would drop offtopic flows :)
+    </p>
+    <br/>
 </div>
 
 </div>
