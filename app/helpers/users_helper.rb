@@ -50,7 +50,7 @@ module UsersHelper
 
     def self.output_user (user)
         if user.is_a?(User)
-            return "<a href='/users/#{ERB::Util.h user.id}'>#{ERB::Util.h user.name}</a>"
+            return "<a class='user' href='/users/#{ERB::Util.h user.id}'>#{ERB::Util.h user.name}</a>"
         else
             return user || 'Anonymous'
         end

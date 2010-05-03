@@ -132,6 +132,10 @@ div.about {
 
 /* User */
 
+a.user {
+    color: blue;
+}
+
 form.user {
     text-align: justify;
 }
@@ -337,16 +341,10 @@ div#container div.flow div.drop a.manage {
 
 div#container div.flow div.drop div.user {
     border-bottom: 2px solid gray;
-    color: blue;
 }
 
 div#container div.flow div.drop div.user {
     border-bottom: 2px solid gray;
-    color: blue;
-}
-
-div#container div.flow div.drop div.user a {
-    color: blue;
 }
 
 div#container div.flow div.drop div.user * {

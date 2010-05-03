@@ -85,7 +85,14 @@ class ProjectsController < ApplicationController
     end
 
     def edit
+        @project = Project.find_by_name(params[:id])
 
+        if !@project
+            render :text => "<span class='error'>Project not found.</span>", :layout => 'application'
+            return
+        end
+
+        @title = "Project.edit :#{@project.name}"
     end
 
     def update

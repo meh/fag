@@ -68,8 +68,8 @@ module FlowsHelper
         content.gsub!('"', '&quot;')
         content.gsub!("\n", '<br/>')
 
-        content.scan(%r{^(&lt; /codes/(\d+)(<br/>)?)}).uniq.each {|match|
-            content.gsub!(/#{Regexp.escape(match[0])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[1]), :inDrop => true }).strip)
+        content.scan(%r{(\G|<br/>)(&lt; /codes/(\d+)(<br/>)?)}).uniq.each {|match|
+            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => 'codes/show', :locals => { :code => Code.find(match[2]), :inDrop => true }).strip)
         }
 
         URI.extract(content).uniq.each {|uri|
