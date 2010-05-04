@@ -31,10 +31,22 @@ class CodesController < ApplicationController
     def show
         @code = Code.find(params[:id])
 
+        if !@code
+            render :text => "<span class='error'>Code not found.</span>", :layout => 'application'
+            return
+        end
+
         @title = "Code [#{SyntaxHighlighter.language(@code.language, true)}]"
     end
 
     def raw
+        @code = Code.find(params[:id])
+
+        if !@code
+            render :text => "Code not found.", :status => 404
+            return
+        end
+
         render :text => Code.find(params[:id]).content, :content_type => 'text/plain', :layout => false
     end
 
@@ -64,5 +76,20 @@ class CodesController < ApplicationController
         code.save
 
         redirect_to "/codes/#{code.id}"
+    end
+
+    def delete
+        if !current_user || !current_user.modes[:can_delete_codes]
+            render :text => "<span class='error'>You can't delete codes.</span>", :layout => 'application'
+            return
+        end
+
+        code = Code.find(params[:id])
+
+        if code
+            code.delete
+        end
+
+        redirect_to root_path
     end
 end
