@@ -200,7 +200,7 @@ class UsersController < ApplicationController
             project.save
         }
 
-        user.delete
+        user.destroy
 
         redirect_to root_path
     end

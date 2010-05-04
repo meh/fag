@@ -231,7 +231,7 @@ class FlowsController < ApplicationController
         flow = Flow.find(params[:id]) rescue nil
 
         if flow && current_user && current_user.modes[:can_delete_flows]
-            flow.delete
+            flow.destroy
         end
 
         redirect_to '/ocean'

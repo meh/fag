@@ -40,7 +40,7 @@ require 'digest/sha2'
 class User < ActiveRecord::Base
     attr_accessible :name, :email, :stuff, :password, :theme, :home_expression
 
-    has_many :subscriptions, :autosave => true, :dependent => :destroy
+    has_many :subscriptions, :autosave => true, :dependent => :delete_all
 
     serialize :modes, Hash
 

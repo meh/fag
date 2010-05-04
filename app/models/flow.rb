@@ -32,8 +32,8 @@
 class Flow < ActiveRecord::Base
     attr_accessible :closed, :title
 
-    has_many :drops,     :autosave => true, :dependent => :destroy
-    has_many :used_tags, :autosave => true, :dependent => :destroy
+    has_many :drops,     :autosave => true, :dependent => :delete_all
+    has_many :used_tags, :autosave => true, :dependent => :delete_all
 
     def add_tags (text, cap=2000)
         once = false
