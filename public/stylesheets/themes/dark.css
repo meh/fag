@@ -33,6 +33,10 @@ input, textarea {
     font-family: Terminus, Courier New;
 }
 
+textarea {
+    width: 99%;
+}
+
 div.separator {
     display: inline;
     border-left: 2px solid darkred;
