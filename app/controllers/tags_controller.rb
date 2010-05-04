@@ -23,8 +23,12 @@ class TagsController < ApplicationController
     end
 
     def create
-        tag = Tag.new(params[:tag])
-        tag.save
+        if !current_user || !current_user.modes[:can_create_tags]
+            render :text => "<span class='error'>You can't create tags.</span>", :layout => 'application'
+            return
+        end
+
+        tag = Tag.create(params[:tag])
 
         redirect_to root_path
     end
@@ -46,6 +50,11 @@ class TagsController < ApplicationController
     end
 
     def update
+        if !current_user || !current_user.modes[:can_edit_tags]
+            render :text => "<span class='error'>You can't edit tags.</span>", :layout => 'application'
+            return
+        end
+
         tag = Tag.find(params[:tag][:id])
 
         if tag

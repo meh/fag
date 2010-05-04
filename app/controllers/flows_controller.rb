@@ -124,7 +124,7 @@ class FlowsController < ApplicationController
     end
 
     def show
-        @flow = Flow.find(params[:id])
+        @flow = Flow.find(params[:id]) rescue nil
 
         if !@flow
             render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
@@ -189,7 +189,7 @@ class FlowsController < ApplicationController
 
     def edit
         if current_user && current_user.modes[:can_edit_flows]
-            @flow  = Flow.find(params[:id])
+            @flow  = Flow.find(params[:id]) rescue nil
 
             if !@flow
                 render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
@@ -211,7 +211,12 @@ class FlowsController < ApplicationController
             raise "You can't pass an empty title."
         end
 
-        flow = Flow.find(params[:id])
+        flow = Flow.find(params[:id]) rescue nil
+
+        if !flow
+            render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+            return
+        end
 
         UsedTag.delete_all(['flow_id = ?', flow.id])
 
@@ -223,7 +228,7 @@ class FlowsController < ApplicationController
     end
 
     def delete
-        flow = Flow.find(params[:id])
+        flow = Flow.find(params[:id]) rescue nil
 
         if flow && current_user && current_user.modes[:can_delete_flows]
             flow.delete
@@ -233,10 +238,16 @@ class FlowsController < ApplicationController
     end
 
     def stop
-        flow = Flow.find(params[:id])
+        flow = Flow.find(params[:id]) rescue
+
+        if !flow
+            render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+            return
+        end
 
         if !current_user || !current_user.modes[:can_stop_flows]
-            raise "You can't stop a flow."
+            render :text => "<span class='error'>You can't stop flows.</span>", :layout => 'application'
+            return
         end
 
         flow.stopped = true
@@ -246,10 +257,16 @@ class FlowsController < ApplicationController
     end
 
     def restart
-        flow = Flow.find(params[:id])
+        flow = Flow.find(params[:id]) rescue nil
+
+        if !flow
+            render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+            return
+        end
 
         if !current_user || !current_user.modes[:can_restart_flows]
-            raise "You can't stop a flow."
+            render :text => "<span class='error'>You can't restart flows.</span>", :layout => 'application'
+            return
         end
 
         flow.stopped = false
@@ -267,7 +284,12 @@ class FlowsController < ApplicationController
                 return
             end
 
-            @flow = Flow.find(params[:id])
+            @flow = Flow.find(params[:id]) rescue nil
+
+            if !@flow
+                render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+                return
+            end
 
             if @flow.stopped
                 render :text => "<span class='error'>You can't drop in a stopped flow.</span>", :layout => 'application'
@@ -275,7 +297,12 @@ class FlowsController < ApplicationController
             end
 
         when 'create'
-            flow = Flow.find(params[:flow])
+            flow = Flow.find(params[:flow]) rescue nil
+
+            if !flow
+                render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+                return
+            end
 
             if flow.stopped
                 render :text => "<span class='error'>You can't drop in a stopped flow.</span>", :layout => 'application'
@@ -309,7 +336,12 @@ class FlowsController < ApplicationController
             end
 
         when 'delete'
-            drop = Drop.find(params[:id])
+            drop = Drop.find(params[:id]) rescue nil
+
+            if !drop
+                render :text => "<span class='error'>Drop not found.</span>", :layout => 'application'
+                return
+            end
 
             if current_user && current_user.modes[:can_delete_drops]
                 Drop.delete(params[:id])
@@ -341,7 +373,12 @@ class FlowsController < ApplicationController
 
     def subscribe
         if current_user
-            flow = Flow.find(params[:id])
+            flow = Flow.find(params[:id]) rescue nil
+
+            if !flow
+                render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+                return
+            end
 
             current_user.subscribe(flow)
         end
@@ -352,7 +389,12 @@ class FlowsController < ApplicationController
     def unsubscribe
         if current_user
             flow = Flow.find(params[:id])
-            
+
+            if !flow
+                render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
+                return
+            end
+
             current_user.unsubscribe(flow)
         end
 

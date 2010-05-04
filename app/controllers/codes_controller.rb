@@ -29,7 +29,7 @@ class CodesController < ApplicationController
     end
 
     def show
-        @code = Code.find(params[:id])
+        @code = Code.find(params[:id]) rescue nil
 
         if !@code
             render :text => "<span class='error'>Code not found.</span>", :layout => 'application'
@@ -40,7 +40,7 @@ class CodesController < ApplicationController
     end
 
     def raw
-        @code = Code.find(params[:id])
+        @code = Code.find(params[:id]) rescue nil
 
         if !@code
             render :text => "Code not found.", :status => 404
@@ -84,7 +84,7 @@ class CodesController < ApplicationController
             return
         end
 
-        code = Code.find(params[:id])
+        code = Code.find(params[:id]) rescue nil
 
         if code
             code.delete

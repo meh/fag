@@ -112,7 +112,8 @@ class UsersController < ApplicationController
         end
 
         if current_user.id != user.id && !current_user.modes[:can_edit_users]
-            raise "You cannot edit other users' data."
+            render :text => "<span class='error'>You can't edit other user's data :(</span>", :layout => 'application'
+            return
         end
 
         if !params[:user][:email].empty? && !params[:user][:email].match(/[\w\.]+@[\w\.]+\.\w{2,6}/)

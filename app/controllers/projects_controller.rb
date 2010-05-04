@@ -30,9 +30,9 @@ class ProjectsController < ApplicationController
 
     def show
         if params[:id].match(/^\d+$/)
-            @project = Project.find(params[:id])
+            @project = Project.find(params[:id]) rescue nil
         else
-            @project = Project.find_by_name(params[:id])
+            @project = Project.find_by_name(params[:id]) rescue nil
         end
 
         if !@project
@@ -88,7 +88,7 @@ class ProjectsController < ApplicationController
     end
 
     def edit
-        @project = Project.find_by_name(params[:id])
+        @project = Project.find_by_name(params[:id]) rescue nil
 
         if !@project
             render :text => "<span class='error'>Project not found.</span>", :layout => 'application'
@@ -99,7 +99,7 @@ class ProjectsController < ApplicationController
     end
 
     def update
-        project = Project.find(params[:project][:id])
+        project = Project.find(params[:project][:id]) rescue nil
 
         if !project
             render :text => "<span class='error'>Project not found.</span>", :layout => 'application'
@@ -116,9 +116,17 @@ class ProjectsController < ApplicationController
                 project.name = params[:project][:name]
             end
 
-            if !params[:project][:tag].empty? && project.tag.name != params[:project][:tag].downcase
-                project.tag.name = params[:project][:tag].downcase
-                project.tag.save
+            if !params[:project][:tag].empty?
+                params[:project][:tag].downcase!
+
+                if project.tag.name != params[:project][:tag]
+                    if tag = Tag.find_by_name(params[:project][:tag])
+                        UsedTag.update_all({ :tag_id => project.tag.id }, ['tag_id = ?', tag.id])
+                    end
+
+                    project.tag.name = params[:project][:tag]
+                    project.tag.save
+                end
             end
 
             if !params[:project][:user].empty? && project.user.name != params[:project][:user]
@@ -151,7 +159,7 @@ class ProjectsController < ApplicationController
     end
 
     def delete
-        project = Project.find(params[:id])
+        project = Project.find(params[:id]) rescue nil
 
         if project
             project.tag.type = 'normal'
