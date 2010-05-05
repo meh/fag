@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
         if thing.is_a?(User)
             return "<a class='user' href='/users/#{ERB::Util.h thing.id}'>#{ERB::Util.h thing.name}</a>"
         else
-            return user || 'Anonymous'
+            return thing || 'Anonymous'
         end
     end
 end
