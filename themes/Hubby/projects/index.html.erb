@@ -8,8 +8,8 @@
     <tr><th>Owner</th><th>Language</th><th>Project</th></tr>
     
     <% @projects.each do |project| %><tr/>
-        <td><%= UsersHelper.output :user, project.user %></td>
+        <td><%= project.user.output :self %></td>
         <td><%= h project.language %></td>
-        <td><%= ProjectsHelper.output :link, project %></td>
+        <td><%= project.output :link %></td>
     </tr><% end %>
 </table>

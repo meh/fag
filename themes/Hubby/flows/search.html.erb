@@ -12,9 +12,9 @@
         <tr><th>Last Drop At</th><th>Last Drop By</th><th>Floats</th><th>Flow</th></tr>
 
         <% @flows.each do |flow| %><tr>
-            <%= FlowsHelper.output :last_post, flow, '<td>#{at}</td><td>#{by}</td>' %>
-            <td><%= FlowsHelper.output :tags, flow %></td>
-            <td><%= FlowsHelper.output :link, flow %></td>
+            <%= flow.output :last_post, '<td>#{at}</td><td>#{by}</td>' %>
+            <td><%= flow.output :tags %></td>
+            <td><%= flow.output :link %></td>
         </tr><% end %>
     </table>
 <% end %>

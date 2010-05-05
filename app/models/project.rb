@@ -38,4 +38,12 @@ class Project < ActiveRecord::Base
 
     belongs_to :user
     belongs_to :tag
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_link
+        "<a class='project' href='/projects/#{ApplicationHelper.escape self.name}'>#{SyntaxHighlighter::Language.escape(self.name)}</a>"
+    end
 end

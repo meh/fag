@@ -19,7 +19,7 @@
 
 module ApplicationHelper
     def title
-        result = 'fag'
+        result = TITLE
 
         if @title
             result << " - #{@title}"
@@ -36,20 +36,8 @@ module ApplicationHelper
         }, { :selected => (user ? user.theme : 'default') }]
     end
 
-    def user (*args)
-        ApplicationHelper.user(*args)
-    end
-
     def escape (*args)
         ApplicationHelper.escape(*args)
-    end
-
-    def self.user (something)
-        if something.is_a?(String)
-            return something
-        else
-            return (something.user || something.name) rescue nil
-        end
     end
 
     def self.escape (string)

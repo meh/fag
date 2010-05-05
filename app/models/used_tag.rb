@@ -50,4 +50,12 @@ class UsedTag < ActiveRecord::Base
 
         return flows
     end
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_link (template='&quot;<a title="#{length} flows" href="#{url}" class="float #{type}">#{name}</a>&quot;')
+        self.tag.output :link, template
+    end
 end

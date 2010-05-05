@@ -27,11 +27,9 @@ class CreateLogs < ActiveRecord::Migration
 
             t.timestamps
         end
-
-        add_index :bans, :ip, :unique => true
     end
 
     def self.down
-        drop_table :bans
+        drop_table :logs
     end
 end

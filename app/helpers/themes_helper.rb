@@ -29,4 +29,12 @@ module ThemesHelper
 
         return theme
     end
-end
+
+    def theme_path (relative)
+        if relative
+            "../../themes/#{current_theme}"
+        else
+            "#{RAILS_ROOT}/themes/#{current_theme}"
+        end
+    end
+ end

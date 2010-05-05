@@ -8,9 +8,6 @@ class SessionsController < ApplicationController
         end
     end
 
-    def error
-    end
-
     def already_logged?
         if current_user
             flash.now[:error] = "You're already logged in."

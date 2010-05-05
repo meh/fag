@@ -31,11 +31,11 @@
 
 <div class="flow">
     <div class="title">
-        <%= FlowsHelper.output :title, @flow %>
+        <%= @flow.output :title %>
     </div>
 
     <div class="floats">
-        <%= FlowsHelper.output :tags, @flow %>
+        <% @flow.output :tags %>
     </div>
 
     <% @flow.drops.each do |drop| %><div class="drop">
@@ -47,12 +47,12 @@
             <% end %>
         </div>
 
-        <div class="user <%= UsersHelper.output :class, user(drop) %>">
+        <div class="user <%= 'anonymous' if User.get(drop).is_a?(String) %>">
             <%= gravatar_for drop.user if drop.user %>
-            <span class="name"><%= UsersHelper.output :user, user(drop) %></span>
+            <span class="name"><%= User.output :user, drop %></span>
         </div>
 
-        <div class="content"><%= FlowsHelper.output :content, drop %></div>
+        <div class="content"><%= drop.output :content %></div>
     </div><% end %>
 
     <% if !@flow.stopped %>

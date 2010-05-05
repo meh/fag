@@ -64,4 +64,25 @@ class Tag < ActiveRecord::Base
 
         return result.uniq
     end
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_url
+        if (name = self.name).match(/\s/)
+            name = %{"#{self.name}"}
+        end
+
+        return "/ocean/search/#{ApplicationHelper.escape name}"
+    end
+
+    def output_link (template='&quot;<a title="#{length} flows" href="#{url}" class="float #{type}">#{name}</a>&quot;')
+        type   = ERB::Util.h self.type
+        url    = ERB::Util.h self.output :url
+        name   = ERB::Util.h self.name
+        length = tag.length rescue 0
+
+        templatify(template, binding)
+    end
 end

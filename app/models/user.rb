@@ -44,6 +44,26 @@ class User < ActiveRecord::Base
 
     serialize :modes, Hash
 
+    def self.get (something)
+        if something.is_a?(User)
+            return something
+        elsif something.is_a?(String)
+            return something
+        else
+            return (something.user || something.name) rescue nil
+        end
+    end
+
+    def self.check_password (password, password_confirmation)
+        if password.length < 1
+            return "Min password length is 1."
+        elsif password.length > 50
+            return "Max password length is 50."
+        elsif password != password_confirmation
+            return "Password confirmation doesn't match the given password."
+        end
+    end
+
     def subscribe (flow)
         if !flow
             return
@@ -94,6 +114,28 @@ class User < ActiveRecord::Base
     def self.authenticate (name, password)
         if (user = find_by_name(name)) && user.password?(password)
             return user
+        end
+    end
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_self
+        "<a class='user' href='/users/#{ERB::Util.h self.id}'>#{ERB::Util.h self.name}</a>"
+    end
+
+    def self.output (what, *args)
+        User.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def self.output_user (thing)
+        thing = User.get(thing)
+
+        if thing.is_a?(User)
+            return "<a class='user' href='/users/#{ERB::Util.h thing.id}'>#{ERB::Util.h thing.name}</a>"
+        else
+            return user || 'Anonymous'
         end
     end
 end

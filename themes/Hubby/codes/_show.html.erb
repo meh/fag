@@ -5,7 +5,7 @@
 <div class="code">
     <div class="language">
         <%= h SyntaxHighlighter.language(code.language, true) %>
-        &lt;<%= CodesHelper.output :owner, code %>&gt;
+        &lt;<%= code.output :owner %>&gt;
 
         <% if (inDrop rescue false) %>
             (<a href='/codes/<%= code.id %>'>link</a>)

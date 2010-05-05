@@ -31,7 +31,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
+require 'uri'
+
 class Drop < ActiveRecord::Base
+    include ThemesHelper
+
     attr_accessible :name, :title, :content
 
     belongs_to :flow
@@ -51,7 +55,47 @@ class Drop < ActiveRecord::Base
 
             code.save
 
-            content.gsub!(/#{Regexp.escape(match[0])}/, "< #{CodesHelper.path(code)}")
+            content.gsub!(/#{Regexp.escape(match[0])}/, "< #{code.path}")
+        }
+
+        return content
+    end
+
+    def self.filter (content)
+        Drop.new.output :content, content
+    end
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_content (text=nil)
+        content = (text ? text : self.content).clone
+        
+        content.gsub!(/</, '&lt;')
+        content.gsub!(/>/, '&gt;')
+
+        content.scan(/("([^"]+)":(\w+:\/\/[^\s]+))/).uniq.each {|match|
+            if match[1].strip.empty?
+                next
+            end
+
+            content.gsub!(/#{Regexp.escape(match[0])}/, "<a href='#{SyntaxHighlighter::Language.escape(match[2])}' #{'target="_blank"' if !match[2].match(/http:\/\/#{Regexp.escape(DOMAIN)}/)}>#{SyntaxHighlighter::Language.escape(match[1])}</a>")
+        }
+
+        content.gsub!('"', '&quot;')
+        content.gsub!("\n", '<br/>')
+
+        content.scan(%r{(\G|<br/>)(&lt; (http://#{DOMAIN})?/code(s)?/(\d+)(<br/>)?)}).uniq.each {|match|
+            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => "#{theme_path true}/codes/show", :locals => { :code => Code.find(match[4]), :inself => true }).strip)
+        }
+
+        URI.extract(content).uniq.each {|uri|
+            if !uri.match(%r{^\w+://})
+                next
+            end
+
+            content.gsub!(/#{Regexp.escape(uri)}/, "<a href='#{SyntaxHighlighter::Language.escape(uri)}' #{'target="_blank"' if !uri.match(/http:\/\/#{Regexp.escape(DOMAIN)}/)}>#{SyntaxHighlighter::Language.escape(uri)}</a>")
         }
 
         return content

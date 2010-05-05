@@ -57,4 +57,53 @@ class Flow < ActiveRecord::Base
             self.add_tags('undefined')
         end
     end
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_link
+        "<a href='/ocean/flow/#{self.id}'>#{self.output :title}</a>"
+    end
+
+    def output_last_post (template='#{at} #{by}')
+        drop = self.drops.last
+
+        at = nil
+        by = nil
+
+        if drop
+            at = drop.created_at
+            by = User.output :user, drop
+        end
+
+        return templatify(template, binding)
+    end
+
+    def output_title
+        return ERB::Util.h self.title
+    end
+
+    def output_tags (wholeFormat=nil, tagFormat=nil)
+        wholeFormat ||= '#{tags}'
+        tagFormat   ||= '&quot;<a href="#{url}" class="float #{type}">#{name}</a>&quot;'
+
+        tags = String.new
+
+        self.used_tags.each {|tag|
+            tags << "#{tag.output :link, tagFormat} "
+        }
+
+        return templatify(wholeFormat, binding)
+    end
+
+    def get_tags
+        result = String.new
+
+        UsedTag.find(:all, :conditions => ['flow_id = ?', self.id], :include => :tag).each {|tag|
+            result << " \"#{tag.name}\""
+        }
+
+        return result[1, result.length]
+    end
 end

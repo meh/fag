@@ -23,7 +23,7 @@ class FlowsController < ApplicationController
             params[:expression] = current_user.home_expression
         end
 
-        self.search; render 'search' rescue nil
+        self.search; render 'search'
     end
 
     def index

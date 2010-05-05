@@ -25,34 +25,4 @@ module UsersHelper
             return { :value => 'Anonymous', :disabled => false }
         end
     end
-
-    def self.check_password (password, password_confirmation)
-        if password.length < 1
-            return "Min password length is 1."
-        elsif password.length > 50
-            return "Max password length is 50."
-        elsif password != password_confirmation
-            return "Password confirmation doesn't match the given password."
-        end
-    end
-
-    def self.output (what, *args)
-        UsersHelper.method("output_#{what.to_s}".to_sym).call(*args)
-    end
-
-    def self.output_class (user)
-        if user.is_a?(User)
-            return ERB::Util.h user.modes[:class].to_s
-        else
-            return 'anonymous'
-        end
-    end
-
-    def self.output_user (user)
-        if user.is_a?(User)
-            return "<a class='user' href='/users/#{ERB::Util.h user.id}'>#{ERB::Util.h user.name}</a>"
-        else
-            return user || 'Anonymous'
-        end
-    end
 end

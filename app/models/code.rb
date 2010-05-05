@@ -36,4 +36,26 @@ class Code < ActiveRecord::Base
     attr_accessible :private, :language, :content, :name
 
     belongs_to :user
+
+    def path
+        "/codes/#{self.id}" 
+    end
+
+    def output (what, *args)
+        self.method("output_#{what.to_s}".to_sym).call(*args)
+    end
+
+    def output_owner
+        "<span class='owner'>#{
+            User.output :user, User.get(self)
+        }</span>"
+    end
+
+    def output_last_code (template='')
+        at = self.created_at
+        by = User.output :user, User.get(self)
+
+        return templatify(template, binding)
+    end
+
 end
