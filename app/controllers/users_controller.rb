@@ -123,7 +123,7 @@ class UsersController < ApplicationController
             return
         end
 
-        user.email = params[:user][:email]
+        user.email = params[:user][:email].downcase
 
         if params[:user][:email_show].to_i == 1
             user.modes[:email_show] = true

@@ -1,5 +1,14 @@
-<% if current_user && current_user.modes[:can_delete_codes] %>
-    <div class="manage"><a href="/codes/delete/<%= @code.id %>">Delete</a></div>
+<% if current_user && (current_user.modes[:can_edit_codes] || current_user.modes[:can_delete_codes]) %>
+    <div class="manage">
+        <% if current_user.modes[:can_edit_codes] %>
+            <a href="/codes/edit/<%= @code.id %>">Edit</a>
+        <% end %>
+
+        <% if current_user.modes[:can_delete_codes] %>
+            <a href="/codes/delete/<%= @code.id %>">Delete</a>
+        <% end %>
+    </div>
+
     <br/><br/>
 <% end %>
 

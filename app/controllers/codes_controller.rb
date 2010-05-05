@@ -76,6 +76,31 @@ class CodesController < ApplicationController
         redirect_to "/codes/#{code.id}"
     end
 
+    def edit
+        if !current_user || !current_user.modes[:can_edit_codes]
+            render :text => "<span class='error'>You can't edit codes.</span>", :layout => 'application'
+            return
+        end
+
+        @code = Code.find(params[:id])
+
+        @title = "Code.edit #{@code.id}"
+    end
+
+    def update
+        if !current_user || !current_user.modes[:can_edit_codes]
+            render :text => "<span class='error'>You can't edit codes.</span>", :layout => 'application'
+            return
+        end
+
+        code = Code.find(params[:code][:id])
+
+        code.language = params[:code][:language]
+        code.save
+
+        redirect_to "/codes/#{code.id}"
+    end
+
     def delete
         if !current_user || !current_user.modes[:can_delete_codes]
             render :text => "<span class='error'>You can't delete codes.</span>", :layout => 'application'

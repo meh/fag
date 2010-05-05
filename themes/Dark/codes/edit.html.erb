@@ -1,0 +1,12 @@
+<% form_for(@code, :url => '/codes/update', :html => { :class => 'code' }) {|f| %>
+    <div class="field">
+        <div class="label"><%= f.label :language %></div>
+        <%= f.text_field :language %>
+    </div>
+
+    <input type="hidden" name="code[id]" value="<%= @code.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Edit' %>
+    </div>
+<% } %>

@@ -18,4 +18,20 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 class BansController < ActionController::Base
+    def index
+        @title = 'Ban.all'
+
+        @bans = Ban.find(:all, :order => 'created_at')
+    end
+
+    def new
+
+    end
+
+    def create
+
+    end
+
+    def delete
+    end
 end
