@@ -67,7 +67,7 @@ class UsersController < ApplicationController
             return
         end
 
-        if error = UsersHelper.check_password(params[:new_user][:password], params[:new_user][:password_confirmation])
+        if error = User.check_password(params[:new_user][:password], params[:new_user][:password_confirmation])
             flash.now[:error] = error
             self.new; render 'new'
             return
@@ -173,7 +173,7 @@ class UsersController < ApplicationController
             return
         end
 
-        if error = UsersHelper.check_password(params[:change][:new_password], params[:change][:new_password])
+        if error = User.check_password(params[:change][:new_password], params[:change][:new_password])
             flash.now[:error] = error
             params[:id] = user.id.to_s; self.edit; render 'edit'
             return
