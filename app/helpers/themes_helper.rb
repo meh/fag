@@ -21,6 +21,12 @@ module ThemesHelper
     include SessionsHelper
 
     def current_theme
-        current_user ? current_user.theme : 'default'
+        theme = current_user.theme rescue nil
+
+        if !theme || !File.exists?("#{RAILS_ROOT}/themes/#{theme}")
+            theme = 'default'
+        end
+
+        return theme
     end
 end
