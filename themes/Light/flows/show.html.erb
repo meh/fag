@@ -52,7 +52,7 @@
             <span class="name"><%= User.output :user, drop %></span>
         </div>
 
-        <div class="content"><%= drop.output :content %></div>
+        <div class="content"><%= filter_output(drop.content) %></div>
     </div><% end %>
 
     <% if !@flow.stopped %>

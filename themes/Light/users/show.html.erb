@@ -21,6 +21,6 @@
     </div>
 
     <% if !@user.stuff.empty? %>
-        <div class="stuff"><%= Drop.filter(@user.stuff) %></div>
+        <div class="stuff"><%= filter_output(@user.stuff) %></div>
     <% end %>
 </div>

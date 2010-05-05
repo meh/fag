@@ -4,15 +4,6 @@
     position: relative;
 }
 
-body
-{
-	margin:0;
-	padding:0;
-	background:#dfdfdf;
-	font-family:'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.8em;
-}
-
 a:link, a:visited, a:active {
     font-weight: bold;
     color: gray;
@@ -23,69 +14,58 @@ a:hover {
     color: black;
 }
 
-div#header {
-	background: #234;
-    border-bottom: 1px solid #345;
-	padding:7px 4% 7px;
-	padding: 3px;
-	width:100%;
-	text-align: center;
-    z-index: 7;
+body {
+    background: white;
+    color: black;
+    font-family: "Courier New";
+    font-size: 11px;
 }
 
-div#header a {
-	color: #DDD;
-	text-decoration: none;
-	font-weight: normal;
+form {
+    text-align: justify;
+}
+
+li {
+    margin-left: 23px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+input, textarea {
+    font-family: Terminus, Courier New;
+}
+
+div.separator {
+    display: inline;
+    border-left: 1px solid gray;
+    padding-bottom: 1px;
+    top: -1px;
+    margin: 0 6px;
 }
 
 div#navigation_menu {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;	
-	z-index: 100;
-	
-    background: #234;
-    border-bottom: 1px solid #345;
+    z-index: 23;
+
+    background: white;
+    border-right: 1px solid gray;
+    border-bottom: 1px solid gray;
     padding: 3px;
 }
 
-div#navigation_menu ul {
-	display: block;
+div#navigation_menu div.addition {
+    position: absolute;
+    top: 1px;
+    right: -50px;
 }
 
-div#navigation_menu ul li
-{
-	font-family:'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.8em;
-	float:left;
-}
-
-ul#nav_left {
-	list-style-type: none;
-	float:left;
-
-}
-
-ul#nav_center {
-	list-style-type: none;
-	left:280px;
-}
-
-ul#nav_right {
-	list-style-type: none;
-	float:right;	
-	padding-right: 20px;
-}
-
-div#navigation_menu ul li a {
+div#navigation_menu a {
     text-decoration: none;
-	font-weight: normal;
-	color: #DDD;
 }
-
-
 
 div#user_menu {
     position: fixed;
@@ -93,24 +73,20 @@ div#user_menu {
     right: 0;
     z-index: 23;
 
-    background: #234;
-    border-bottom: 1px solid #345;
-
+    background: white;
+    border-left: 1px solid gray;
+    border-bottom: 1px solid gray;
     padding: 3px;
 }
 
 div#user_menu div.addition {
     position: absolute;
-    top: 2px;
+    top: 1px;
     left: -70px;
-	background: #234;
-    border-bottom: 1px solid #345;
 }
 
 div#user_menu a {
     text-decoration: none;
-	font-weight: normal;
-	color: #DDD;
 }
 
 div#user_menu span.username {
@@ -121,33 +97,25 @@ div#user_menu span.username a {
     font-weight: normal;
 }
 
+div#header {
+    width: 100%;
+    height: 14px;
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    z-index: 7;
 
-form {
-    text-align: justify;
-}
+    padding-top: 1px;
 
-li {
-    margin-left: 23px;
-}
-
-input, textarea {
-    font-family: Terminus, Courier New;
-	border: 1px solid #AAA;
-}
-
-div.separator {
-    display: inline;
-    border-left: 2px solid gray;
-    padding-bottom: 2px;
-    top: -2px;
-    margin: 0 6px;
+    border-bottom: 1px solid gray;
 }
 
 div#container {
     width: 90%;
-    border: 2px solid rgb(204, 204, 204);
-	background: white;
-    margin: 42px auto;
+    border: 1px solid gray;
+    margin: 41px auto;
     padding: 5px;
     text-align: center;
 }
@@ -155,14 +123,15 @@ div#container {
 div#footer {
     width: 100%;
     height: 15px;
+    background: white;
     position: fixed;
     bottom: 0;
     left: 0;
     text-align: center;
-	font-size: 10px;
-    padding-top: 2px;	
 
-	background-color:#EEE;
+    padding-top: 1px;
+
+    border-top: 1px solid gray;
 }
 
 div#footer a {
@@ -172,13 +141,6 @@ div#footer a {
 div.about {
     text-align: justify;
 }
-
-div.about div {
-	font-weight: normal;
-	font-family: Terminus, Courier New, Monospace;
-	font-size:0.5em;
-}
-
 
 /* User */
 
@@ -203,6 +165,9 @@ div#container div.manage {
 
     padding: 3px;
 
+    border-left: 1px solid gray;
+    border-bottom: 1px solid gray;
+
     white-space: normal;
 }
 
@@ -217,6 +182,9 @@ div#container div.usage {
     z-index: 23;
 
     padding: 3px;
+
+    border-right: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
 
 div#container div.usage a {
@@ -371,15 +339,13 @@ div#container div.flow div.floats a {
 }
 
 div#container div.flow div.drop {
-    border: 1px solid;
+    border: 1px solid gray;
     margin-bottom: 3px;
-	padding: 4px;
     text-align: justify;
 }
 
 div#container div.flow div.drop div.timestamp {
-    color: gray;
-	font-size: 9px;
+    border-bottom: 1px solid gray;
 }
 
 div#container div.flow div.drop a.manage {
@@ -387,10 +353,15 @@ div#container div.flow div.drop a.manage {
     text-decoration: none;
     padding-right: 3px;
     padding-left: 5px;
+    border-left: 1px solid gray;
 }
 
 div#container div.flow div.drop div.user {
-    border-bottom: 1px dotted;
+    border-bottom: 1px solid gray;
+}
+
+div#container div.flow div.drop div.user {
+    border-bottom: 1px solid gray;
 }
 
 div#container div.flow div.drop div.user * {
@@ -469,12 +440,12 @@ div.project div.status {
 
     padding: 3px;
 
-    border-left: 2px solid gray;
-    border-bottom: 2px solid gray;
+    border-left: 1px solid gray;
+    border-bottom: 1px solid gray;
 
     white-space: normal;
 
-    font-size: 12px;
+    font-size: 11px;
     font-style: italic;
 }
 
@@ -484,7 +455,7 @@ div.project div.floats {
 }
 
 div.project div.owner {
-    border: 2px solid gray;
+    border: 1px solid gray;
     text-align: justify;
 }
 
@@ -497,7 +468,7 @@ div.project div.owner * {
 }
 
 div.project div.page {
-    border: 2px solid gray;
+    border: 1px solid gray;
     border-top: 0;
 
     padding: 5px;
@@ -513,7 +484,7 @@ span.error {
 }
 
 div.flash.error {
-    border: 2px solid red;
+    border: 1px solid red;
     background: #ffdddd;
     padding: 5px;
     margin-bottom: 15px;

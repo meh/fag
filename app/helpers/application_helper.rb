@@ -40,6 +40,38 @@ module ApplicationHelper
         ApplicationHelper.escape(*args)
     end
 
+    def filter_output (content)
+        content = content.clone
+        
+        content.gsub!(/</, '&lt;')
+        content.gsub!(/>/, '&gt;')
+
+        content.scan(/("([^"]+)":(\w+:\/\/[^\s]+))/).uniq.each {|match|
+            if match[1].strip.empty?
+                next
+            end
+
+            content.gsub!(/#{Regexp.escape(match[0])}/, "<a href='#{SyntaxHighlighter::Language.escape(match[2])}' #{'target="_blank"' if !match[2].match(/http:\/\/#{Regexp.escape(DOMAIN)}/)}>#{SyntaxHighlighter::Language.escape(match[1])}</a>")
+        }
+
+        content.gsub!('"', '&quot;')
+        content.gsub!("\n", '<br/>')
+
+        content.scan(%r{(\G|<br/>)(&lt; (http://#{DOMAIN})?/code(s)?/(\d+)(<br/>)?)}).uniq.each {|match|
+            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => "#{theme_path true}/codes/show", :locals => { :code => (Code.find(match[4]) rescue nil), :inself => true }).strip)
+        }
+
+        URI.extract(content).uniq.each {|uri|
+            if !uri.match(%r{^\w+://})
+                next
+            end
+
+            content.gsub!(/#{Regexp.escape(uri)}/, "<a href='#{SyntaxHighlighter::Language.escape(uri)}' #{'target="_blank"' if !uri.match(/http:\/\/#{Regexp.escape(DOMAIN)}/)}>#{SyntaxHighlighter::Language.escape(uri)}</a>")
+        }
+
+        return content
+    end
+
     def self.escape (string)
         string.gsub(/(.)/) {|match|
             "%#{match.ord.to_s(16)}"

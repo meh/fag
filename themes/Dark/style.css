@@ -4,123 +4,22 @@
     position: relative;
 }
 
-body
-{
-	margin:0;
-	padding:0;
-	background:#dfdfdf;
-	font-family:'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.8em;
-}
-
 a:link, a:visited, a:active {
     font-weight: bold;
-    color: gray;
+    color: silver;
 }
 
 a:hover {
     font-weight: bold;
-    color: black;
+    color: white;
 }
 
-div#header {
-	background: #234;
-    border-bottom: 1px solid #345;
-	padding:7px 4% 7px;
-	padding: 3px;
-	width:100%;
-	text-align: center;
-    z-index: 7;
+body {
+    background: black;
+    color: #dddddd;
+    font-family: "Courier New";
+    font-size: 11px;
 }
-
-div#header a {
-	color: #DDD;
-	text-decoration: none;
-	font-weight: normal;
-}
-
-div#navigation_menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;	
-	z-index: 100;
-	
-    background: #234;
-    border-bottom: 1px solid #345;
-    padding: 3px;
-}
-
-div#navigation_menu ul {
-	display: block;
-}
-
-div#navigation_menu ul li
-{
-	font-family:'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.8em;
-	float:left;
-}
-
-ul#nav_left {
-	list-style-type: none;
-	float:left;
-
-}
-
-ul#nav_center {
-	list-style-type: none;
-	left:280px;
-}
-
-ul#nav_right {
-	list-style-type: none;
-	float:right;	
-	padding-right: 20px;
-}
-
-div#navigation_menu ul li a {
-    text-decoration: none;
-	font-weight: normal;
-	color: #DDD;
-}
-
-
-
-div#user_menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 23;
-
-    background: #234;
-    border-bottom: 1px solid #345;
-
-    padding: 3px;
-}
-
-div#user_menu div.addition {
-    position: absolute;
-    top: 2px;
-    left: -70px;
-	background: #234;
-    border-bottom: 1px solid #345;
-}
-
-div#user_menu a {
-    text-decoration: none;
-	font-weight: normal;
-	color: #DDD;
-}
-
-div#user_menu span.username {
-}
-
-div#user_menu span.username a {
-    text-decoration: none;
-    font-weight: normal;
-}
-
 
 form {
     text-align: justify;
@@ -132,22 +31,91 @@ li {
 
 input, textarea {
     font-family: Terminus, Courier New;
-	border: 1px solid #AAA;
+}
+
+textarea {
+    width: 99%;
 }
 
 div.separator {
     display: inline;
-    border-left: 2px solid gray;
-    padding-bottom: 2px;
-    top: -2px;
+    border-left: 1px solid darkred;
+    padding-bottom: 1px;
+    top: -1px;
     margin: 0 6px;
+}
+
+div#navigation_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 23;
+
+    background: black;
+    border-right: 1px solid darkred;
+    border-bottom: 1px solid darkred;
+    padding: 3px;
+}
+
+div#navigation_menu div.addition {
+    position: absolute;
+    top: 1px;
+    right: -50px;
+}
+
+div#navigation_menu a {
+    text-decoration: none;
+}
+
+div#user_menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 23;
+
+    background: black;
+    border-left: 1px solid darkred;
+    border-bottom: 1px solid darkred;
+    padding: 3px;
+}
+
+div#user_menu div.addition {
+    position: absolute;
+    top: 1px;
+    left: -70px;
+}
+
+div#user_menu a {
+    text-decoration: none;
+}
+
+div#user_menu span.username {
+}
+
+div#user_menu span.username a {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+div#header {
+    width: 100%;
+    height: 14px;
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    z-index: 7;
+
+    padding-top: 1px;
+
+    border-bottom: 1px solid darkred;
 }
 
 div#container {
     width: 90%;
-    border: 2px solid rgb(204, 204, 204);
-	background: white;
-    margin: 42px auto;
+    border: 1px solid darkred;
+    margin: 41px auto;
     padding: 5px;
     text-align: center;
 }
@@ -155,14 +123,15 @@ div#container {
 div#footer {
     width: 100%;
     height: 15px;
+    background: black;
     position: fixed;
     bottom: 0;
     left: 0;
     text-align: center;
-	font-size: 10px;
-    padding-top: 2px;	
 
-	background-color:#EEE;
+    padding-top: 1px;
+
+    border-top: 1px solid darkred;
 }
 
 div#footer a {
@@ -173,17 +142,10 @@ div.about {
     text-align: justify;
 }
 
-div.about div {
-	font-weight: normal;
-	font-family: Terminus, Courier New, Monospace;
-	font-size:0.5em;
-}
-
-
 /* User */
 
 a.user {
-    color: blue;
+    color: red;
 }
 
 form.user {
@@ -203,6 +165,9 @@ div#container div.manage {
 
     padding: 3px;
 
+    border-left: 1px solid darkred;
+    border-bottom: 1px solid darkred;
+
     white-space: normal;
 }
 
@@ -217,6 +182,9 @@ div#container div.usage {
     z-index: 23;
 
     padding: 3px;
+
+    border-right: 1px solid darkred;
+    border-bottom: 1px solid darkred;
 }
 
 div#container div.usage a {
@@ -239,7 +207,7 @@ div.user_view div.data p {
 }
 
 div.user_view div.stuff {
-    border: 1px solid gray;
+    border: 1px solid darkred;
     padding: 5px;
     white-space: pre-wrap;
     text-align: justify;
@@ -292,7 +260,7 @@ div.ocean {
     width: 95%;
     padding: 5px;
     margin: 10px auto;
-    border: 1px solid gray;
+    border: 1px solid darkred;
     text-align: justify;
 }
 
@@ -371,15 +339,13 @@ div#container div.flow div.floats a {
 }
 
 div#container div.flow div.drop {
-    border: 1px solid;
+    border: 1px solid darkred;
     margin-bottom: 3px;
-	padding: 4px;
     text-align: justify;
 }
 
 div#container div.flow div.drop div.timestamp {
-    color: gray;
-	font-size: 9px;
+    border-bottom: 1px solid darkred;
 }
 
 div#container div.flow div.drop a.manage {
@@ -387,10 +353,15 @@ div#container div.flow div.drop a.manage {
     text-decoration: none;
     padding-right: 3px;
     padding-left: 5px;
+    border-left: 1px solid darkred;
 }
 
 div#container div.flow div.drop div.user {
-    border-bottom: 1px dotted;
+    border-bottom: 1px solid darkred;
+}
+
+div#container div.flow div.drop div.user {
+    border-bottom: 1px solid darkred;
 }
 
 div#container div.flow div.drop div.user * {
@@ -423,7 +394,7 @@ table.flows {
 
 table.flows td {
     padding: 3px 5px;
-    border: 1px solid gray;
+    border: 1px solid darkred;
     text-align: center;
 }
 
@@ -443,7 +414,7 @@ table.projects {
 
 table.projects td {
     padding: 3px 5px;
-    border: 1px solid gray;
+    border: 1px solid darkred;
     text-align: center;
 }
 
@@ -469,12 +440,12 @@ div.project div.status {
 
     padding: 3px;
 
-    border-left: 2px solid gray;
-    border-bottom: 2px solid gray;
+    border-left: 1px solid darkred;
+    border-bottom: 1px solid darkred;
 
     white-space: normal;
 
-    font-size: 12px;
+    font-size: 11px;
     font-style: italic;
 }
 
@@ -484,12 +455,12 @@ div.project div.floats {
 }
 
 div.project div.owner {
-    border: 2px solid gray;
+    border: 1px solid darkred;
     text-align: justify;
 }
 
 div.project div.owner a {
-    color: blue;
+    color: red;
 }
 
 div.project div.owner * {
@@ -497,7 +468,7 @@ div.project div.owner * {
 }
 
 div.project div.page {
-    border: 2px solid gray;
+    border: 1px solid darkred;
     border-top: 0;
 
     padding: 5px;
@@ -513,7 +484,7 @@ span.error {
 }
 
 div.flash.error {
-    border: 2px solid red;
+    border: 1px solid red;
     background: #ffdddd;
     padding: 5px;
     margin-bottom: 15px;
@@ -535,13 +506,13 @@ div.codepost {
 
 div.code {
     font-family: Terminus, Courier New, Monospace;
-    border: 1px solid gray;
+    border: 1px solid darkred;
     white-space: normal;
     text-align: justify;
 }
 
 div.code div.language {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid darkred;
     padding-left: 5px;
     font-weight: bold;
 }
@@ -557,7 +528,7 @@ div.code pre {
 
 div.code pre.lines {
     padding: 0.5em 0.5em;
-    border-right: 1px solid gray;
+    border-right: 1px solid darkred;
 }
 
 div.code pre.source {
@@ -574,7 +545,7 @@ table.codes {
 
 table.codes td {
     padding: 3px 5px;
-    border: 1px solid gray;
+    border: 1px solid darkred;
     text-align: center;
 }
 
@@ -633,7 +604,7 @@ pre.source span.symbol {
 }
 
 pre.source span.ruby.parameters {
-    color: blue;
+    color: lightblue;
 }
 
 pre.source span.gas.keyword {
@@ -645,7 +616,7 @@ pre.source span.gas.section {
 }
 
 pre.source span.gas.label {
-    color: blue;
+    color: lightblue;
 }
 
 pre.source span.gas.register {
@@ -653,7 +624,7 @@ pre.source span.gas.register {
 }
 
 pre.source span.gas.constant {
-    color: blue;
+    color: lightblue;
 }
 
 pre.source span.c.char {
