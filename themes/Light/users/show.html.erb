@@ -1,0 +1,26 @@
+<% if current_user && (current_user.modes[:can_edit_users] || current_user.modes[:can_delete_users]) %>
+    <div class="manage">
+        <% if current_user.modes[:can_edit_users] %>
+            <a href="/users/edit/<%= @user.id %>">Edit</a>
+        <% end %>
+
+        <% if current_user.modes[:can_delete_users] %>
+            <a href="/users/delete/<%= @user.id %>" onclick="return confirm('Are you sure?')">Delete</a>
+        <% end %>
+    </div>
+<% end %>
+
+<div class="user_view">
+    <div class="data">
+        <div class="avatar"><%= gravatar_for @user %></div>
+
+        <p>
+            <%= @user.name %><br/>
+            <%= @user.email if @user.modes[:email_show] || (current_user && (@user.id == current_user.id || current_user.modes[:can_see])) %>
+        </p>
+    </div>
+
+    <% if !@user.stuff.empty? %>
+        <div class="stuff"><%= FlowsHelper.output :content, @user.stuff %></div>
+    <% end %>
+</div>

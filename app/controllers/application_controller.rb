@@ -19,15 +19,38 @@
 
 class ApplicationController < ActionController::Base
     helper :all
-    include SessionsHelper
+    include ThemesHelper
 
     protect_from_forgery
 
     filter_parameter_logging :password
 
-  protected
-    def render_optional_error_file (status_code)
-        status = interpret_status(status_code)
-        render :template => "/errors/#{status[0,3]}.html.erb", :status => status, :layout => 'application.html.erb'
+    before_filter [:ban_hammer, :set_theme, :log_last_actions]
+
+    layout :theme_layout
+
+    private
+
+    def ban_hammer
+        ip = request.remote_ip
+
+        Ban.all.each {|ban|
+            if ip.match(Regexp.new(ban.ip.gsub('*', '.*?').gsub('?', '.')))
+                render :text => '/me uses BANHAMER on you'
+                return false
+            end
+        }
+    end
+
+    def set_theme
+        self.prepend_view_path("themes/#{current_theme}")
+    end
+
+    def theme_layout
+        "#{RAILS_ROOT}/themes/#{current_theme}/layouts/application.html.erb"
+    end
+
+    def log_last_actions
+        
     end
 end

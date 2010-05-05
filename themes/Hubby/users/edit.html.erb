@@ -1,0 +1,73 @@
+<% form_for(@user, :html => { :class => 'user' }) do |f| %>
+    <%= f.error_messages %>
+
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name, :disabled => !current_user.modes[:can_change_user_name] %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :email %></div>
+        <%= f.text_field :email %> <%= f.check_box :email_show, :checked => @user.modes[:email_show] %>
+        Show email address
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :stuff %></div>
+        <%= f.text_area :stuff, :rows => 8 %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :theme %></div>
+        <%= f.select :theme, *get_styles(@user) %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label 'Home' %> (search shown as homepage)</div>
+        <%= f.text_field :home_expression %>
+    </div>
+
+    <% if current_user.modes[:can_change_modes] %>
+        <div class="field">
+            <div class="lable"><%= f.label :modes %></div>
+            <%= f.text_area :modes, :rows => 8 %>
+        </div>
+    <% end %>
+    
+    <div class="actions">
+        <%= f.submit 'Edit' %>
+    </div>
+<% end %>
+
+<br/><br/>
+
+<% form_for(:change, :url => '/users/change_password') do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :old_password, 'Old Password' %></div>
+        <%= f.password_field :old_password %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :new_password, 'New Password' %></div>
+        <%= f.password_field :new_password %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :new_password_confirmation, 'New Password Confirmation' %></div>
+        <%= f.password_field :new_password_confirmation %>
+    </div>
+
+    <input type="hidden" name="id" value="<%= @user.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Change Password' %>
+    </div>
+<% end %>
+
+<% form_for(:delete, :url => '/users/delete', :html => { :style => 'position: absolute; top: 5px; right: 5px;' }) do |f| %>
+    <input type="hidden" name="id" value="<%= @user.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Delete Account', :onclick => 'return confirm("By doing this your account will get baleeted for all eternity and will not be back, ever.")' %>
+    </div>
+<% end %>

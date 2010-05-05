@@ -1,0 +1,76 @@
+<h1 style="text-align:center;">Fag, man! !man fag</h1>
+
+<div class="text">
+<p>Se è la primissima volta per voi con fag, questo documento può esservi utile a capire come funziona.</p>
+<h2>+ Intro +</h2>
+<p>Questo sito è stato ideato a causa della mancanza di una piattaforma decente per programmatori che cercano collaborazoine nella community. Limitatamente all'ambito della programmazione, è all-purpose, potete parlare di tutto, ad esempio:
+<ul>
+    <li>Problemi specifici di implementazione</li>
+    <li>Revisione di codici</li>
+    <li>Discussioni su algoritmi e design patterns</li>
+    <li>Discussioni su linguaggi, specifiche e standards</li>
+    <li>Discussioni sulla programmazione su piattaforme specifiche</li>
+    <li>Discussioni su specifici framework</li>
+</ul>
+Inoltre, supportiamo i progetti proposti dalla community, vedere il paragrafo in merito per i dettagli.</p>
+<p>
+Il sistema è decisamente diverso da quello a cui potreste essere abituati (forums o news group):
+il vecchio sistema delle sezioni per ogni linguaggio (ormai uno standard per i forum che trattano la programmazione) mi è sempre sembrato poco orientato alla discussione sullo sviluppo di progetti di una entità superiore al banale, e a discussioni generiche sull'implementazinoe delle cose, favorendo solo discussioni specifiche per linguaggio (che non devono certo mancare, ma nemmeno essere l'unica opzione a disposizione).</p>
+<p>Per questi motivi, ritengo che questo template sia poco produttivo e non così utile per una community orientata alla programmazione, e trovando in meh la stessa impressione, abbiamo optato per questa nuova modalità, dove tutto è molto più dinamico e flessibile: il sistema Flows and Floats.
+</p>
+
+<h2>+ Flows +</h2>
+<p>In fag non esistono sezioni. La cosa che più si avvicina ai thread dei forum, ed alle discussioni nei news group, sono i flow. Flussi di messaggi, composti da drops (gocce, le singole risposte) che tengono attivo e continuo lo scorrere del flusso.</p> 
+<p>Per aprire un nuovo flow, cliccate su "Start flowing" in alto (nel tema di default), vi verrà chiesto il titolo del flow, i float (vedi sotto), e l'opzione di scegliere il proprio nome se non avete effettuato il login.
+Potete seguire un flow cliccando follow (angolo del flow alto-sinistra, sul tema di default), i flow che inseguite ve li ritroverete nella pagina following, comodo se avete un flow che vi interessa particolarmente.</p>
+<p>All'interno di una drop (una risposta, come suddetto) è possibile inserire del codice in due modi:</p>
+<h3>Inline</h3>
+<p>Semplicemente con questa sintassi:</p>
+<pre>
+--- lang ---
+code
+code
+code
+----
+</pre>
+<p>Il codice "code" verrà propriamente higlightato con la sintassi del linguaggio lang. Nota: se la sintassi per tale linguaggio non è ancora stata implementata non temete, quando lo sarà il vostro codice sarà automaticamente colorato.
+</h3>
+<h3>Reference</h3>
+Una seconda opzione è usare dei reference, ovvero inserire nella reply del codice presente da qualche altra parte. Per il momento, l'unico pastebin abilitato per il reference nei drop di fag è quello di fag stesso, che trovate cliccando "Codes", nel menù di navigazione.<br />
+Nella pagina codes, cliccate su paste code e inserite i vostri dati. Una volta fatto, prendete l'url della pagina con il costro code e inseritela nel drop dove volete referenziare il codice con questa sintassi:</p>
+<pre>
+< link_alla_pagina
+</pre>
+<p>E avrete vinto.</p>
+
+<p>Trovate i linguaggi supportati e le regex relative al linguaggio (per sapere cosa inserire per far capire a fag di cosa parlate) nelle <a href="http://code.thruhere.net/about">faq</a>.
+</p>
+
+<h2>+ Floats +</h2>
+<p>Come già detto, in fag non esistono sezioni. È possibile, in un certo senso, crearsi le proprie meta-sezioni al volo usando i floats, che sono dei tag attribuibili ai flow. Nell'oceano (la pagina Ocean, una sorta di tag cloud) potete vedere quelli che sono tutt'ora in uso, in ordine prima di priorità, poi di numero di utilizzi e in ultimo in ordine alfabetico.<br />
+La priorità dei float serve per fare ordine e per restringere l'accesso a determinati float (non tutti possono aprire un flow con float "announcement", che corrisponde ad un annuncio), il numero preciso di flow che utilizzano un float è nel title del link (lo vedete lasciando il puntatore sul nome del float, normalmente).</p>
+<p>I float devono essere usati per identificare il contenuto di un flow, se ad esempio io avessi bisogno di aiuto con una libreria C++ che dovrebbe fornire un'interfaccia per il parsing XML, dovrei iniziare un flow con questi parametri:
+<pre>Title: Libreria per parsare XML
+Floats: C++ XML "XML library" parsing issue
+</pre>
+<p>Praticamente, indico che uso il linguaggio C++, lavoro con gli XML, sto lavorando ad una libreria che lavora con gli XML, devo parsare qualcosa, e ho un problema da risolvere.<br />
+È molto importante specificare i float giusti e specificarne a sufficienza, e per float giusti non s'intende soltanto che rappresentino bene il contenuto, ma che vanno seguiti gli standard di nomenclatura per rappresentare qualcosa.<br />
+Per spiegarmi meglio, se avete un problema con un sorgente non mettete il float "problem", ma "issue", dimodoché non ci sia ridondanza. Guardate sempre l'ocean per vedere quali float usare e se esistono già, prima di aggiungerne altri. Allo stesso modo, se ho un problema con rails, non uso "Ruby on rails" o "RoR", perchè qualcun'altro l'ha già identificato con "rails", quindi anch'io uso "rails". Chiaro no?<br />
+NOTA BENE: è necessario usare l'inglese per i float, sempre per lo stesso motivo.<br />
+RINOTA BENE: come si vede dall'esempio, se un float contiene più di una parola, mettetelo tra virgolette.<br/>
+I mod sono presenti sopratutto per questo, ma tentate di non farli lavorare troppo.</p>
+<p>Tutto questo, ovviamente, è il metodo di suddivisione di fag, alternativo alle sezioni. Cliccando su un float vengono mostrati tutti i flow contenenti quello stesso float. È possibile effettuare delle ricerche chiedendo a fag di creare, appunto, le nostre meta sezioni.<br />
+Nell'ocean esiste un campo search, dove è possibile inserire dei float collegati da espressioni booleane. Se ad esempio io volessi tutti i flow dove è richiesto aiuto, con il php e con zend framework, cercherò qualcosa del genere:</p>
+<pre>
+php &amp;&amp; zend &amp;&amp; issue
+</pre>
+<p>Cliccando search, vedrò tutti i flow conenenti tutti quei floats.<br />
+Se invece volessi tutti i flow che parlano di C++, ma non m'interessa la roba di windows né la piattaforma .net, farò una ricerca del genere:</p>
+<pre>
+!(windows || .net) &amp;&amp;  C++
+</pre>
+<p>Sbizzarritevi quanto vi pare.</p>
+<p>C'è un uso molto importante dei pattern di ricerca dei float, ovvero la costruzione della home personalizzata per ogni utente.</p>
+
+<h2>+ Home (search shown as homepage) +</h2>
+</div>

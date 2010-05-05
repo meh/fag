@@ -1,0 +1,61 @@
+<% if current_user %>
+    <div class="usage">
+        <% if current_user.subscribed? @flow %>
+            <a href="/flows/unfollow/<%= @flow.id %>">Unfollow</a>
+        <% else %>
+            <a href="/flows/follow/<%= @flow.id %>">Follow</a>
+        <% end %>
+    </div>
+<% end %>
+
+<% if current_user && (current_user.modes[:can_edit_flows] || current_user.modes[:can_delete_flows]) %>
+    <div class="manage">
+        
+        <% if !@flow.stopped && current_user.modes[:can_stop_flows] %>
+            <a href="/flows/stop/<%= @flow.id %>">Stop</a>
+        <% end %>
+
+        <% if @flow.stopped && current_user.modes[:can_restart_flows] %>
+            <a href="/flows/restart/<%= @flow.id %>">Restart</a>
+        <% end %>
+
+        <% if current_user.modes[:can_edit_flows] %>
+            <a href="/flows/edit/<%= @flow.id %>">Edit</a>
+        <% end %>
+
+        <% if current_user.modes[:can_delete_flows] %>
+            <a href="/flows/delete/<%= @flow.id %>" onclick="return confirm('Are you sure?')">Delete</a>
+        <% end %>
+    </div>
+<% end %>
+
+<div class="flow">
+    <div class="title">
+        <%= FlowsHelper.output :title, @flow %>
+    </div>
+
+    <div class="floats">
+        <%= FlowsHelper.output :tags, @flow %>
+    </div>
+
+    <% @flow.drops.each do |drop| %><div class="drop">
+        <div class="timestamp">
+            <%= drop.created_at %>
+
+            <% if current_user && current_user.modes[:can_delete_drops] %>
+                <a class="manage" href="/flows/drop/delete/<%= drop.id %>" onclick="return confirm('Are you sure?');">Delete</a>
+            <% end %>
+        </div>
+
+        <div class="user <%= UsersHelper.output :class, user(drop) %>">
+            <%= gravatar_for drop.user if drop.user %>
+            <span class="name"><%= UsersHelper.output :user, user(drop) %></span>
+        </div>
+
+        <div class="content"><%= FlowsHelper.output :content, drop %></div>
+    </div><% end %>
+
+    <% if !@flow.stopped %>
+        <div class="reply right"><a class="reply" href="/flows/drop/new/<%= @flow.id %>">Reply</a></div>
+    <% end %>
+</div>

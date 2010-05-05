@@ -1,0 +1,661 @@
+* {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+body
+{
+	margin:0;
+	padding:0;
+	background:#dfdfdf;
+	font-family:'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+	font-size:0.8em;
+}
+
+a:link, a:visited, a:active {
+    font-weight: bold;
+    color: gray;
+}
+
+a:hover {
+    font-weight: bold;
+    color: black;
+}
+
+div#header {
+	background: #234;
+    border-bottom: 1px solid #345;
+	padding:7px 4% 7px;
+	padding: 3px;
+	width:100%;
+	text-align: center;
+    z-index: 7;
+}
+
+div#header a {
+	color: #DDD;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+div#navigation_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;	
+	z-index: 100;
+	
+    background: #234;
+    border-bottom: 1px solid #345;
+    padding: 3px;
+}
+
+div#navigation_menu ul {
+	display: block;
+}
+
+div#navigation_menu ul li
+{
+	font-family:'Lucida Grande', Verdana, Arial, Helvetica, sans-serif;
+	font-size:0.8em;
+	float:left;
+}
+
+ul#nav_left {
+	list-style-type: none;
+	float:left;
+
+}
+
+ul#nav_center {
+	list-style-type: none;
+	left:280px;
+}
+
+ul#nav_right {
+	list-style-type: none;
+	float:right;	
+	padding-right: 20px;
+}
+
+div#navigation_menu ul li a {
+    text-decoration: none;
+	font-weight: normal;
+	color: #DDD;
+}
+
+
+
+div#user_menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 23;
+
+    background: #234;
+    border-bottom: 1px solid #345;
+
+    padding: 3px;
+}
+
+div#user_menu div.addition {
+    position: absolute;
+    top: 2px;
+    left: -70px;
+	background: #234;
+    border-bottom: 1px solid #345;
+}
+
+div#user_menu a {
+    text-decoration: none;
+	font-weight: normal;
+	color: #DDD;
+}
+
+div#user_menu span.username {
+}
+
+div#user_menu span.username a {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+
+form {
+    text-align: justify;
+}
+
+li {
+    margin-left: 23px;
+}
+
+input, textarea {
+    font-family: Terminus, Courier New;
+	border: 1px solid #AAA;
+}
+
+div.separator {
+    display: inline;
+    border-left: 2px solid gray;
+    padding-bottom: 2px;
+    top: -2px;
+    margin: 0 6px;
+}
+
+div#container {
+    width: 90%;
+    border: 2px solid rgb(204, 204, 204);
+	background: white;
+    margin: 42px auto;
+    padding: 5px;
+    text-align: center;
+}
+
+div#footer {
+    width: 100%;
+    height: 15px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+	font-size: 10px;
+    padding-top: 2px;	
+
+	background-color:#EEE;
+}
+
+div#footer a {
+    text-decoration: none;
+}
+
+div.about {
+    text-align: justify;
+}
+
+div.about div {
+	font-weight: normal;
+	font-family: Terminus, Courier New, Monospace;
+	font-size:0.5em;
+}
+
+
+/* User */
+
+a.user {
+    color: blue;
+}
+
+form.user {
+    text-align: justify;
+}
+
+div.user_view {
+    width: 500px;
+    margin: 10px auto;
+}
+
+div#container div.manage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 23;
+
+    padding: 3px;
+
+    white-space: normal;
+}
+
+div#container div.manage a {
+    text-decoration: none;
+}
+
+div#container div.usage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 23;
+
+    padding: 3px;
+}
+
+div#container div.usage a {
+    text-decoration: none;
+}
+
+div.user_view div.data {
+    height: 70px;
+    text-align: justify;
+}
+
+div.user_view div.data div.avatar {
+    float: left;
+    margin-right: 10px;
+}
+
+div.user_view div.data p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+div.user_view div.stuff {
+    border: 1px solid gray;
+    padding: 5px;
+    white-space: pre-wrap;
+    text-align: justify;
+}
+
+/* Forms */
+
+div.field {
+    margin-bottom: 7px;
+}
+
+div.field div.label {
+}
+
+div.field select {
+    padding-right: 5px;
+}
+
+div.field textarea.source {
+    width: 99%;
+    margin: 0 auto;
+}
+
+/* Random */
+
+div.text {
+    text-align: justify;
+}
+
+div.right {
+    width: 100%;
+    text-align: right;
+}
+
+/* Floats */
+
+.float.project {
+    color: green;
+}
+
+.float.announcement {
+    color: red;
+    font-weight: 1000;
+    font-style: italic;
+}
+
+/* Ocean */
+
+div.ocean {
+    width: 95%;
+    padding: 5px;
+    margin: 10px auto;
+    border: 1px solid gray;
+    text-align: justify;
+}
+
+.nube1 {
+    font-size: 1.0em;
+}
+
+.nube2 {
+    font-size: 1.2em;
+}
+
+.nube3 {
+    font-size: 1.4em;
+}
+
+.nube4 {
+    font-size: 1.6em;
+}
+
+.nube5 {
+    font-size: 1.8em;
+}
+
+.nube6 {
+    font-size: 2.0em;
+}
+
+form.search {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+form.search.alone {
+    width: 100%;
+    position: static;
+}
+
+form.search.alone input[type=submit] {
+    width: 8%;
+    float: right;
+}
+
+form.search.alone input[type=text] {
+    width: 90%;
+}
+
+/* Flow */
+
+form.flow {
+    text-align: justify;
+}
+
+form.flow textarea {
+    width: 99%;
+}
+
+div#container div.flow {
+
+}
+
+div#container div.flow div.title {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+div#container div.flow div.floats {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+div#container div.flow div.floats a {
+    text-decoration: none;
+}
+
+div#container div.flow div.drop {
+    border: 1px solid;
+    margin-bottom: 3px;
+	padding: 4px;
+    text-align: justify;
+}
+
+div#container div.flow div.drop div.timestamp {
+    color: gray;
+	font-size: 9px;
+}
+
+div#container div.flow div.drop a.manage {
+    float: right;
+    text-decoration: none;
+    padding-right: 3px;
+    padding-left: 5px;
+}
+
+div#container div.flow div.drop div.user {
+    border-bottom: 1px dotted;
+}
+
+div#container div.flow div.drop div.user * {
+    vertical-align: middle;
+}
+
+div#container div.flow div.drop div.user.anonymous {
+    color: #666666;
+}
+
+div#container div.flow div.drop div.content {
+    padding: 3px;
+    white-space: pre-wrap;
+    overflow: auto;
+}
+
+div#container div.flow div.reply {
+}
+
+div#container div.flow a.reply {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Tag */
+
+table.flows {
+    margin: 0 auto;
+}
+
+table.flows td {
+    padding: 3px 5px;
+    border: 1px solid gray;
+    text-align: center;
+}
+
+table.flows a {
+    text-decoration: none;
+}
+
+/* Projects */
+
+form.project {
+    text-align: justify;
+}
+
+table.projects {
+    margin: 0 auto;
+}
+
+table.projects td {
+    padding: 3px 5px;
+    border: 1px solid gray;
+    text-align: center;
+}
+
+table.projects a {
+    text-decoration: none;
+}
+
+div.project {
+}
+
+div.project div.name {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+div.project div.status {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    z-index: 23;
+
+    padding: 3px;
+
+    border-left: 2px solid gray;
+    border-bottom: 2px solid gray;
+
+    white-space: normal;
+
+    font-size: 12px;
+    font-style: italic;
+}
+
+div.project div.floats {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+div.project div.owner {
+    border: 2px solid gray;
+    text-align: justify;
+}
+
+div.project div.owner a {
+    color: blue;
+}
+
+div.project div.owner * {
+    vertical-align: middle;
+}
+
+div.project div.page {
+    border: 2px solid gray;
+    border-top: 0;
+
+    padding: 5px;
+    white-space: pre-wrap;
+    text-align: justify;
+}
+
+/* Errors */
+
+span.error {
+    color: red;
+    font-weight: bold;
+}
+
+div.flash.error {
+    border: 2px solid red;
+    background: #ffdddd;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+/* Code */
+
+form.code {
+    text-align: justify;
+}
+
+form.code textarea {
+    width: 99%;
+}
+
+div.codepost {
+    text-align: center;
+}
+
+div.code {
+    font-family: Terminus, Courier New, Monospace;
+    border: 1px solid gray;
+    white-space: normal;
+    text-align: justify;
+}
+
+div.code div.language {
+    border-bottom: 1px solid gray;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+div.code div.language div.at {
+    float: right;
+    margin-right: 3px;
+}
+
+div.code pre {
+    line-height: 1.4em;
+}
+
+div.code pre.lines {
+    padding: 0.5em 0.5em;
+    border-right: 1px solid gray;
+}
+
+div.code pre.source {
+    padding: 5px;
+    overflow: auto;
+}
+
+div.code pre.source .line {
+}
+
+table.codes {
+    margin: 0 auto;
+}
+
+table.codes td {
+    padding: 3px 5px;
+    border: 1px solid gray;
+    text-align: center;
+}
+
+table.codes a {
+    text-decoration: none;
+}
+
+/* Languages */
+
+pre.source span.comment {
+    color: gray;
+}
+
+pre.source span.comment * {
+    color: gray !important;
+}
+
+pre.source span.preprocessor {
+    color: green;
+}
+    
+pre.source span.preprocessor * {
+    color: green !important;
+}
+
+pre.source span.string {
+    color: red;
+}
+
+pre.source span.string * {
+    color: red !important;
+}
+
+pre.source span.keyword {
+    color: orange;
+}
+
+pre.source span.type {
+    color: red;
+}
+
+pre.source span.function {
+    color: green;
+}
+
+pre.source span.variable {
+    color: green;
+}
+
+pre.source span.constant {
+    color: purple;
+}
+
+pre.source span.symbol {
+    color: orange;
+}
+
+pre.source span.ruby.parameters {
+    color: blue;
+}
+
+pre.source span.gas.keyword {
+    color: green;
+}
+
+pre.source span.gas.section {
+    color: orange;
+}
+
+pre.source span.gas.label {
+    color: blue;
+}
+
+pre.source span.gas.register {
+    color: purple;
+}
+
+pre.source span.gas.constant {
+    color: blue;
+}
+
+pre.source span.c.char {
+    color: orange;
+}

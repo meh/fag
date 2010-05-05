@@ -1,0 +1,20 @@
+<center>
+
+<h2>Following</h2>
+<br/>
+
+<% if @flows.empty? %>
+    You're not a good follower, aren't you?
+<% else %>
+    <table class="flows">
+        <tr><th>Last Drop At</th><th>Last Drop By</th><th>Floats</th><th>Flow</th></tr>
+
+        <% @flows.each do |flow| %><tr>
+            <%= FlowsHelper.output :last_post, flow, '<td>#{at}</td><td>#{by}</td>' %>
+            <td><%= FlowsHelper.output :tags, flow %></td>
+            <td><%= FlowsHelper.output :link, flow %></td>
+        </tr><% end %>
+    </table>
+<% end %>
+
+</center>

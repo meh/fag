@@ -1,0 +1,13 @@
+<div class="project">
+    <div class="name"><%= h @project.name %></div>
+    
+    <% if @project.status %>
+        <div class="status"><%= h @project.status %></div>
+    <% end %>
+
+    <div class="floats"><%= TagsHelper.output :link, @project.tag %></div>
+
+    <div class="owner"><%= gravatar_for @project.user %> <%= UsersHelper.output :user, @project.user %></div>
+
+    <div class="page"><% if current_user && (current_user == @project.user || current_user.modes[:can_edit_projects]) %><div class="manage"><a href="/projects/edit/<%= escape @project.name %>">Edit</a><% if current_user.modes[:can_delete_projects] %> <a href="/projects/delete/<%= @project.id %>">Delete</a><% end %></div><% end %><%= FlowsHelper.output :content, @project.page %></div>
+</div>

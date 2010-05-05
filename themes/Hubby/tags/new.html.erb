@@ -1,0 +1,20 @@
+<% form_for(:tag, :url => '/tags/create') do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :type %></div>
+        <%= f.text_field :type, :value => 'normal' %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :priority %></div>
+        <%= f.text_field :priority, :value => '9001' %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Edit' %>
+    </div>
+<% end %>

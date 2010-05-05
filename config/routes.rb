@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
     map.root :controller => 'flows', :action => 'home'
 
+    map.connect 'stylesheets/theme.css', :controller => 'themes', :action => 'css'
+
     map.connect 'ocean',                    :controller => 'flows'
     map.connect 'ocean/new/flow',           :controller => 'flows', :action => 'new'
     map.connect 'ocean/new/flow/:tag',      :controller => 'flows', :action => 'new'
@@ -23,10 +25,12 @@ ActionController::Routing::Routes.draw do |map|
     map.connect 'logout',   :controller => 'sessions', :action => 'destroy'
 
     map.connect 'about', :controller => 'pages', :action => 'about'
+    map.connect 'intro', :controller => 'pages', :action => 'intro'
     map.connect 'rules', :controller => 'pages', :action => 'rules'
 
     map.resources :users
     map.resources :sessions, :only => [:new, :create, :destroy]
+    map.resources :bans
     map.resources :flows
     map.resources :tags
     map.resources :codes

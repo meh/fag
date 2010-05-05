@@ -1,0 +1,25 @@
+<% form_for(:drop, :url => '/flows/create', :html => { :class => 'flow' }) do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :title %></div>
+        <%= f.text_field :title %>
+    </div>
+    
+    <div class="field">
+        <div class="label"><%= f.label :floats %></div>
+        <%= f.text_field :floats, :value => @tag %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name, text_field_options %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :content %></div>
+        <%= f.text_area :content %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Drop' %>
+    </div>
+<% end %>

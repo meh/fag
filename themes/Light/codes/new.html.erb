@@ -1,0 +1,24 @@
+<% form_for(:code, :url => '/codes/create', :html => { :class => 'code' }) do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name, text_field_options %>
+    </div>
+
+    <br/>
+
+    <div class="field">
+        <div class="label"><%= f.label :language %></div>
+        <%= f.text_field :language %>
+    </div>
+
+    <br/>
+
+    <div class="field">
+        <div class="label"><%= f.label :source %></div>
+        <%= f.text_area :source, :class => 'source' %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Paste' %>
+    </div>
+<% end %>

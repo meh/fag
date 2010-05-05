@@ -1,0 +1,35 @@
+<% if !code %>
+    <span class="error">Code not found.</span>
+<% else %>
+
+<div class="code">
+    <div class="language">
+        <%= h SyntaxHighlighter.language(code.language, true) %>
+        &lt;<%= CodesHelper.output :owner, code %>&gt;
+
+        <% if (inDrop rescue false) %>
+            (<a href='/codes/<%= code.id %>'>link</a>)
+        <% end %>
+
+        [<a href='/codes/<%= code.id %>.raw'>raw</a>]
+
+        <div class="at"><%= code.created_at %></div>
+    </div>
+
+    <%
+        source = SyntaxHighlighter.new(code.language).highlight(code.content)
+        lines  = String.new
+
+        1.upto(source.count("\n")+1) {|line|
+            lines << "<span rel='#line.#{line}.#{code.id}'>#{line}</span>\n"
+        }
+    %>
+
+    <table class="code" cellpadding="0" cellspacing="0"><tr>
+        <td class="lines"><pre class="lines"><%= lines %></pre></td>
+
+        <td width="100%"><pre class="source"><%= source %></td></pre>
+    </tr></table>
+</div>
+
+<% end %>

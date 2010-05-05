@@ -29,6 +29,10 @@ li {
     margin-left: 23px;
 }
 
+p {
+    margin: 10px 0;
+}
+
 input, textarea {
     font-family: Terminus, Courier New;
 }

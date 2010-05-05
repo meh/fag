@@ -1,0 +1,7 @@
+<center>
+<% form_for(:flow, :url => '/ocean/search', :html => { :method => 'get', :class => 'search alone' }) do |f| %>
+    <%= f.text_field :expression, :name => 'expression' %>
+
+    <input type="submit" value="Search"/>
+<% end %>
+</center>

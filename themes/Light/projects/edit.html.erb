@@ -1,0 +1,39 @@
+<% form_for(@project, :url => '/projects/update') do |f| %>
+    <% if current_user && current_user.modes[:can_edit_projects] %>
+        <div class="field">
+            <div class="label"><%= f.label :name %></div>
+            <%= f.text_field :name %>
+        </div>
+    
+        <div class="field">
+            <div class="label"><%= f.label :tag, 'Float' %></div>
+            <%= f.text_field :tag, :value => @project.tag.name %>
+        </div>
+    
+        <div class="field">
+            <div class="label"><%= f.label :user, 'Owner' %></div>
+            <%= f.text_field :user, :value => @project.user.name %>
+        </div>
+    <% end %>
+
+    <div class="field">
+        <div class="label"><%= f.label :language %></div>
+        <%= f.text_field :language %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :status %></div>
+        <%= f.text_field :status %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :page %></div>
+        <%= f.text_area :page %>
+    </div>
+
+    <input type="hidden" name="project[id]" value="<%= @project.id %>"/>
+
+    <div class="actions">
+        <%= f.submit 'Edit' %>
+    </div>
+<% end %>

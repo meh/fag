@@ -1,0 +1,8 @@
+<div class="users">
+    <% @users.each do |user| %>
+        <div class="user">
+            <div class="avatar"><%= gravatar_for user %></div>
+            <div class="name"><%= user.name %></div>
+        </div>
+    <% end %>
+</div>

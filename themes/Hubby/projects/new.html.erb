@@ -1,0 +1,20 @@
+<% form_for(:project, :url => '/projects/create', :html => { :class => 'project' }) do |f| %>
+    <div class="field">
+        <div class="label"><%= f.label :name %></div>
+        <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :tag, 'Float' %></div>
+        <%= f.text_field :tag %>
+    </div>
+
+    <div class="field">
+        <div class="label"><%= f.label :user, 'Owner' %></div>
+        <%= f.text_field :user %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit 'Create' %>
+    </div>
+<% end %>
