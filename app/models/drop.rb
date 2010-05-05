@@ -87,7 +87,7 @@ class Drop < ActiveRecord::Base
         content.gsub!("\n", '<br/>')
 
         content.scan(%r{(\G|<br/>)(&lt; (http://#{DOMAIN})?/code(s)?/(\d+)(<br/>)?)}).uniq.each {|match|
-            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => "#{theme_path true}/codes/show", :locals => { :code => Code.find(match[4]), :inself => true }).strip)
+            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => "#{theme_path true}/codes/show", :locals => { :code => (Code.find(match[4]) rescue nil), :inself => true }).strip)
         }
 
         URI.extract(content).uniq.each {|uri|

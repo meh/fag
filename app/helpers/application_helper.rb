@@ -19,7 +19,7 @@
 
 module ApplicationHelper
     def title
-        result = TITLE
+        result = TITLE.clone
 
         if @title
             result << " - #{@title}"
