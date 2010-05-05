@@ -6,7 +6,7 @@
 
     <div class="field">
         <div class="label"><%= f.label :floats, 'Floats' %></div>
-        <%= f.text_field :floats, :value => TagsHelper.get_tags(@flow) %>
+        <%= f.text_field :floats, :value => @flow.get_tags %>
     </div>
 
     <input type="hidden" name="id" value="<%= @flow.id %>"/>

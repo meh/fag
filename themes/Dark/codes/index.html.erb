@@ -5,9 +5,9 @@
 <table class="codes">
     <tr><th>Pasted At</th><th>Pasted By</th><th>Language</th><th>Code</th></tr>
     <% @codes.each do |code| %><tr>
-        <%= CodesHelper.output :last_code, code, '<td>#{at}</td><td>#{by}</td>' %>
+        <%= code.output :last_code, '<td>#{at}</td><td>#{by}</td>' %>
         <td><%= SyntaxHighlighter.language(code.language, true) %></td>
-        <td><a href="<%= CodesHelper.path(code) %>">&lt; /codes/<%= code.id %></a></td>
+        <td><a href="<%= code.path %>">&lt; /codes/<%= code.id %></a></td>
     </tr><% end %>
 </table>
 
