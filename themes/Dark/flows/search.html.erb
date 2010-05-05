@@ -1,3 +1,7 @@
+<% if @flows.empty? %>
+    I'm so empty ;_;
+<% else %>
+
 <% if @search %>
     <h2><%= @search %></h2>
 <% else %>
@@ -17,4 +21,6 @@
             <td><%= flow.output :link %></td>
         </tr><% end %>
     </table>
+<% end %>
+
 <% end %>

@@ -23,7 +23,11 @@ class FlowsController < ApplicationController
             params[:expression] = current_user.home_expression
         end
 
-        self.search; render 'search'
+        begin
+            self.search; render 'search'
+        rescue Exception
+            render :text => '<span class="error">Something went wrong :(</span>', :layout => 'application'
+        end
     end
 
     def index
@@ -116,10 +120,6 @@ class FlowsController < ApplicationController
             end
         else
             @flows = Flow.find(:all, :order => 'updated_at DESC')
-
-            if @flows.empty?
-                render :text => "I'm so empty ;_;", :layout => 'application'
-            end
         end
     end
 

@@ -10,7 +10,7 @@ config.action_controller.perform_caching             = true
 config.action_view.cache_template_loading            = true
 
 # See everything in the log (default is :info)
- config.log_level = :error
+config.log_level = :fatal
 
 # Use a different logger for distributed setups
 # config.logger = SyslogLogger.new
