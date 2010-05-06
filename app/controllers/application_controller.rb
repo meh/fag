@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_theme
-        self.prepend_view_path("themes/#{current_theme}")
+        self.prepend_view_path("#{RAILS_ROOT}/themes/#{current_theme}")
     end
 
     def theme_layout
