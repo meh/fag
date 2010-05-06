@@ -26,13 +26,13 @@ class Language
 class Cpp < Language
     def initialize (content, options={})
         @regexes = {
-            /^(\s*)(#.*)$/ => lambda {|match| "#{$1}<span class='cpp preprocessor'>#{Language.escape($2)}</span>"},
+            /^(\s*)(#.*)$/ => lambda {|match| "#{$1}<span class='cpp preprocessor'>#{Language.escape(match)}</span>"},
 
-            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='cpp string'>#{Language.escape($1)}</span>"},
-            /('(\\.|[^\\'])')/ => lambda {|match| "<span class='cpp char'>#{Language.escape($1)}</span>"},
+            /("([^\\"]|\\.)*")/m => lambda {|match| "<span class='cpp string'>#{Language.escape(match)}</span>"},
+            /('(\\.|[^\\'])')/ => lambda {|match| "<span class='cpp char'>#{Language.escape(match)}</span>"},
 
-            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='cpp comment'>#{Language.escape($1)}</span>"},
-            /(\/\/.*)$/ => lambda {|match| "<span class='cpp comment'>#{Language.escape($1)}</span>"},
+            /(\/\*.*?\*\/)/m => lambda {|match| "<span class='cpp comment'>#{Language.escape(match)}</span>"},
+            /(\/\/.*)$/ => lambda {|match| "<span class='cpp comment'>#{Language.escape(match)}</span>"},
 
             Cpp.keywords([
                 'extern', 'const', 'static', 'inline', 'volatile', 'register', 'auto', 'signed', 'unsigned',
@@ -142,7 +142,7 @@ class Cpp < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\))(#{keywords[1, keywords.length]})(\(|\)|\*|\s|$)/
+        return /(\s|\G|[(){}])(#{keywords[1, keywords.length]})([{()}]|\*|\s|$)/
     end
 
     def self.types (value)
