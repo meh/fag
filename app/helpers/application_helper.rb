@@ -58,7 +58,7 @@ module ApplicationHelper
         content.gsub!("\n", '<br/>')
 
         content.scan(%r{(\G|<br/>)(&lt; (http://#{DOMAIN})?/code(s)?/(\d+)(<br/>)?)}).uniq.each {|match|
-            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => "#{theme_path}/codes/show.html.erb", :locals => { :code => (Code.find(match[5]) rescue nil), :inself => true }).strip)
+            content.gsub!(/#{Regexp.escape(match[1])}/, ActionView::Base.new(Rails::Configuration.new.view_path).render(:partial => "#{theme_path}/codes/show.html.erb", :locals => { :code => (Code.find(match[4]) rescue nil), :inself => true }).strip)
         }
 
         URI.extract(content).uniq.each {|uri|
