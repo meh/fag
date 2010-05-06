@@ -40,16 +40,16 @@ class Language
             if regex.is_a?(Array)
                 regex.each {|re|
                     if replace.class == Proc
-                        result.gsub!(re, &replace)
+                        result.gsub!(re, &replace) rescue nil
                     else
-                        result.gsub!(re, replace)
+                        result.gsub!(re, replace) rescue nil
                     end
                 }
             else
                 if replace.class == Proc
-                    result.gsub!(regex, &replace)
+                    result.gsub!(regex, &replace) rescue nil
                 else
-                    result.gsub!(regex, replace)
+                    result.gsub!(regex, replace) rescue nil
                 end
             end
         }
@@ -58,6 +58,10 @@ class Language
     end
 
     def self.escape (value)
+        if !value || value.empty?
+            return value
+        end
+
         value.gsub('&lt;', '<').gsub('&gt;', '>').gsub('&amp;', '&').gsub(/(.)/) {|match|
             "&##{match[0].ord};"
         }

@@ -10,9 +10,4 @@
     </div>
 <% end %>
 
-<% if current_user && current_user.modes[:can_delete_codes] %>
-    <div class="manage"><a href="/codes/delete/<%= @code.id %>">Delete</a></div>
-    <br/><br/>
-<% end %>
-
 <%= render :partial => "#{theme_path}/codes/show.html.erb", :locals => { :code => @code, :inDrop => false } %>

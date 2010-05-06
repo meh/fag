@@ -13,6 +13,10 @@ body
 	font-size:0.8em;
 }
 
+p {
+    margin: 10px 0;
+}
+
 a:link, a:visited, a:active {
     font-weight: bold;
     color: gray;
