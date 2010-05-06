@@ -21,6 +21,6 @@ class ThemesController < ApplicationController
     include ThemesHelper
 
     def css
-        render :text => File.read("#{RAILS_ROOT}/themes/#{current_theme}/style.css"), :content_type => 'text/css'
+        render :file => "#{RAILS_ROOT}/themes/#{current_theme}/style.css", :content_type => 'text/css'
     end
 end
