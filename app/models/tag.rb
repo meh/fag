@@ -81,7 +81,7 @@ class Tag < ActiveRecord::Base
         type   = ERB::Util.h self.type
         url    = ERB::Util.h self.output :url
         name   = ERB::Util.h self.name
-        length = tag.length rescue 0
+        length = self.length rescue 0
 
         templatify(template, binding)
     end

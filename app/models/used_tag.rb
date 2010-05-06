@@ -37,20 +37,6 @@ class UsedTag < ActiveRecord::Base
         self.tag.name
     end
 
-    def self.find_flows_by_expression (value)
-        tag = Tag.find_by_name(value)
-
-        flows = UsedTag.all.select {|used|
-            used.tag_id == tag.id
-        }.map {|used|
-            Flow.find(used.flow_id)
-        }.sort {|a, b|
-            b.drops.last.created_at <=> a.drops.last.created_at
-        }
-
-        return flows
-    end
-
     def output (what, *args)
         self.method("output_#{what.to_s}".to_sym).call(*args)
     end

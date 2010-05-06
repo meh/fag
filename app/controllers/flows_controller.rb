@@ -50,69 +50,12 @@ class FlowsController < ApplicationController
         })
     end
 
-    def expression_to_sql (value, avoid=false)
-        value.downcase!
-        value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
-        value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
-        value.gsub!(/(\s+not\s+|\s*!\s*)/i, ' !')
-        value.gsub!(/\(\s*!/, '(!')
-
-        joins      = String.new
-        names      = []
-        expression = value.clone
-
-        expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|()]+))/) {|match|
-            names.push((match[2] || match[4]).downcase)
-        }
-
-        names.compact!
-        names.uniq!
-
-        names.each_index {|index|
-            joins << %{
-                LEFT JOIN (
-                    SELECT ____u_t_#{index}.flow_id
-                    
-                    FROM used_tags AS ____u_t_#{index}
-                    
-                    INNER JOIN tags AS ____t_#{index}
-                        ON ____u_t_#{index}.tag_id = ____t_#{index}.id AND ____t_#{index}.name = ?
-                ) AS ____t_i_#{index}
-                    ON flows.id = ____t_i_#{index}.flow_id
-            }
-
-            if (replace = names[index]).match(/[\s&!|]/)
-                replace = %{"#{replace}"}
-            end
-
-            expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(replace)}([\s()]|$)/, "\\1 (____t_i_#{index}.flow_id IS NULL) \\2")
-            expression.gsub!(/([\s()]|\G)#{Regexp.escape(replace)}([\s()]|$)/, "\\1 (____t_i_#{index}.flow_id IS NOT NULL) \\2")
-        }
-
-        expression.gsub!(/\s*&&\s*/i, ' AND ')
-        expression.gsub!(/\s*\|\|\s*/i, ' OR ')
-
-        return [joins, names, expression]
-    end
-
     def search
         @search = params[:expression]
         @avoid  = params[:avoid]
 
         if @search && !@search.empty?
-            @joins, @names, @expression = self.expression_to_sql(@search, @avoid)
-
-            @flows = Flow.find_by_sql([%{
-                SELECT DISTINCT flows.*
-                
-                FROM flows
-
-                #{@joins}
-                
-                WHERE #{@expression}
-
-                ORDER BY updated_at DESC
-            }].concat(@names)) rescue Exception
+            @flows = Flow.find_by_expression(@search, @avoid) rescue Exception
 
             if @flows == Exception
                 render :text => "<span class='error'>Your search expression is borked.</span>", :layout => 'application'
