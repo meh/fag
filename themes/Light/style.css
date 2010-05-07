@@ -144,6 +144,30 @@ div.about {
 
 /* User */
 
+div.users {
+}
+
+div.users div.user {
+    width: auto;
+    border-bottom: 1px solid gray;
+    padding-bottom: 5px;
+
+    margin: 0 auto;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+div.users div.user:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+div.users div.user * {
+    vertical-align: middle;
+}
+
+
 a.user {
     color: blue;
 }

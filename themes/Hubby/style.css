@@ -141,7 +141,7 @@ input, textarea {
 
 div.separator {
     display: inline;
-    border-left: 2px solid gray;
+    border-left: 2px solid black;
     padding-bottom: 2px;
     top: -2px;
     margin: 0 6px;
@@ -185,6 +185,29 @@ div.about div {
 
 
 /* User */
+
+div.users {
+}
+
+div.users div.user {
+    width: auto;
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+
+    margin: 0 auto;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+div.users div.user:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+div.users div.user * {
+    vertical-align: middle;
+}
 
 a.user {
     color: blue;
@@ -243,7 +266,7 @@ div.user_view div.data p {
 }
 
 div.user_view div.stuff {
-    border: 1px solid gray;
+    border: 1px solid black;
     padding: 5px;
     white-space: pre-wrap;
     text-align: justify;
@@ -296,7 +319,7 @@ div.ocean {
     width: 95%;
     padding: 5px;
     margin: 10px auto;
-    border: 1px solid gray;
+    border: 1px solid black;
     text-align: justify;
 }
 
@@ -375,7 +398,7 @@ div#container div.flow div.floats a {
 }
 
 div#container div.flow div.drop {
-    border: 1px solid;
+    border: 1px solid black;
     margin-bottom: 3px;
 	padding: 4px;
     text-align: justify;
@@ -427,7 +450,7 @@ table.flows {
 
 table.flows td {
     padding: 3px 5px;
-    border: 1px solid gray;
+    border: 1px solid black;
     text-align: center;
 }
 
@@ -447,7 +470,7 @@ table.projects {
 
 table.projects td {
     padding: 3px 5px;
-    border: 1px solid gray;
+    border: 1px solid black;
     text-align: center;
 }
 
@@ -473,8 +496,8 @@ div.project div.status {
 
     padding: 3px;
 
-    border-left: 2px solid gray;
-    border-bottom: 2px solid gray;
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
 
     white-space: normal;
 
@@ -488,7 +511,7 @@ div.project div.floats {
 }
 
 div.project div.owner {
-    border: 2px solid gray;
+    border: 2px solid black;
     text-align: justify;
 }
 
@@ -501,7 +524,7 @@ div.project div.owner * {
 }
 
 div.project div.page {
-    border: 2px solid gray;
+    border: 2px solid black;
     border-top: 0;
 
     padding: 5px;
@@ -539,13 +562,13 @@ div.codepost {
 
 div.code {
     font-family: Terminus, Courier New, Monospace;
-    border: 1px solid gray;
+    border: 1px solid black;
     white-space: normal;
     text-align: justify;
 }
 
 div.code div.language {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid black;
     padding-left: 5px;
     font-weight: bold;
 }
@@ -561,7 +584,7 @@ div.code pre {
 
 div.code pre.lines {
     padding: 0.5em 0.5em;
-    border-right: 1px solid gray;
+    border-right: 1px solid black;
 }
 
 div.code pre.source {
@@ -578,7 +601,7 @@ table.codes {
 
 table.codes td {
     padding: 3px 5px;
-    border: 1px solid gray;
+    border: 1px solid black;
     text-align: center;
 }
 

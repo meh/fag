@@ -36,8 +36,10 @@
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
 require 'digest/sha2'
-
 class User < ActiveRecord::Base
+    include ERB::Util
+    include GravatarHelper::PublicMethods
+
     attr_accessible :name, :email, :stuff, :password, :theme, :home_expression
 
     has_many :subscriptions, :autosave => true, :dependent => :delete_all
@@ -123,6 +125,10 @@ class User < ActiveRecord::Base
 
     def output_self
         "<a class='user' href='/users/#{ERB::Util.h self.id}'>#{ERB::Util.h self.name}</a>"
+    end
+
+    def output_avatar
+        gravatar_for self
     end
 
     def self.output (what, *args)

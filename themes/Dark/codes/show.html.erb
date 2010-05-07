@@ -8,6 +8,7 @@
             <a href="/codes/delete/<%= @code.id %>">Delete</a>
         <% end %>
     </div>
+    <br/><br/>
 <% end %>
 
 <%= render :partial => "#{theme_path}/codes/show.html.erb", :locals => { :code => @code, :inDrop => false } %>

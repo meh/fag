@@ -69,6 +69,8 @@ class FlowsController < ApplicationController
     def show
         @flow = Flow.find(params[:id]) rescue nil
 
+        @title = "Flow.show '#{@flow.title}'"
+
         if !@flow
             render :text => "<span class='error'>Flow not found.</span>", :layout => 'application'
         end
@@ -139,7 +141,7 @@ class FlowsController < ApplicationController
                 return
             end
 
-            @title = "Flow.edit #{@flow.title}"
+            @title = "Flow.edit '#{@flow.title}'"
         else
             render :text => "<span class='error'>You can't edit flows, faggot.</span>", :layout => 'application'
         end
