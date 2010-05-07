@@ -607,6 +607,10 @@ pre.source span.symbol {
     color: orange;
 }
 
+pre.source span.regexp {
+    color: red;
+}
+
 pre.source span.ruby.parameters {
     color: lightblue;
 }

@@ -28,7 +28,24 @@ class Ruby < Language
         @operators = '[-\[\]\(\)\{\}~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;'
 
         @regexes = {
-            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m, /%Q{({[^}]*}|.*?)*}/m] => lambda {|match| "<span class=\"ruby string\">#{Language.escape(match)}</span>"},
+            [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m, /%([Qrq])?{({[^}]*}|.*?)*}/m] => lambda {|match| %{<span class="ruby string">#{Language.escape(match)}</span>}},
+
+=begin
+            [%r{([^<])(/(\\/|[^/])*/([imsx])?)}m, /(.)?(%r{({[^}]*}|.*?)*})/m] =>  lambda {|match|
+                match = match.match(/^(.)(.*)$/)
+
+                if match[1] != '/'
+                    first  = match[1]
+                    second = match[2]
+                else
+                    first  = ''
+                    second = "/#{match[2]}"
+                end
+
+                "#{first}<span class=\"ruby regexp\">#{Language.escape(second)}</span>"
+            },
+=end
+
             /^(#.*?)$/ => '<span class="ruby comment">\1</span>',
             /(\s|\G|#{@operators})(:(("([^\\"]|\\.)*")|\w+))(#{@operators}|\s|\A)/ => '\1<span class="ruby string">\2</span>\6',
 

@@ -153,11 +153,8 @@ class Flow < ActiveRecord::Base
         tags = String.new
 
         self.used_tags.each {|tag|
-            puts tag
             tags << "#{tag.output :link, tagFormat} "
         }
-
-        puts ''
 
         return templatify(wholeFormat, binding)
     end

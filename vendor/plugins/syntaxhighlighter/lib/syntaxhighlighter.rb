@@ -33,6 +33,7 @@ class SyntaxHighlighter
 
         'Ruby'       => [/^ruby$/i, /^rb$/i],
         'Javascript' => [/^javascript$/i, /^js$/i],
+        'Perl'       => [/^perl$/i, /^pl$/],
         'PHP'        => /^php$/i,  
         'Hybris'     => [/^hybris$/i, /^hy$/i],
         'Python'     => [/^python$/i, /^py$/i],

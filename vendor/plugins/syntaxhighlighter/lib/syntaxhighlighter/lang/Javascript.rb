@@ -25,15 +25,21 @@ class Language
 
 class Javascript < Language
     def initialize (content, options={})
+        @operators = '[-\[\]\(\)\{\}~^@\/%|=+*!?\.\-,;]|&amp;|&lt;|&gt;'
+
         @regexes = {
             [/("([^\\"]|\\.)*")/m, /('([^\\']|\\.)*')/m] => lambda {|match| "<span class=\"javascript string\">#{Language.escape(match)}</span>"},
 
             /(\/\*.*?\*\/)/m => lambda {|match| "<span class='javascript comment'>#{Language.escape(match)}</span>"},
             /(\/\/.*)$/ => lambda {|match| "<span class='javascript comment'>#{Language.escape(match)}</span>"},
 
-            Javascript.keywords(['function', 'if', 'while', 'for', 'return']) => '\1<span class="javascript keyword">\2</span>\3',
+            Javascript.keywords(['function', 'if', 'while', 'for', 'return', 'new']) => '\1<span class="javascript keyword">\2</span>\3',
+
             Javascript.classes(['Array', 'String']) => '\1<span class="javascript type">\2</span>\3',
+
             Javascript.functions(['alert', 'document']) => '\1<span class="javascript function">\2</span>\3',
+
+            Javascript.constants(['true', 'false', 'null', 'undefined']) => '\1<span class="javascript constant">\2</span>\3',
         }
 
         super(content, options)
@@ -46,7 +52,7 @@ class Javascript < Language
             keywords << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G)(#{keywords[1, keywords.length]})(\s|$)/
+        return /(\s|\G)(#{keywords[1, keywords.length]})(\(|\s|$)/
     end
 
     def self.classes (value)
@@ -56,7 +62,7 @@ class Javascript < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\.|$)/
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\.|:|$)/
     end
 
     def self.functions (value)
@@ -66,7 +72,17 @@ class Javascript < Language
             result << "|#{Regexp.escape(key.to_s)}"
         }
 
-        return /(\s|\G|\(|\))(#{result[1, result.length]})(\s|\(|$)/
+        return /(\s|\G|#{@operators})(#{result[1, result.length]})(#{@operators}|\s|$)/
+    end
+
+    def self.constants (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|\G|#{@operators})(#{result[1, result.length]})(#{@operators}|\s|$)/
     end
 end
 

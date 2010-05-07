@@ -7,7 +7,7 @@
         <%= h SyntaxHighlighter.language(code.language, true) %>
         &lt;<%= code.output :owner %>&gt;
 
-        <% if (inDrop rescue false) %>
+        <% if (outside rescue false) %>
             (<a href='/codes/<%= code.id %>'>link</a>)
         <% end %>
 
