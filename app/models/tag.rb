@@ -74,7 +74,7 @@ class Tag < ActiveRecord::Base
             name = %{"#{self.name}"}
         end
 
-        return "/ocean/search/#{ApplicationHelper.escape name}"
+        return "/ocean/search?expression=#{ApplicationHelper.escape name}"
     end
 
     def output_link (template='&quot;<a title="#{length} flows" href="#{url}" class="float #{type}">#{name}</a>&quot;')
