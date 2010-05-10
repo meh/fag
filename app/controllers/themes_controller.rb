@@ -20,7 +20,7 @@
 class ThemesController < ApplicationController
     include ThemesHelper
 
-    caches_page :css
+#    caches_page :css
 
     def css
         render :file => "#{RAILS_ROOT}/themes/#{current_theme}/style.css", :content_type => 'text/css'
