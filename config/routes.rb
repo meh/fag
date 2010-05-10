@@ -3,19 +3,21 @@ ActionController::Routing::Routes.draw do |map|
 
     map.connect 'stylesheets/theme.css', :controller => 'themes', :action => 'css'
 
-    map.connect 'ocean',                     :controller => 'flows'
-    map.connect 'ocean/new/flow',            :controller => 'flows', :action => 'new'
-    map.connect 'ocean/new/flow/:tag',       :controller => 'flows', :action => 'new'
-    map.connect 'ocean/flow/:id',            :controller => 'flows', :action => 'show'
-    map.connect 'ocean/search',              :controller => 'flows', :action => 'search'
-    map.connect 'ocean/search/:expression',  :controller => 'flows', :action => 'search'
-    map.connect 'flows/drop/:what/:id',      :controller => 'flows', :action => 'drop'
-    map.connect 'flows/following',           :controller => 'flows', :action => 'subscriptions'
-    map.connect 'flows/following/:user',     :controller => 'flows', :action => 'subscriptions'
-    map.connect 'flows/following/:user.rss', :controller => 'flows', :action => 'subscriptions', :rss => true
-    map.connect 'flows/follow/:id',          :controller => 'flows', :action => 'subscribe'
-    map.connect 'flows/unfollow/:id',        :controller => 'flows', :action => 'unsubscribe'
-    map.connect 'flows/search!',             :controller => 'flows', :action => 'do_search'
+    map.connect 'ocean',                        :controller => 'flows'
+    map.connect 'ocean/new/flow',               :controller => 'flows', :action => 'new'
+    map.connect 'ocean/new/flow/:tag',          :controller => 'flows', :action => 'new'
+    map.connect 'ocean/flow/:id',               :controller => 'flows', :action => 'show'
+    map.connect 'ocean/search',                 :controller => 'flows', :action => 'search'
+    map.connect 'ocean/search.rss',             :controller => 'flows', :action => 'search', :rss => true
+    map.connect 'ocean/search/:expression',     :controller => 'flows', :action => 'search'
+    map.connect 'ocean/search.rss/:expression', :controller => 'flows', :action => 'search', :rss => true
+    map.connect 'flows/drop/:what/:id',         :controller => 'flows', :action => 'drop'
+    map.connect 'flows/following',              :controller => 'flows', :action => 'subscriptions'
+    map.connect 'flows/following/:user',        :controller => 'flows', :action => 'subscriptions'
+    map.connect 'flows/following/:user.rss',    :controller => 'flows', :action => 'subscriptions', :rss => true
+    map.connect 'flows/follow/:id',             :controller => 'flows', :action => 'subscribe'
+    map.connect 'flows/unfollow/:id',           :controller => 'flows', :action => 'unsubscribe'
+    map.connect 'flows/search!',                :controller => 'flows', :action => 'do_search'
 
     map.connect 'codes/:id.raw', :controller => 'codes', :action => 'raw'
 

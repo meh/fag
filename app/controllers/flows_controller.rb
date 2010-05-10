@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with fag. If not, see <http://www.gnu.org/licenses/>.
 
+require 'uri'
+
 class FlowsController < ApplicationController
     def home
         if current_user
@@ -54,7 +56,11 @@ class FlowsController < ApplicationController
         @search = params[:expression]
         @avoid  = params[:avoid]
 
-        if @search && !@search.empty?
+        if @search && @search.empty?
+            @search = nil
+        end
+
+        if @search
             @flows = Flow.find_by_expression(@search, @avoid) rescue Exception
 
             if @flows == Exception
@@ -63,6 +69,20 @@ class FlowsController < ApplicationController
             end
         else
             @flows = Flow.find(:all, :order => 'updated_at DESC')
+        end
+
+        @title = '*'
+        @link  = "http://#{DOMAIN}/ocean/search.rss"
+
+        if @search
+            @title = @search
+            @link << "?expression=#{URI.escape(@search, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}"
+        end
+
+        if params[:rss]
+            @description = "Searching: #{@title}"
+
+            render :action => 'rss', :layout => false
         end
     end
 
