@@ -1,0 +1,21 @@
+xml.instruct!
+xml.rss('version' => '2.0', 'xmlns:dc' => 'http://purl.org/dc/elements/1.1/') do
+    xml.channel do
+        xml.title h(@title)
+        xml.link h(@link)
+        xml.description h(@description)
+        xml.language 'en-us'
+    
+        for flow in @flows
+            xml.item do
+                xml.pubDate flow.updated_at.rfc822
+                xml.title flow.output(:title)
+                xml.link flow.output(:url, true)
+
+                xml.description do
+                    xml << flow.output(:tags)
+                end
+            end
+        end
+    end
+end

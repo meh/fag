@@ -297,7 +297,9 @@ class FlowsController < ApplicationController
     end
 
     def subscriptions
-        if !current_user
+        user = User.find_by_name_or_id(params[:user] || current_user.id) rescue nil
+    
+        if !user
             redirect_to root_path
             return
         end
@@ -310,10 +312,19 @@ class FlowsController < ApplicationController
             INNER JOIN flows
                 ON subscriptions.flow_id = flows.id
 
-            WHERE subscriptions.user_id = #{current_user.id}
+            WHERE subscriptions.user_id = #{user.id}
 
             ORDER BY updated_at DESC
         })
+
+        @title = "Following #{user.name}"
+        @link  = "http://#{DOMAIN}/flows/following/#{user.id}.rss"
+
+        if params[:rss]
+            @description = "Flows followed by #{user.name}"
+
+            render :action => 'rss', :layout => false
+        end
     end
 
     def subscribe

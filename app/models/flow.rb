@@ -124,8 +124,12 @@ class Flow < ActiveRecord::Base
         self.method("output_#{what.to_s}".to_sym).call(*args)
     end
 
+    def output_url (out=false)
+        "#{"http://#{DOMAIN}" if out}/ocean/flow/#{self.id}"
+    end
+
     def output_link
-        "<a href='/ocean/flow/#{self.id}'>#{self.output :title}</a>"
+        "<a href='#{self.output :url}'>#{self.output :title}</a>"
     end
 
     def output_last_post (template='#{at} #{by}')

@@ -1,20 +1,21 @@
-<center>
+<% if @flows.empty? %>
+    You're not a good follower, aren't you?
+<% else %>
 
 <h2>Following</h2>
 <br/>
 
-<% if @flows.empty? %>
-    You're not a good follower, aren't you?
-<% else %>
-    <table class="flows">
-        <tr><th>Last Drop At</th><th>Last Drop By</th><th>Floats</th><th>Flow</th></tr>
+<div class="manage">
+    <a href="<%= @link %>">RSS</a>
+</div>
 
-        <% @flows.each do |flow| %><tr>
-            <%= flow.output :last_post, '<td>#{at}</td><td>#{by}</td>' %>
-            <td><%= flow.output :tags %></td>
-            <td><%= flow.output :link %></td>
-        </tr><% end %>
-    </table>
+<table class="flows">
+    <tr><th>Last Drop At</th><th>Last Drop By</th><th>Floats</th><th>Flow</th></tr>
+
+    <% @flows.each do |flow| %><tr>
+        <%= flow.output :last_post, '<td>#{at}</td><td>#{by}</td>' %>
+        <td><%= flow.output :tags %></td>
+        <td><%= flow.output :link %></td>
+    </tr><% end %>
+</table>
 <% end %>
-
-</center>

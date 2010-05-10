@@ -46,6 +46,18 @@ class User < ActiveRecord::Base
 
     serialize :modes, Hash
 
+    def self.find_by_name_or_id (something)
+        if !something.is_a?(String)
+            something = something.to_s
+        end
+
+        if something.match(/^\d+/)
+            User.find(something)
+        else
+            User.find_by_name(something)
+        end
+    end
+
     def self.get (something)
         if something.is_a?(User)
             return something
