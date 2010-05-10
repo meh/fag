@@ -146,7 +146,12 @@ class UsersController < ApplicationController
         user.stuff = params[:user][:stuff].gsub("\r", '')
 
         user.home_expression = params[:user][:home_expression]
-        user.theme           = params[:user][:theme]
+
+        if !params[:user][:theme].empty? && user.theme != params[:user][:theme]
+            user.theme = params[:user][:theme]
+
+            expire_page :controller => 'themes', :action => 'css'
+        end
 
         if current_user.modes[:can_change_user_modes] && !params[:user][:modes].empty?
             user.modes = eval(params[:user][:modes])
