@@ -167,7 +167,7 @@ class Flow < ActiveRecord::Base
         result = String.new
 
         UsedTag.find(:all, :conditions => ['flow_id = ?', self.id], :include => :tag).each {|tag|
-            result << " &quot;#{tag.name}&quot;"
+            result << %{ "#{tag.name}"}
         }
 
         return result[1, result.length]
