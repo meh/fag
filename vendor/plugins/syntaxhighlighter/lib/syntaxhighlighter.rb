@@ -37,6 +37,8 @@ class SyntaxHighlighter
         'PHP'        => /^php$/i,  
         'Hybris'     => [/^hybris$/i, /^hy$/i],
         'Python'     => [/^python$/i, /^py$/i],
+        'Go'         => /^go$/i,
+        'Falcon'     => [/^falcon$/i, /^fpl$/i],
 
         'SQL' => /^(my|postgre|ms)?sql$/i,
 
