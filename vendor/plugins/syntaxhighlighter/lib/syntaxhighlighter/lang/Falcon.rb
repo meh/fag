@@ -68,6 +68,16 @@ class Falcon < Language
         return /(\s|\G)(#{keywords[1, keywords.length]})(\(|\s|$)/
     end
 
+    def self.types (value)
+        result = String.new
+
+        value.each {|key|
+            result << "|#{Regexp.escape(key.to_s)}"
+        }
+
+        return /(\s|\G|\(|\))(#{result[1, result.length]})(\{|\(|\)|\*|\s|$)/
+    end
+
     def self.functions (value)
         result = String.new
 
