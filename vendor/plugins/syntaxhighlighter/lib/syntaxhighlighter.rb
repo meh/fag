@@ -38,7 +38,7 @@ class SyntaxHighlighter
         'Hybris'     => [/^hybris$/i, /^hy$/i],
         'Python'     => [/^python$/i, /^py$/i],
         'Go'         => /^go$/i,
-        'Falcon'     => [/^falcon$/i, /^fpl$/i],
+        'Falcon'     => [/^falcon$/i, /^fal$/i],
 
         'SQL' => /^(my|postgre|ms)?sql$/i,
 
