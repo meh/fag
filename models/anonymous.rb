@@ -11,7 +11,7 @@
 module Fag
 
 class Anonymous
-	extend Serializable
+	include Fag::Serializable
 
 	attr_reader :name
 

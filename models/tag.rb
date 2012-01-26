@@ -11,8 +11,8 @@
 module Fag
 
 class Tag
-	extend  Serializable
 	include DataMapper::Resource
+	include Fag::Serializable
 
 	property :id, Serial
 

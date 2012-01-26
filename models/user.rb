@@ -11,8 +11,8 @@
 module Fag
 
 class User
-	extend  Serializable
 	include DataMapper::Resource
+	include Fag::Serializable
 
 	def self.get (id)
 		super(id) || first(name: id)
