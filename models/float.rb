@@ -10,26 +10,20 @@
 
 module Fag
 
-class Drop
+class Float
 	include DataMapper::Resource
 	include Fag::Authored
 	include Fag::Serializable
-	include Fag::Versioned
 
 	property :id, Serial
 
-	property :title, String
-	property :content, Text
+	has n, :files, through: Resource, constraint: :destroy
 
 	serialize_as do
 		{
 			id: id,
 
-			author:  author.to_hash,
-			content: content,
-
-			created_at: created_at,
-			updated_at: updated_at
+			files: files.map(&:to_hash)
 		}
 	end
 end

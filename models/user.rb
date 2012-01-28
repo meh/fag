@@ -19,7 +19,10 @@ class User
 	end
 
 	property :id, Serial
+
 	property :name, String
+
+	property :password, BCryptHash
 
 	def =~ (other)
 		return false if other.is_a?(Anonymous)
@@ -34,15 +37,46 @@ class User
 	end
 
 	def flows
-		Flow.all(author_name: name, author_anonymous: false)
+		Flow.all(author_id: id)
 	end
 
 	def drops
-		Drop.all(author_name: name, author_anonymous: false)
+		Drop.all(author_id: id)
+	end
+
+	property :powers, Object, default: {}
+	property :god, Boolean, default: false
+
+	def is_god?
+		god
+	end
+
+	def can (what)
+		powers[what.to_s.downcase] || is_god?
+	end
+
+	def can? (what)
+		!!can(what) || is_god?
+	end
+
+	def cannot? (what)
+		!can(what) && !is_god?
+	end
+
+	def can! (what, value=true)
+		update(powers: powers.tap { |p| p[what.to_s.downcase] = value })
+	end
+
+	def cannot! (what)
+		update(powers: powers.tap { |p| p.delete(what.to_s.downcase) })
 	end
 
 	serialize_as do
-		{ id: id, name: name }
+		{
+			id: id,
+			
+			name: name
+		}
 	end
 end
 

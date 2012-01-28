@@ -11,7 +11,7 @@
 module Fag
 
 class API < Grape::API
-	version '1'
+	version ?1
 
 	helpers do
 		def session
@@ -19,11 +19,17 @@ class API < Grape::API
 		end
 
 		def current_user
-			@current_user ||= User.get(session[:id])
+			return unless session[:user]
+
+			@current_user ||= User.get(session[:user])
 		end
 
 		def logged_in?
 			!!current_user
+		end
+
+		def authenticate!
+			logged_in? or error! '401 Must Log In', 401
 		end
 	end
 
@@ -45,23 +51,30 @@ class API < Grape::API
 		end
 
 		post do
-			session[:id] = User.get(params[:id]).tap {|u|
-				error! '403 Wrong Username Or Password', 403 if !u || u.password != params[:password]
-			}.id
+			user = User.get(params[:id])
+
+			if !user || user.password != params[:password]
+				error! '403 Wrong Username Or Password', 403
+			end
+
+			session[:user] = user.id
 		end
 	end
 
 	resource :user do
 		post :create do
-			authenticate!
-
-			error! '403 Permission Denied', 403 unless current_user.can? 'create user'
 			error! '302 User Already Exists', 302 if User.first(name: params[:name])
 
 			User.create(name: params[:name], password: params[:password]).id
 		end
 
 		resource '/:id' do
+			get do
+				error! '404 User Not Found', 404 unless user = User.get(params[:id])
+
+				user
+			end
+
 			put :password do
 				authenticate!
 
@@ -131,24 +144,84 @@ class API < Grape::API
 					}
 				end
 			end
+		end
+	end
 
-			put :disable do
-				authenticate!
+	resource :flow do
+		resource '/:id' do
+			get do
+				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
-				error! '403 Permission Denied', 403 if current_user !~ params[:id] and current_user.cannot? 'disable.user'
-				error! '404 User Not Found', 404 unless user = User.get(params[:id])
-
-				user.update(inactive: true)
+				flow
 			end
 
-			put :enable do
-				authenticate!
+			post '/drop' do
+				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
-				error! '403 Permission Denied', 403 unless current_user.can? 'enable.user'
-				error! '404 User Not Found', 404 unless user = User.get(params[:id])
+				error! '403 Name Required' if logged_in? && !params[:name]
+				error! '403 Content Required' unless params[:content]
 
-				user.update(inactive: false)
+				if logged_in?
+					flow.drops.create(content: params[:content], title: params[:title], author_id: current_user.id)
+				else
+					flow.drops.create(content: params[:content], title: params[:title], author_name: params[:name])
+				end
 			end
+		end
+
+		post '/create' do
+			error! '403 Name Required' if logged_in? && !params[:name]
+			error! '403 Title Required' unless params[:title]
+			error! '403 Content Required' unless params[:content]
+			error! '403 Tag Required' unless params[:tags]
+
+			flow = if logged_in?
+				Flow.create(title: params[:title], author_id: current_user.id)
+			else
+				Flow.create(title: params[:title], author_name: params[:name])
+			end
+
+			JSON.parse(params[:tags]).each {|tag|
+				flow.tags.create(name: tag)
+			}
+
+			if logged_in?
+				flow.drops.create(content: params[:content], author_id: current_user.id)
+			else
+				flow.drops.create(content: params[:content], author_name: params[:name])
+			end
+
+			flow.save
+
+			flow
+		end
+	end
+
+	get :flows do
+		error! '404 Expression Needed' unless params[:expression]
+
+		result = Flow.find_by_expression(params[:expression])
+
+		if params[:limit]
+			result = result.all(limit: params[:limit].to_i)
+		end
+
+		if params[:offset]
+			unless params[:limit]
+				result = result.all(limit: Flow.count)
+			end
+
+			result = result.all(offset: params[:offset].to_i)
+		end
+
+		result.map(&:to_hash)
+	end
+
+	resource :drop do
+		get '/:id' do
+			error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
+
+			drop
 		end
 	end
 end

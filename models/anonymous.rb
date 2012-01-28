@@ -28,7 +28,9 @@ class Anonymous
 	end
 
 	serialize_as do
-		{ name: name }
+		{
+			name: name
+		}
 	end
 end
 

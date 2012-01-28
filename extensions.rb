@@ -9,43 +9,44 @@
 #++
 
 require 'json'
-require 'with'
 
 module Fag
 
 module Serializable
 	def self.included (klass)
-		klass.instance_eval {
-			define_singleton_method :serialize_as do |&block|
-				define_method :to_json, &block
+		class << klass
+			def serialize_as (&block)
 				define_method :serializable_hash, &block
+				define_method :to_hash, &block
 			end
-		}
+		end
 	end
 end
 
 module Authored
 	def self.included (klass)
 		klass.instance_eval {
-			property :author_name, String, default: 'Anonymous'
-			property :author_anonymous, Boolean, default: true
+			property :author_name, DataMapper::Property::String, required: false
+			property :author_id,  DataMapper::Property::Integer, required: false
 
+			property :created_at, DataMapper::Property::DateTime
+			property :updated_at, DataMapper::Property::DateTime
+		}
+	end
 
-			def anonymous?;  author_anonymous;         end
-			def anonymous!;  author_anonymous = true;  end
-			def registered!; author_anonymous = false; end
+	def anonymous?; author_id.nil?; end
 
-			def author
-				anonymous? ? Anonymous.new(author_name) : User.get(author_name)
-			end
+	def author
+		anonymous? ? Anonymous.new(author_name) : User.get(author_id)
+	end
+end
 
-			property :created_at, DateTime
-			property :updated_at, DateTime
-
+module Versioned
+	def self.included (klass)
+		klass.instance_eval {
 			is_versioned on: :updated_at
 		}
 	end
 end
-
 
 end

@@ -1,4 +1,4 @@
-si--
+#--
 #            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 #                    Version 2, December 2004
 #
@@ -21,7 +21,22 @@ class Flow
 
 	property :title, String
 
-	has n, :drops, constraint: :destroy
+	has n, :drops, through: Resource, constraint: :destroy
+
+	serialize_as do
+		{
+			id: id,
+
+			title:  title,
+			tags:   tags.map(&:to_s),
+			author: author.to_hash,
+
+			drops: drops.map(&:to_hash),
+
+			created_at: created_at,
+			updated_at: updated_at
+		}
+	end
 
 	class << self
 		def find_by_expression (expression)
@@ -37,9 +52,7 @@ class Flow
 				#{joins}
 
 				WHERE #{expression}
-			}, *names).map {|id|
-				Flow.get(id)
-			}
+			}, *names).map { |id| Flow.get(id) }
 		end
 
 	private
@@ -61,7 +74,7 @@ class Flow
 			names.compact!
 			names.uniq!
 
-			names.each_index {|index|
+			names.each_with_index {|name, index|
 				joins << %{
 					LEFT JOIN (
 						SELECT _used_tag_#{index}.flow_id
@@ -74,12 +87,10 @@ class Flow
 						ON fag_flows.id = _tag_check_#{index}.flow_id
 				}
 
-				if (replace = names[index]).match(/[\s&!|]/)
-					replace = %{"#{replace}"}
-				end
+				name = %{"#{name}"} if name =~ /[\s&!|]/
 
-				expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(replace)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NULL) \\2")
-				expression.gsub!(/([\s()]|\G)#{Regexp.escape(replace)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NOT NULL) \\2")
+				expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NULL) \\2")
+				expression.gsub!(/([\s()]|\G)#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NOT NULL) \\2")
 			}
 
 			expression.gsub!(/([\G\s()])&&([\s()\A])/, '\1 AND \2')

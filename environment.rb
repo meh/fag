@@ -11,7 +11,6 @@ require 'extensions'
 # database stuff
 require 'data_mapper'
 require 'dm-is-versioned'
-require 'dm-sqlite-adapter'
 
 Dir['models/*'].each { |m| require m }
 

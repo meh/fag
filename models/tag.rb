@@ -23,6 +23,14 @@ class Tag
 	end
 
 	serialize_as do
+		{
+			id: id,
+			
+			name: name
+		}
+	end
+
+	def to_s
 		name
 	end
 end

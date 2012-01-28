@@ -10,26 +10,29 @@
 
 module Fag
 
-class Drop
+class File
 	include DataMapper::Resource
 	include Fag::Authored
 	include Fag::Serializable
 	include Fag::Versioned
 
 	property :id, Serial
+	
+	property :name,     String
+	property :language, String
+	property :content,  Text
 
-	property :title, String
-	property :content, Text
+	has n, :lines
 
 	serialize_as do
 		{
 			id: id,
 
-			author:  author.to_hash,
-			content: content,
+			name:     name,
+			language: language,
+			content:  content,
 
-			created_at: created_at,
-			updated_at: updated_at
+			lines: lines.map(&:to_hash)
 		}
 	end
 end
