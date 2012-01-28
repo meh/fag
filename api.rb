@@ -61,11 +61,13 @@ class API < Grape::API
 		end
 	end
 
-	resource :user do
-		post :create do
+	resource :users do
+		post do
+			error! '402 Name Required' unless params[:name]
+			error! '402 Password Required' unless params[:password]
 			error! '302 User Already Exists', 302 if User.first(name: params[:name])
 
-			User.create(name: params[:name], password: params[:password]).id
+			User.create(name: params[:name], password: params[:password])
 		end
 
 		resource '/:id' do
@@ -134,7 +136,7 @@ class API < Grape::API
 				put do
 					authenticate!
 
-					error! '403 Permission Denied', 403 unless current_user.can? 'change.user.powers'
+					error! '403 Permission Denied', 403 unless current_user.can? 'change user powers'
 					error! '404 User Not Found', 404 unless user = User.get(params[:id])
 
 					params.each {|name, value|
@@ -147,33 +149,36 @@ class API < Grape::API
 		end
 	end
 
-	resource :flow do
-		resource '/:id' do
-			get do
-				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+	resource :flows do
+		get do
+			error! '404 Expression Needed' unless params[:expression]
 
-				flow
+			result = if params[:expression] == ?*
+				Flow.all
+			else
+				Flow.find_by_expression(params[:expression])
 			end
 
-			post '/drop' do
-				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+			if params[:limit]
+				result = result.all(limit: params[:limit].to_i)
+			end
 
-				error! '403 Name Required' if logged_in? && !params[:name]
-				error! '403 Content Required' unless params[:content] && !params[:content].strip.empty?
-
-				if logged_in?
-					flow.drops.create(content: params[:content], title: params[:title], author_id: current_user.id)
-				else
-					flow.drops.create(content: params[:content], title: params[:title], author_name: params[:name])
+			if params[:offset]
+				unless params[:limit]
+					result = result.all(limit: Flow.count)
 				end
+
+				result = result.all(offset: params[:offset].to_i)
 			end
+
+			result.all(order: :created_at.desc).map(&:to_hash)
 		end
 
-		post '/create' do
-			error! '403 Name Required' if logged_in? && !params[:name]
-			error! '403 Title Required' unless params[:title]
-			error! '403 Content Required' unless params[:content]
-			error! '403 Tag Required' unless params[:tags]
+		post do
+			error! '402 Name Required' if logged_in? && !params[:name]
+			error! '402 Title Required' unless params[:title]
+			error! '402 Content Required' unless params[:content]
+			error! '402 Tag Required' unless params[:tags]
 
 			flow = if logged_in?
 				Flow.create(title: params[:title], author_id: current_user.id)
@@ -195,33 +200,137 @@ class API < Grape::API
 
 			flow
 		end
-	end
 
-	get :flows do
-		error! '404 Expression Needed' unless params[:expression]
+		resource '/:id' do
+			get do
+				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
-		result = Flow.find_by_expression(params[:expression])
-
-		if params[:limit]
-			result = result.all(limit: params[:limit].to_i)
-		end
-
-		if params[:offset]
-			unless params[:limit]
-				result = result.all(limit: Flow.count)
+				flow
 			end
 
-			result = result.all(offset: params[:offset].to_i)
-		end
+			put do
+				authenticate!
 
-		result.map(&:to_hash)
+				error! '403 Permission Denied', 403 unless current_user.can? 'change flows'
+				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+
+				if params[:tags]
+					JSON.parse(params[:tags]).each {|tag|
+						flow.tags.each(&:destroy)
+						flow.tags.create(name: tag)
+					}
+
+					flow.tags
+				end
+
+				if params[:title]
+					flow.title = params[:title]
+				end
+
+				if params[:author_name]
+					flow.author_name = params[:author_name]
+					flow.author_id   = nil
+				end
+
+				if params[:author_id]
+					error! '404 User Not Found' unless User.get(params[:author_id])
+
+					flow.author_id   = params[:author_id].to_i
+					flow.author_name = nil
+				end
+
+				flow.save
+			end
+
+			delete do
+				authenticate!
+
+				error! '403 Permission Denied', 403 unless current_user.can? 'delete flows'
+				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+
+				flow.destroy
+			end
+
+			resource :drops do
+				get do
+					error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+
+					result = flow.drops
+
+					if params[:limit]
+						result = result.all(limit: params[:limit].to_i)
+					end
+
+					if params[:offset]
+						unless params[:limit]
+							result = result.all(limit: Flow.count)
+						end
+
+						result = result.all(offset: params[:offset].to_i)
+					end
+
+					result.all(order: :created_at.asc).map(&:to_hash)
+				end
+
+				post do
+					error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+
+					error! '402 Name Required' if logged_in? && !params[:name]
+					error! '402 Content Required' unless params[:content] && !params[:content].strip.empty?
+
+					if logged_in?
+						flow.drops.create(content: params[:content], title: params[:title], author_id: current_user.id)
+					else
+						flow.drops.create(content: params[:content], title: params[:title], author_name: params[:name])
+					end
+				end
+			end
+		end
 	end
 
-	resource :drop do
-		get '/:id' do
-			error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
+	resource :drops do
+		resource '/:id' do
+			get do
+				error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
 
-			drop
+				drop
+			end
+
+			put do
+				authenticate!
+
+				error! '403 Permission Denied', 403 unless current_user.can? 'change drops'
+				error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
+
+				if params[:title]
+					drop.title = params[:title]
+				end
+
+				if params[:author_name]
+					drop.author_name = params[:author_name]
+					drop.author_id   = nil
+				end
+
+				if params[:author_id]
+					drop.author_id   = params[:author_id].to_i
+					drop.author_name = nil
+				end
+
+				if params[:content]
+					drop.content = params[:content]
+				end
+
+				drop.save
+			end
+
+			delete do
+				authenticate!
+
+				error! '403 Permission Denied', 403 unless current_user.can? 'delete drops'
+				error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
+
+				drop.destroy
+			end
 		end
 	end
 end

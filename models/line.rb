@@ -29,7 +29,7 @@ class Line
 
 			line: number,
 
-			drops: drops.map(&:to_hash)
+			drops: drops.all(order: :created_at.asc).map(&:to_hash)
 		}
 	end
 end

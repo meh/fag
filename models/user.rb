@@ -52,15 +52,15 @@ class User
 	end
 
 	def can (what)
-		powers[what.to_s.downcase] || is_god?
+		is_god? || powers[what.to_s.downcase]
 	end
 
 	def can? (what)
-		!!can(what) || is_god?
+		is_god? || !!can(what)
 	end
 
 	def cannot? (what)
-		!can(what) && !is_god?
+		!is_god? || !can(what)
 	end
 
 	def can! (what, value=true)

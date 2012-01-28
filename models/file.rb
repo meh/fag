@@ -32,7 +32,7 @@ class File
 			language: language,
 			content:  content,
 
-			lines: lines.map(&:to_hash)
+			lines: lines.all(order: :number.asc).map(&:to_hash)
 		}
 	end
 end

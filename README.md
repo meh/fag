@@ -8,21 +8,22 @@ Models design
 
 ```
 Flow -> id
-     -> tags
-     -> author
-     -> anonymous?
      -> title
+     -> tags
+     -> author_name # present if Anonymous
+     -> author_id   # present if logged in User
      -> drops
 
-Drop -> flow
-     -> author
-     -> anonymous?
+Drop -> id
      -> title
+     -> author_name # present if Anonymous
+     -> author_id   # present if logged in User
      -> message
 
 Float -> id
-      -> author
-      -> anonymous?
+      -> author_name # present if Anonymous
+      -> author_id   # present if logged in User
+			-> name
       -> language
       -> content
 
@@ -54,4 +55,35 @@ GET /auth
 POST /auth # id: the id or the name of the user
            # password: the password to login
 
+# all multiple fetching can have passed a limit and/or offset option, this way you can
+# fetch only the group of messages you want
+
+# flows are sorted by creation date in descending order
+# drops are sorted by creation date in ascending order
+
+GET /flows # expression: the boolean tag expression to look for
+
+GET /flows/:id # get the whole flow
+
+PUT /flows/:id # tags (optional): json encoded array of tags to replace with
+               # title (optional): the new title
+               # author_name (optional): set the flow author as anonymous with the given name
+               # author_id (optional): set the flow author as the registered user with the given id
+
+DELETE /flows/:id # delete the flow
+
+GET /flows/:id/drops # get the drops for the given flow
+
+POST /flows/:id/drops # name (optional if not logged in): name to set as anonymous author
+                      # title (optional): the title for the drop
+                      # content: the content of the drop
+
+GET /drops/:id # get the given drop
+
+PUT /drops/:id # title (optional): the new title for the drop
+               # author_name (optional): set the drop author as anonymous with the given name
+               # author_id (optional): set the drop author as the registered user with the given id
+               # content (optional): set the new content
+
+DELETE /drops/:id # destroy the given drop
 ```

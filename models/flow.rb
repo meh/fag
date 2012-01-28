@@ -31,7 +31,7 @@ class Flow
 			tags:   tags.map(&:to_s),
 			author: author.to_hash,
 
-			drops: drops.map(&:to_hash),
+			drops: drops.all(order: :created_at.asc).map(&:to_hash),
 
 			created_at: created_at,
 			updated_at: updated_at
