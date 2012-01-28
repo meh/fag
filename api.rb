@@ -167,8 +167,6 @@ class API < Grape::API
 
 					result = result.all(offset: params[:offset].to_i)
 				end
-
-				result.all(order: :created_at.desc).map(&:to_hash)
 			else
 				result = Flow.find_by_expression(params[:expression])
 
@@ -179,8 +177,14 @@ class API < Grape::API
 				if params[:limit]
 					result = result[0 .. params[:limit].to_i]
 				end
+			end
 
-				result.sort { |a, b| b.created_at <=> a.created_at }
+			unless params[:no_sort]
+				result.to_a.sort { |a, b|
+					b.drops.last.updated_at <=> a.drops.last.updated_at
+				}.map(&:to_hash)
+			else
+				result.map(&:to_hash)
 			end
 		end
 
