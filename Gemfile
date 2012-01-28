@@ -6,6 +6,7 @@ gem 'thin'
 # misc stuff
 gem 'rake'
 gem 'json'
+gem 'boolean-expression'
 
 # database stuff
 gem 'data_mapper'

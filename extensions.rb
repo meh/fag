@@ -9,6 +9,7 @@
 #++
 
 require 'json'
+require 'boolean/expression'
 
 module Fag
 

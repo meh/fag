@@ -40,19 +40,25 @@ class Flow
 
 	class << self
 		def find_by_expression (expression)
-			joins, names, expression = _expression_to_sql(expression)
+			if repository.adapter.respond_to? :select
+				joins, names, expression = _expression_to_sql(expression)
 
-			return [] if expression.empty?
+				return [] if expression.empty?
 
-			repository.adapter.select(%{
-				SELECT DISTINCT fag_flows.id
+				repository.adapter.select(%{
+					SELECT DISTINCT fag_flows.id
 
-				FROM fag_flows
+					FROM fag_flows
 
-				#{joins}
+					#{joins}
 
-				WHERE #{expression}
-			}, *names).map { |id| Flow.get(id) }
+					WHERE #{expression}
+				}, *names).map { |id| Flow.get(id) }
+			else
+				expression = Boolean::Expression.parse(expression)
+
+				all.select { |f| expression.evaluate(tags.map(&:to_s)) }
+			end
 		end
 
 	private
