@@ -159,7 +159,7 @@ class API < Grape::API
 				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
 				error! '403 Name Required' if logged_in? && !params[:name]
-				error! '403 Content Required' unless params[:content]
+				error! '403 Content Required' unless params[:content] && !params[:content].strip.empty?
 
 				if logged_in?
 					flow.drops.create(content: params[:content], title: params[:title], author_id: current_user.id)
