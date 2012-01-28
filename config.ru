@@ -8,7 +8,9 @@
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
 
-$:.unshift(File.dirname(__FILE__)) and require 'environment'
+unless $:.unshift(File.dirname(__FILE__)) and require 'environment'
+	fail 'could not require needed files'
+end
 
 use Rack::Session::Cookie, secret: rand.to_s << rand.to_s << rand.to_s
 use Rack::Csrf

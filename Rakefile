@@ -22,7 +22,5 @@ namespace :db do
 		DataMapper::auto_migrate!
 	end
 
-	task :setup => :migrate do
-		Fag::Registered.create(name: 'root', password: 'root', god: true)
-	end
+	task :setup => :migrate
 end
