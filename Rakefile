@@ -4,7 +4,7 @@ require 'rake'
 task :default => :start
 
 task :start do
-	sh 'bundle exec thin --debug start -R config.ru'
+	sh "bundle exec thin --port #{ENV['FAG_PORT'] || 3000} --debug start -R config.ru"
 end
 
 task :setup do

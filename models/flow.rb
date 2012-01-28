@@ -57,7 +57,7 @@ class Flow
 			else
 				expression = Boolean::Expression.parse(expression)
 
-				all.select { |f| expression.evaluate(tags.map(&:to_s)) }
+				all.select { |f| expression.evaluate(f.tags.map(&:to_s)) }
 			end
 		end
 

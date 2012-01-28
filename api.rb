@@ -153,25 +153,35 @@ class API < Grape::API
 		get do
 			error! '404 Expression Needed' unless params[:expression]
 
-			result = if params[:expression] == ?*
-				Flow.all
-			else
-				Flow.find_by_expression(params[:expression])
-			end
+			if params[:expression] == ?*
+				result = Flow.all
 
-			if params[:limit]
-				result = result.all(limit: params[:limit].to_i)
-			end
-
-			if params[:offset]
-				unless params[:limit]
-					result = result.all(limit: Flow.count)
+				if params[:limit]
+					result = result.all(limit: params[:limit].to_i)
 				end
 
-				result = result.all(offset: params[:offset].to_i)
-			end
+				if params[:offset]
+					unless params[:limit]
+						result = result.all(limit: Flow.count)
+					end
 
-			result.all(order: :created_at.desc).map(&:to_hash)
+					result = result.all(offset: params[:offset].to_i)
+				end
+
+				result.all(order: :created_at.desc).map(&:to_hash)
+			else
+				result = Flow.find_by_expression(params[:expression])
+
+				if params[:offset]
+					result = result[params[:offset].to_i .. -1]
+				end
+
+				if params[:limit]
+					result = result[0 .. params[:limit].to_i]
+				end
+
+				result.sort { |a, b| b.created_at <=> a.created_at }
+			end
 		end
 
 		post do
