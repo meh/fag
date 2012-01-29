@@ -12,12 +12,14 @@ unless $:.unshift(File.dirname(__FILE__)) and require 'environment'
 	fail 'could not require needed files'
 end
 
+use Rack::CommonLogger if ENV['FAG_DEBUG']
+
 use Rack::Session::Cookie, secret: rand.to_s << rand.to_s << rand.to_s
 use Rack::Csrf
 
 run lambda {|env|
 	Fag::API.call(env).tap {|r|
-		%w(Origin Methods Headers).each {|name|
+		%w[Origin Methods Headers].each {|name|
 			r[1]["Access-Control-Allow-#{name}"] = Fag::Domains.join ','
 		}
 

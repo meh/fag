@@ -51,7 +51,7 @@ class API < Grape::API
 		end
 
 		post do
-			user = User.get(params[:id])
+			user = User.get(params[:name] || params[:id].to_i)
 
 			if !user || user.password != params[:password]
 				error! '403 Wrong Username Or Password', 403
@@ -153,7 +153,7 @@ class API < Grape::API
 		get do
 			error! '404 Expression Needed' unless params[:expression]
 
-			if params[:expression] == ?*
+			if !params[:expression] || params[:expression] == ?*
 				result = Flow.all
 
 				if params[:limit]
