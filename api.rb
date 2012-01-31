@@ -222,6 +222,12 @@ class API < Grape::API
 				flow
 			end
 
+			get :drops do
+				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
+
+				flow.drops.map(&:to_hash)
+			end
+
 			put do
 				authenticate!
 
