@@ -12,7 +12,7 @@ require 'extensions'
 require 'data_mapper'
 require 'dm-is-versioned'
 
-Dir['models/*'].each { |m| require m }
+Dir['models/*.rb'].each { |m| require m }
 
 DataMapper::Model.raise_on_save_failure = true
 DataMapper::setup :default, ENV['FAG_DATABASE'] || 'sqlite:///tmp/db'
@@ -20,7 +20,8 @@ DataMapper::finalize
 
 # REST stuff
 require 'grape'
-require 'api'
+
+Dir['api/*.rb'].each { |a| require a }
 
 module Fag
 	Domains = (ENV['FAG_DOMAINS'] || 'http://localhost').split(/\s*[;,]\s*/)

@@ -19,7 +19,7 @@ class Flow
 
 	has n, :tags, through: Resource, constraint: :destroy
 
-	property :title, String
+	property :title, String, required: true
 
 	has n, :drops, through: Resource, constraint: :destroy
 

@@ -180,8 +180,13 @@ class API < Grape::API
 			end
 
 			unless params[:no_sort]
-				result.to_a.sort { |a, b|
-					b.drops.last.updated_at <=> a.drops.last.updated_at
+				# sort by the newest last updated drop
+				result.to_a.sort {|a, b|
+					b.drops.max {|a, b|
+						a.updated_at <=> b.updated_at
+					}.updated_at <=> a.drops.max {|a, b|
+						a.updated_at <=> b.updated_at
+					}.updated_at
 				}.map(&:to_hash)
 			else
 				result.map(&:to_hash)
@@ -191,8 +196,8 @@ class API < Grape::API
 		post do
 			error! '402 Name Required' if logged_in? && !params[:name]
 			error! '402 Title Required' unless params[:title]
-			error! '402 Content Required' unless params[:content]
 			error! '402 Tag Required' unless params[:tags]
+			error! '402 Content Required' unless params[:content]
 
 			flow = if logged_in?
 				Flow.create(title: params[:title], author_id: current_user.id)
@@ -304,6 +309,89 @@ class API < Grape::API
 						flow.drops.create(content: params[:content], title: params[:title], author_name: params[:name])
 					end
 				end
+			end
+		end
+	end
+
+	resource :floats do
+		get do
+			error! '404 Expression Needed' unless params[:expression]
+
+			if !params[:expression] || params[:expression] == ?*
+				result = Float.all
+
+				if params[:limit]
+					result = result.all(limit: params[:limit].to_i)
+				end
+
+				if params[:offset]
+					unless params[:limit]
+						result = result.all(limit: Flow.count)
+					end
+
+					result = result.all(offset: params[:offset].to_i)
+				end
+			else
+				result = Float.find_by_expression(params[:expression])
+
+				if params[:offset]
+					result = result[params[:offset].to_i .. -1]
+				end
+
+				if params[:limit]
+					result = result[0 .. params[:limit].to_i]
+				end
+			end
+
+			result.map(&:to_hash)
+		end
+
+		post do
+			error! '402 Name Required' if logged_in? && !params[:name]
+			error! '402 Tag Required' unless params[:tags]
+			error! '402 Files Required' unless params[:files]
+
+			float = if logged_in?
+				Float.create(title: params[:title], author_id: current_user.id)
+			else
+				Float.create(title: params[:title], author_name: params[:name])
+			end
+
+			JSON.parse(params[:tags]).each {|tag|
+				flow.tags.create(name: tag)
+			}
+
+			if logged_in?
+				flow.drops.create(content: params[:content], author_id: current_user.id)
+			else
+				flow.drops.create(content: params[:content], author_name: params[:name])
+			end
+
+			float.save
+
+			float
+		end
+
+		resource '/:id' do
+			get do
+				error! '404 Float Not Found', 404 unless float = Float.get(params[:id])
+
+				float
+			end
+
+			get :files do
+				error! '404 Float Not Found', 404 unless float = Floa.get(params[:id])
+
+				float.files.map(&:to_hash)
+			end
+
+			delete do
+				authenticate!
+
+				error! '403 Permission Denied', 403 unless current_user.can? 'delete floats'
+				error! '404 Float Not Found', 404 unless float = Float.get(params[:id])
+
+				float.destroy
 			end
 		end
 	end

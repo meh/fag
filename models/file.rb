@@ -18,9 +18,11 @@ class File
 
 	property :id, Serial
 	
-	property :name,     String
+	property :name, String
+
 	property :language, String
-	property :content,  Text
+
+	property :content,  Text, required: true
 
 	has n, :lines
 

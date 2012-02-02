@@ -20,9 +20,9 @@ class User
 
 	property :id, Serial
 
-	property :name, String
+	property :name, String, required: true
 
-	property :password, BCryptHash
+	property :password, BCryptHash, required: true
 
 	def =~ (other)
 		return false if other.is_a?(Anonymous)

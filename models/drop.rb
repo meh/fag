@@ -19,7 +19,8 @@ class Drop
 	property :id, Serial
 
 	property :title, String
-	property :content, Text
+
+	property :content, Text, required: true
 
 	serialize_as do
 		{

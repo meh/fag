@@ -23,7 +23,7 @@ Drop -> id
 Float -> id
       -> author_name # present if Anonymous
       -> author_id   # present if logged in User
-			-> name
+      -> name
       -> language
       -> content
 

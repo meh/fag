@@ -16,7 +16,7 @@ class Line
 
 	property :id, Serial
 
-	property :number, Integer
+	property :number, Integer, required: true
 
 	belongs_to :file
 
@@ -29,7 +29,7 @@ class Line
 
 			line: number,
 
-			drops: drops.all(order: :created_at.asc).map(&:to_hash)
+			drops: drops.map(&:id)
 		}
 	end
 end

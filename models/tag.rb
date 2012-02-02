@@ -16,7 +16,7 @@ class Tag
 
 	property :id, Serial
 
-	property :name, String
+	property :name, String, required: true
 
 	def flows
 		Flow.find_by_expression(name)

@@ -17,14 +17,94 @@ class Float
 
 	property :id, Serial
 
+	has n, :tags, through: Resource, constraint: :destroy
+
+	property :title, String
+
 	has n, :files, through: Resource, constraint: :destroy
 
 	serialize_as do
 		{
 			id: id,
 
-			files: files.map(&:to_hash)
+			title:  title,
+			tags:   tags.map(&:to_s),
+			author: author.to_hash,
+
+			files: files.map(&:to_hash),
+
+			created_at: created_at,
+			updated_at: updated_at
 		}
+	end
+
+	class << self
+		def find_by_expression (expression)
+			if repository.adapter.respond_to? :select
+				joins, names, expression = _expression_to_sql(expression)
+
+				return [] if expression.empty?
+
+				repository.adapter.select(%{
+					SELECT DISTINCT fag_floats.id
+
+					FROM fag_floats
+
+					#{joins}
+
+					WHERE #{expression}
+				}, *names).map { |id| Flow.get(id) }
+			else
+				expression = Boolean::Expression.parse(expression)
+
+				all.select { |f| expression.evaluate(f.tags.map(&:to_s)) }
+			end
+		end
+
+	private
+		def _expression_to_sql (value)
+			value.downcase!
+			value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
+			value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
+			value.gsub!(/(\s+not\s+|\s*!\s*)/i, ' !')
+			value.gsub!(/\(\s*!/, '(!')
+
+			joins      = String.new
+			names      = []
+			expression = value.clone
+
+			expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|()]+))/) {|match|
+				names.push((match[2] || match[4]).downcase)
+			}
+
+			names.compact!
+			names.uniq!
+
+			names.each_with_index {|name, index|
+				joins << %{
+					LEFT JOIN (
+						SELECT _used_tag_#{index}.flow_id
+
+						FROM fag_float_tags AS _used_tag_#{index}
+
+						INNER JOIN fag_tags AS _tag_#{index}
+							ON _used_tag_#{index}.tag_id = _tag_#{index}.id AND _tag_#{index}.name = ?
+					) AS _tag_check_#{index}
+						ON fag_floats.id = _tag_check_#{index}.flow_id
+				}
+
+				name = %{"#{name}"} if name =~ /[\s&!|]/
+
+				expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NULL) \\2")
+				expression.gsub!(/([\s()]|\G)#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NOT NULL) \\2")
+			}
+
+			expression.gsub!(/([\G\s()])&&([\s()\A])/, '\1 AND \2')
+			expression.gsub!(/([\G\s()])\|\|([\s()\A])/, '\1 OR \2')
+			expression.gsub!(/([\G\s()])!([\s()\A])/, '\1 NOT \2')
+
+			return joins, names, expression
+		end
 	end
 end
 
