@@ -37,7 +37,7 @@ User -> id
 API design
 ----------
 
-Version 1 (this means you have to prepend /1 to every request):
+Version 1 (this means you have to prepend `/1/` to every request):
 
 ```
 # this returns the csrf token, every request that's not a GET needs to
