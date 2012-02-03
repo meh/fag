@@ -19,6 +19,8 @@ use Rack::Csrf
 
 run lambda {|env|
 	Fag::API.call(env).tap {|r|
+		next if Fag::Domains.empty?
+
 		%w[Origin Methods Headers].each {|name|
 			r[1]["Access-Control-Allow-#{name}"] = Fag::Domains.join ','
 		}

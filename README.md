@@ -87,3 +87,8 @@ PUT /drops/:id # title (optional): the new title for the drop
 
 DELETE /drops/:id # destroy the given drop
 ```
+
+API client libraries
+--------------------
+
+Ruby: https://github.com/meh/ruby-fag-api

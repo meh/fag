@@ -10,23 +10,19 @@
 
 require 'clj'
 
-module Grape; module Middleware; class Base; module Formats
-	def formatter_for(api_format)
-		method(formatters[api_format]) rescue proc { |o| o }
+module Grape; module Middleware; class Formatter < Base
+	def headers
+		env.dup.inject({}){|h,(k,v)| h[k.downcase[5..-1]] = v if k.downcase.start_with? 'http_'; h}
 	end
+end; end; end
 
-	%w[xml txt].each {|type|
-		if const_defined? :FORMATTERS
-			FORMATTERS.delete type.to_sym
-		end
-
-		if const_defined? :PARSERS
-			PARSERS.delete type.to_sym
-		end
-	}
-
+module Grape; module Middleware; class Base; module Formats
 	CONTENT_TYPES[:clj]   = 'application/clojure'
-	CONTENT_TYPES[:clj14] = 'application/clojure'
+	CONTENT_TYPES[:clj14] = 'application/clojure14'
+
+	CONTENT_TYPES.select! { |name|
+		%w(json clj clj14).include? name.to_s
+	}
 
 	if const_defined? :FORMATTERS
 		FORMATTERS[:clj]   = :encode_clj
