@@ -16,15 +16,17 @@ use Rack::CommonLogger if ENV['FAG_DEBUG']
 
 use Rack::Session::Cookie, secret: rand.to_s << rand.to_s << rand.to_s
 
-run lambda {|env|
-	Fag::API.call(env).tap {|r|
-		next if Fag::Domains.empty?
+if Fag::Domains.empty?
+	run Fag::API
+else
+	run lambda {|env|
+		Fag::API.call(env).tap {|r|
+			%w[Origin Methods Headers].each {|name|
+				r[1]["Access-Control-Allow-#{name}"] = Fag::Domains.join ','
+			}
 
-		%w[Origin Methods Headers].each {|name|
-			r[1]["Access-Control-Allow-#{name}"] = Fag::Domains.join ','
+			r[1]['Access-Control-Expose-Headers']    = '*'
+			r[1]['Access-Control-Allow-Credentials'] = 'true'
 		}
-
-		r[1]['Access-Control-Expose-Headers']    = '*'
-		r[1]['Access-Control-Allow-Credentials'] = 'true'
 	}
-}
+end

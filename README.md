@@ -91,6 +91,14 @@ DELETE /drops/:id # destroy the given drop
 API client libraries
 --------------------
 
-Ruby: https://github.com/meh/ruby-fag-api
-Python: https://github.com/0Chuzz/pyfag
-Clojure: https://github.com/Bronsa/fagotto
+### Ruby
+* https://github.com/meh/ruby-fag-api
+
+### Python
+* https://github.com/0Chuzz/pyfag
+
+### JavaScript
+* https://github.com/MrYawn/JSFag
+
+### Clojure
+* https://github.com/Bronsa/fagotto
