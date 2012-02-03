@@ -59,7 +59,7 @@ class API < Grape::API
 		end
 
 		post do
-			user = User.get(params[:name] || params[:id].to_i)
+			user = User.get(params[:name] || params[:id])
 
 			if !user || user.password != params[:password]
 				error! '403 Wrong Username Or Password', 403
@@ -74,6 +74,8 @@ class API < Grape::API
 			error! '402 Name Required' unless params[:name]
 			error! '402 Password Required' unless params[:password]
 			error! '302 User Already Exists', 302 if User.first(name: params[:name])
+
+			error! '406 Name Cannot Be Only Numeric' if params[:name] =~ /^\d+$/
 
 			User.create(name: params[:name], password: params[:password])
 		end

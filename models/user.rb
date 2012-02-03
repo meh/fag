@@ -15,7 +15,9 @@ class User
 	include Fag::Serializable
 
 	def self.get (id)
-		super(id) || first(name: id)
+		super(Integer(id)) or fail
+	rescue
+		first(name: id)
 	end
 
 	property :id, Serial
@@ -26,6 +28,10 @@ class User
 
 	def =~ (other)
 		return false if other.is_a?(Anonymous)
+
+		begin
+			other = Integer(other)
+		rescue; end
 
 		if other.is_a?(User)
 			id == other.id
