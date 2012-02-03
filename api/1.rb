@@ -159,8 +159,6 @@ class API < Grape::API
 
 	resource :flows do
 		get do
-			error! '404 Expression Needed' unless params[:expression]
-
 			if !params[:expression] || params[:expression] == ?*
 				result = Flow.all
 
@@ -323,8 +321,6 @@ class API < Grape::API
 
 	resource :floats do
 		get do
-			error! '404 Expression Needed' unless params[:expression]
-
 			if !params[:expression] || params[:expression] == ?*
 				result = Float.all
 
