@@ -11,6 +11,10 @@
 require 'clj'
 
 module Grape; module Middleware; class Base; module Formats
+	def formatter_for(api_format)
+		method(formatters[api_format]) rescue proc { |o| o }
+	end
+
 	%w[xml txt].each {|type|
 		if const_defined? :FORMATTERS
 			FORMATTERS.delete type.to_sym
