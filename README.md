@@ -58,10 +58,15 @@ POST /auth # id: the id or the name of the user
 # all multiple fetching can have passed a limit and/or offset option, this way you can
 # fetch only the group of messages you want
 
-# flows are sorted by creation date in descending order
+# flows are sorted by newest updated drop in descending order
 # drops are sorted by creation date in ascending order
 
-GET /flows # expression: the boolean tag expression to look for
+GET /flows # expression (optional): the boolean tag expression to look for
+
+POST /flows # title: the title for the flow
+            # tags: the tags for the flow
+            # content: the content for the first drop of the flow
+            # author_name (required unless logged in): set the flow author as anonymous with the given name
 
 GET /flows/:id # get the whole flow
 
