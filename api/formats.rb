@@ -24,15 +24,11 @@ module Grape; module Middleware; class Base; module Formats
 		%w(json clj clj14).include? name.to_s
 	}
 
-	if const_defined? :FORMATTERS
-		FORMATTERS[:clj]   = :encode_clj
-		FORMATTERS[:clj14] = :encode_clj14
-	end
+	FORMATTERS[:clj]   = :encode_clj
+	FORMATTERS[:clj14] = :encode_clj14
 
-	if const_defined? :PARSERS
-		PARSERS[:clj]   = :decode_clj
-		PARSERS[:clj14] = :decode_clj
-	end
+	PARSERS[:clj]   = :decode_clj
+	PARSERS[:clj14] = :decode_clj
 
 	def encode_clj (object)
 		if object.respond_to? :serializable_hash

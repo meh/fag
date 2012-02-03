@@ -92,3 +92,5 @@ API client libraries
 --------------------
 
 Ruby: https://github.com/meh/ruby-fag-api
+Python: https://github.com/0Chuzz/pyfag
+Clojure: https://github.com/Bronsa/fagotto

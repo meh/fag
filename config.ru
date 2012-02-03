@@ -15,7 +15,6 @@ end
 use Rack::CommonLogger if ENV['FAG_DEBUG']
 
 use Rack::Session::Cookie, secret: rand.to_s << rand.to_s << rand.to_s
-use Rack::Csrf
 
 run lambda {|env|
 	Fag::API.call(env).tap {|r|

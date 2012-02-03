@@ -22,4 +22,4 @@ gem 'dm-sqlite-adapter'
 # api stuff
 gem 'rack'
 gem 'rack_csrf'
-gem 'grape'
+gem 'grape', git: 'git://github.com/intridea/grape.git'

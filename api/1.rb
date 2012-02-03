@@ -33,6 +33,14 @@ class API < Grape::API
 		end
 	end
 
+	before do
+		next unless %w[GET HEAD].include? env['REQUEST_METHOD'].upcase
+
+		if Rack::Csrf.token(env) != params[:_csrf]
+			error! '406 Wrong CSRF Token', 406
+		end
+	end
+
 	resource :csrf do
 		get do
 			Rack::Csrf.token(env)
@@ -205,7 +213,7 @@ class API < Grape::API
 				Flow.create(title: params[:title], author_name: params[:name])
 			end
 
-			JSON.parse(params[:tags]).each {|tag|
+			params[:tags].each {|tag|
 				flow.tags.create(name: tag)
 			}
 
@@ -240,7 +248,7 @@ class API < Grape::API
 				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
 				if params[:tags]
-					JSON.parse(params[:tags]).each {|tag|
+					params[:tags].each {|tag|
 						flow.tags.each(&:destroy)
 						flow.tags.create(name: tag)
 					}
@@ -357,7 +365,7 @@ class API < Grape::API
 				Float.create(title: params[:title], author_name: params[:name])
 			end
 
-			JSON.parse(params[:tags]).each {|tag|
+			params[:tags].each {|tag|
 				flow.tags.create(name: tag)
 			}
 
