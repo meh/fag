@@ -7,6 +7,7 @@ gem 'thin'
 gem 'rake'
 gem 'json'
 gem 'boolean-expression'
+gem 'clj'
 
 # database stuff
 gem 'data_mapper'

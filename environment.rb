@@ -73,6 +73,34 @@ DataMapper::finalize
 # REST stuff
 require 'grape'
 
+module Grape; module Middleware; class Base; module Formats
+	require 'clj'
+
+	%w[xml txt].each {|type|
+		CONTENT_TYPES.delete type.to_sym
+		FORMATTERS.delete type.to_sym
+		PARSERS.delete type.to_sym
+	}
+
+	CONTENT_TYPES[:clj] = 'application/clojure'
+	FORMATTERS[:clj]    = :encode_clj
+	PARSERS[:clj]       = :decode_clj
+
+	def encode_clj(object)
+		if object.respond_to? :serializable_hash
+			Clojure.dump(object.serializable_hash)
+		elsif object.respond_to? :to_clj
+			object.to_clj
+		else
+			Clojure.dump(object)
+		end
+	end
+
+	def decode_clj(object)
+		Clojure.parse(object)
+	end
+end; end; end; end
+
 Dir['api/*.rb'].each { |a| require a }
 
 module Fag
