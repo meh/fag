@@ -207,7 +207,7 @@ class API < Grape::API
 			error! '402 Tag Required' unless params[:tags]
 			error! '402 Content Required' unless params[:content]
 
-			if params[:tags].any? { |t| Integer(t) and false rescue true }
+			if params[:tags].any?(&:integer?)
 				error! '406 Tag Cannot Be Only Numeric', 406
 			end
 

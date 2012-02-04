@@ -37,3 +37,15 @@ require 'grape'
 module Fag
 	Domains = (ENV['FAG_DOMAINS'] || '').split(/\s*[;,]\s*/)
 end
+
+class String
+	def integer?
+		return false if strip!
+
+		Integer(self)
+
+		true
+	rescue
+		false
+	end
+end

@@ -14,10 +14,14 @@ class User
 	include DataMapper::Resource
 	include Fag::Serializable
 
-	def self.get (id)
-		super(Integer(id)) or fail
-	rescue
-		first(name: id)
+	def self.get (what)
+		what = what.to_s
+
+		if what.integer?
+			super(what.to_i)
+		else
+			first(name: what)
+		end
 	end
 
 	property :id, Serial
@@ -29,16 +33,16 @@ class User
 	def =~ (other)
 		return false if other.is_a?(Anonymous)
 
-		begin
-			other = Integer(other)
-		rescue; end
-
 		if other.is_a?(User)
 			id == other.id
-		elsif other.is_a?(Integer)
-			id == other
-		elsif other.is_a?(String)
-			name == other
+		else
+			other = other.to_s
+
+			if other.integer?
+				id == other.to_i
+			else
+				name == other
+			end
 		end
 	end
 
