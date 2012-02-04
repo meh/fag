@@ -71,8 +71,8 @@ class API < Grape::API
 
 	resource :users do
 		post do
-			error! '402 Name Required' unless params[:name]
-			error! '402 Password Required' unless params[:password]
+			error! '402 Name Required' unless params[:name] && !params[:name].empty?
+			error! '402 Password Required' unless params[:password] && !params[:password].empty?
 			error! '302 User Already Exists', 302 if User.first(name: params[:name])
 
 			error! '406 Name Cannot Be Only Numeric' if params[:name] =~ /^\d+$/
@@ -202,10 +202,14 @@ class API < Grape::API
 		end
 
 		post do
-			error! '402 Name Required' if logged_in? && !params[:name]
+			error! '402 Name Required' unless logged_in? || (params[:name] && !params[:name].empty?)
 			error! '402 Title Required' unless params[:title]
 			error! '402 Tag Required' unless params[:tags]
 			error! '402 Content Required' unless params[:content]
+
+			if params[:tags].any? { |t| Integer(t) and false rescue true }
+				error! '406 Tag Cannot Be Only Numeric', 406
+			end
 
 			flow = if logged_in?
 				Flow.create(title: params[:title], author_id: current_user.id)
@@ -308,7 +312,7 @@ class API < Grape::API
 				post do
 					error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
-					error! '402 Name Required' if logged_in? && !params[:name]
+					error! '402 Name Required' unless logged_in? || (params[:name] && !params[:name].empty?)
 					error! '402 Content Required' unless params[:content] && !params[:content].strip.empty?
 
 					if logged_in?
@@ -353,9 +357,13 @@ class API < Grape::API
 		end
 
 		post do
-			error! '402 Name Required' if logged_in? && !params[:name]
+			error! '402 Name Required' unless logged_in? || (params[:name] && !params[:name].empty?)
 			error! '402 Tag Required' unless params[:tags]
 			error! '402 Files Required' unless params[:files]
+
+			if params[:tags].any? { |t| Integer(t) and false rescue true }
+				error! '406 Tag Cannot Be Only Numeric', 406
+			end
 
 			float = if logged_in?
 				Float.create(title: params[:title], author_id: current_user.id)
