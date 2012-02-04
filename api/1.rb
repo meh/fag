@@ -218,7 +218,7 @@ class API < Grape::API
 			end
 
 			params[:tags].each {|tag|
-				flow.tags.create(name: tag)
+				flow.tags.create(name: tag.downcase)
 			}
 
 			if logged_in?
@@ -239,12 +239,6 @@ class API < Grape::API
 				flow
 			end
 
-			get :drops do
-				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
-
-				flow.drops.map(&:to_hash)
-			end
-
 			put do
 				authenticate!
 
@@ -254,7 +248,7 @@ class API < Grape::API
 				if params[:tags]
 					params[:tags].each {|tag|
 						flow.tags.each(&:destroy)
-						flow.tags.create(name: tag)
+						flow.tags.create(name: tag.downcase)
 					}
 
 					flow.tags
@@ -372,7 +366,7 @@ class API < Grape::API
 			end
 
 			params[:tags].each {|tag|
-				flow.tags.create(name: tag)
+				flow.tags.create(name: tag.downcase)
 			}
 
 			if logged_in?

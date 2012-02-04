@@ -64,10 +64,10 @@ class Flow
 	private
 		def _expression_to_sql (value)
 			value.downcase!
-			value.gsub!(/(\s+and\s+|\s*&&\s*)/i, ' && ')
-			value.gsub!(/(\s+or\s+|\s*\|\|\s*)/i, ' || ')
-			value.gsub!(/(\s+not\s+|\s*!\s*)/i, ' !')
-			value.gsub!(/\(\s*!/, '(!')
+
+			value.gsub!(/(\s+|\))and(\s+|\()/, '\1&&\2')
+			value.gsub!(/(\s+|\))or(\s+|\()/, '\1||\2')
+			value.gsub!(/(\A|\s+)not(\s+|\()/, '\1!\2')
 
 			joins      = String.new
 			names      = []
