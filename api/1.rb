@@ -407,9 +407,23 @@ class API < Grape::API
 	resource :drops do
 		resource '/:id' do
 			get do
-				error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
+				if params[:id].integer?
+					error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
 
-				drop
+					drop
+				else
+					ids = params[:id].split(/\s*[,;]\s*/).map(&:to_i)
+
+					if params[:offset]
+						ids = ids[params[:offset].to_i .. -1]
+					end
+
+					if params[:limit]
+						ids = ids[0 .. params[:limit].to_i]
+					end
+
+					ids.map { |id| Drop.get(id).to_hash rescue nil }
+				end
 			end
 
 			put do
