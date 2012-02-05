@@ -161,44 +161,28 @@ class API < Grape::API
 
 	resource :flows do
 		get do
-			if !params[:expression] || params[:expression] == ?*
-				result = Flow.all
-
-				if params[:limit]
-					result = result.all(limit: params[:limit].to_i)
-				end
-
-				if params[:offset]
-					unless params[:limit]
-						result = result.all(limit: Flow.count)
-					end
-
-					result = result.all(offset: params[:offset].to_i)
-				end
+			result = if !params[:expression] || params[:expression] == ?*
+				Flow.all
 			else
-				result = Flow.find_by_expression(params[:expression])
-
-				if params[:offset]
-					result = result[params[:offset].to_i .. -1]
-				end
-
-				if params[:limit]
-					result = result[0 .. params[:limit].to_i]
-				end
+				Flow.find_by_expression(params[:expression])
 			end
 
 			unless params[:no_sort]
 				# sort by the newest last updated drop
-				result.to_a.sort {|a, b|
-					b.drops.max {|a, b|
-						a.updated_at <=> b.updated_at
-					}.updated_at <=> a.drops.max {|a, b|
-						a.updated_at <=> b.updated_at
-					}.updated_at
-				}.map(&:to_hash)
-			else
-				result.map(&:to_hash)
+				result = result.sort {|a, b|
+					b.drops.max(:updated_at) <=> a.drops.max(:updated_at)
+				}
 			end
+
+			if params[:offset]
+				result = result[params[:offset].to_i .. -1]
+			end
+
+			if params[:limit]
+				result = result[0 .. params[:limit].to_i]
+			end
+
+			result.map(&:to_hash)
 		end
 
 		post do
@@ -407,7 +391,7 @@ class API < Grape::API
 	resource :drops do
 		resource '/:id' do
 			get do
-				if params[:id].integer?
+				if params[:id].integer? && !params[:array]
 					error! '404 Drop Not Found', 404 unless drop = Drop.get(params[:id])
 
 					drop

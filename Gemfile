@@ -23,3 +23,12 @@ gem 'dm-sqlite-adapter'
 gem 'rack'
 gem 'rack_csrf'
 gem 'grape', git: 'git://github.com/intridea/grape.git'
+
+group :development do
+	gem 'awesome_print'
+	gem 'ripl'
+	gem 'ripl-multi_line'
+	gem 'ripl-color_error'
+	gem 'ripl-auto_indent'
+	gem 'ruby-prof'
+end
