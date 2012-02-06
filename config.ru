@@ -12,8 +12,6 @@ unless $:.unshift(File.dirname(__FILE__)) and require 'environment'
 	fail 'could not require needed files'
 end
 
-use Rack::Session::Cookie, secret: rand.to_s << rand.to_s << rand.to_s
-
 if ENV['FAG_DEBUG']
 	use Rack::CommonLogger
 end
@@ -42,6 +40,9 @@ if ENV['FAG_PROFILE']
 		end
 	}
 end
+
+use Rack::Session::Cookie, secret: rand.to_s << rand.to_s << rand.to_s
+use Rack::Csrf, field: 'csrf'
 
 if Fag::Domains.empty?
 	run Fag::API

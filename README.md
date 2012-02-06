@@ -41,8 +41,8 @@ Version 1 (this means you have to prepend `/1/` to every request):
 
 ```
 # this returns the csrf token, every request that's not a GET needs to
-# have passed this token as a _csrf parameter otherwise the request will
-# fail with a 403
+# have passed this token as a `csrf` parameter in the URL otherwise the
+# request will fail with a 403
 GET /csrf
 
 # this request is used to get a new csrf token, usually not needed

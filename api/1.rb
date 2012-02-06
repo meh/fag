@@ -33,14 +33,6 @@ class API < Grape::API
 		end
 	end
 
-	before do
-		next if %w[GET HEAD].include? env['REQUEST_METHOD'].upcase
-
-		if Rack::Csrf.token(env) != params[:_csrf]
-			error! '418 Wrong CSRF Token', 418
-		end
-	end
-
 	resource :csrf do
 		get do
 			Rack::Csrf.token(env)
