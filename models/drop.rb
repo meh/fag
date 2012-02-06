@@ -22,6 +22,14 @@ class Drop
 
 	property :content, Text, required: true
 
+	%w[create update].each {|callback|
+		after callback.to_sym do
+			Flow.all(drops: { id: id }).each {|flow|
+				flow.update(updated_at: updated_at)
+			}
+		end
+	}
+
 	serialize_as do
 		{
 			id: id,

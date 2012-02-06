@@ -45,7 +45,7 @@ class Flow
 
 				return [] if expression.empty?
 
-				repository.adapter.select(%{
+				Flow.all(id: repository.adapter.select(%{
 					SELECT DISTINCT fag_flows.id
 
 					FROM fag_flows
@@ -53,7 +53,7 @@ class Flow
 					#{joins}
 
 					WHERE #{expression}
-				}, *names).map { |id| Flow.get(id) }
+				}, *names))
 			else
 				expression = Boolean::Expression.parse(expression)
 

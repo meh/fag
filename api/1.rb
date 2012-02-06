@@ -168,18 +168,19 @@ class API < Grape::API
 			end
 
 			unless params[:no_sort]
-				# sort by the newest last updated drop
-				result = result.sort {|a, b|
-					b.drops.max(:updated_at) <=> a.drops.max(:updated_at)
-				}
-			end
-
-			if params[:offset]
-				result = result[params[:offset].to_i .. -1]
+				result = result.all(order: :updated_at.desc)
 			end
 
 			if params[:limit]
-				result = result[0 .. params[:limit].to_i]
+				result = result.all(limit: params[:limit].to_i)
+			end
+
+			if params[:offset]
+				unless params[:limit]
+					result = result.all(limit: Flow.count)
+				end
+
+				result = result.all(offset: params[:offset].to_i)
 			end
 
 			result.map(&:to_hash)
@@ -305,30 +306,26 @@ class API < Grape::API
 
 	resource :floats do
 		get do
-			if !params[:expression] || params[:expression] == ?*
-				result = Float.all
-
-				if params[:limit]
-					result = result.all(limit: params[:limit].to_i)
-				end
-
-				if params[:offset]
-					unless params[:limit]
-						result = result.all(limit: Flow.count)
-					end
-
-					result = result.all(offset: params[:offset].to_i)
-				end
+			result = if !params[:expression] || params[:expression] == ?*
+				Float.all
 			else
-				result = Float.find_by_expression(params[:expression])
+				Float.find_by_expression(params[:expression])
+			end
 
-				if params[:offset]
-					result = result[params[:offset].to_i .. -1]
+			unless params[:no_sort]
+				result = result.all(order: :updated_at.desc)
+			end
+
+			if params[:limit]
+				result = result.all(limit: params[:limit].to_i)
+			end
+
+			if params[:offset]
+				unless params[:limit]
+					result = result.all(limit: Float.count)
 				end
 
-				if params[:limit]
-					result = result[0 .. params[:limit].to_i]
-				end
+				result = result.all(offset: params[:offset].to_i)
 			end
 
 			result.map(&:to_hash)

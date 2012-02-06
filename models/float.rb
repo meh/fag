@@ -45,7 +45,7 @@ class Float
 
 				return [] if expression.empty?
 
-				repository.adapter.select(%{
+				Float.all(id: repository.adapter.select(%{
 					SELECT DISTINCT fag_floats.id
 
 					FROM fag_floats
@@ -53,7 +53,7 @@ class Float
 					#{joins}
 
 					WHERE #{expression}
-				}, *names).map { |id| Flow.get(id) }
+				}, *names))
 			else
 				expression = Boolean::Expression.parse(expression)
 
