@@ -33,6 +33,12 @@ class API < Grape::API
 		end
 	end
 
+	unless ENV['FAG_DEVELOPMENT']
+		rescue_from :all do |e|
+			error! '500 Something Went Wrong', 500
+		end
+	end
+
 	resource :csrf do
 		get do
 			Rack::Csrf.token(env)
@@ -65,9 +71,12 @@ class API < Grape::API
 		post do
 			error! '402 Name Required' unless params[:name] && !params[:name].empty?
 			error! '402 Password Required' unless params[:password] && !params[:password].empty?
-			error! '302 User Already Exists', 302 if User.first(name: params[:name])
+
+			params[:name] = params[:name].gsub(/[[:space:]]+/, ' ').strip
 
 			error! '406 Name Cannot Be Only Numeric' if params[:name] =~ /^\d+$/
+
+			error! '302 User Already Exists', 302 if User.first(name: params[:name])
 
 			User.create(name: params[:name], password: params[:password])
 		end

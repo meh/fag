@@ -30,5 +30,8 @@ group :development do
 	gem 'ripl-multi_line'
 	gem 'ripl-color_error'
 	gem 'ripl-auto_indent'
-	gem 'ruby-prof'
+
+	unless RUBY_ENGINE == 'rbx'
+		gem 'ruby-prof'
+	end
 end

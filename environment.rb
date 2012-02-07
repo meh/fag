@@ -22,6 +22,7 @@ require 'extensions'
 
 # database stuff
 require 'data_mapper'
+require 'dm-validations'
 require 'dm-is-versioned'
 
 if ENV['FAG_DEBUG'].to_i >= 2

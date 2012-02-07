@@ -17,8 +17,6 @@ if ENV['FAG_DEBUG']
 end
 
 if ENV['FAG_PROFILE']
-	require 'ruby-prof'
-
 	use Class.new {
 		def initialize (app, options = {})
 			@app     = app
@@ -26,13 +24,30 @@ if ENV['FAG_PROFILE']
 		end
 
 		def call (env)
-			RubyProf.start
+			if RUBY_ENGINE == 'rbx'
+				require 'profiler'
 
-			@app.call(env).tap {
-				FileUtils.mkpath path rescue nil
+				profiler = Rubinius::Profiler::Instrumenter.new
+				profiler.start
 
-				RubyProf::MultiPrinter.new(RubyProf.stop).print(path: path, profile: 'profile')
-			}
+				@app.call(env).tap {
+					profiler.stop
+
+					FileUtils.mkpath path rescue nil
+
+					profiler.show File.open("#{path}/flat", 'w')
+				}
+			else
+				require 'ruby-prof'
+
+				RubyProf.start
+
+				@app.call(env).tap {
+					FileUtils.mkpath path rescue nil
+
+					RubyProf::MultiPrinter.new(RubyProf.stop).print(path: path, profile: 'profile')
+				}
+			end
 		end
 
 		def path

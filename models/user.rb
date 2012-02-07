@@ -24,12 +24,6 @@ class User
 		end
 	end
 
-	property :id, Serial
-
-	property :name, String, required: true
-
-	property :password, BCryptHash, required: true
-
 	def =~ (other)
 		return false if other.is_a?(Anonymous)
 
@@ -45,6 +39,16 @@ class User
 			end
 		end
 	end
+
+	property :id, Serial
+
+	property :name, String, required: true
+
+	property :password, BCryptHash, required: true
+
+	property :email, String
+
+	validates_format_of :email, as: :email_address
 
 	def flows
 		Flow.all(author_id: id)
