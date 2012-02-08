@@ -15,6 +15,12 @@ require 'rack/csrf'
 
 Bundler.setup :default, ENV['FAG_DEVELOPMENT'] ? 'development' : 'production'
 
+# some development stuff
+if ENV['FAG_DEVELOPMENT']
+	require 'ap'
+	require 'ripl'
+end
+
 # some dependencies and extensions
 require 'json'
 require 'boolean/expression'

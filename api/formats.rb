@@ -10,12 +10,6 @@
 
 require 'clj'
 
-module Grape; module Middleware; class Formatter < Base
-	def headers
-		env.dup.inject({}){|h,(k,v)| h[k.downcase[5..-1]] = v if k.downcase.start_with? 'http_'; h}
-	end
-end; end; end
-
 module Grape; module Middleware; class Base; module Formats
 	CONTENT_TYPES[:clj]   = 'application/clojure'
 	CONTENT_TYPES[:clj14] = 'application/clojure14'

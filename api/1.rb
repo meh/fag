@@ -286,7 +286,9 @@ class API < Grape::API
 						result = result.all(offset: params[:offset].to_i)
 					end
 
-					result.all(order: :created_at.asc).map(&:to_hash)
+					result = result.all(order: :created_at.asc)
+					
+					result.unlazy.map(&:to_hash)
 				end
 
 				post do
@@ -329,7 +331,7 @@ class API < Grape::API
 				result = result.all(offset: params[:offset].to_i)
 			end
 
-			result.map(&:to_hash)
+			result.unlazy.map(&:to_hash)
 		end
 
 		post do
@@ -395,7 +397,9 @@ class API < Grape::API
 						ids = ids[0 .. params[:limit].to_i]
 					end
 
-					ids.map { |id| Drop.get(id).to_hash rescue nil }
+					drops = Hash[Drop.all(id: ids).unlazy.map { |d| [d.id, d.to_hash] }]
+
+					ids.map { |id| drops[id] }
 				end
 			end
 
