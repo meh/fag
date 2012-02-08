@@ -217,7 +217,9 @@ class API < Grape::API
 		end
 
 		get :tags do
-
+			Hash[Tag.all.unlazy.map {|tag|
+				[tag.name, tag.count_flows]
+			}]
 		end
 
 		resource '/:id' do

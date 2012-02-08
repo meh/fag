@@ -22,8 +22,16 @@ class Tag
 		Flow.all(id: FlowTag.all(tag_id: id).unlazy.map(&:flow_id))
 	end
 
+	def count_flows
+		FlowTag.count(tag_id: id)
+	end
+
 	def floats
 		Float.all(id: FloatTag.all(tag_id: id).unlazy.map(&:float_id))
+	end
+
+	def count_floats
+		FloatTag.count(tag_id: id)
 	end
 
 	serialize_as do
