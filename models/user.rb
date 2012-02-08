@@ -42,11 +42,11 @@ class User
 
 	property :id, Serial
 
-	property :name, String, required: true
+	property :name, String, unique: true, required: true
 
 	property :password, BCryptHash, required: true
 
-	property :email, String
+	property :email, String, unique: true
 
 	validates_format_of :email, as: :email_address
 
