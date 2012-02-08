@@ -66,9 +66,9 @@ class Flow
 			if repository.adapter.respond_to? :select
 				joins, names, expression = _expression_to_sql(expression)
 
-				return [] if expression.empty?
+				return if names.empty?
 
-				Flow.all(id: repository.adapter.select(%{
+				ids = repository.adapter.select(%{
 					SELECT DISTINCT fag_flows.id
 
 					FROM fag_flows
@@ -76,7 +76,11 @@ class Flow
 					#{joins}
 
 					WHERE #{expression}
-				}, *names))
+				}, *names)
+
+				return if ids.empty?
+
+				Flow.all(id: ids)
 			else
 				expression = Boolean::Expression.parse(expression)
 

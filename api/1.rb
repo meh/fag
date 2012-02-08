@@ -165,7 +165,7 @@ class API < Grape::API
 			result = if !params[:expression] || params[:expression] == ?*
 				Flow.all
 			else
-				Flow.find_by_expression(params[:expression])
+				Flow.find_by_expression(params[:expression]) or next []
 			end
 
 			unless params[:no_sort]
@@ -312,7 +312,7 @@ class API < Grape::API
 			result = if !params[:expression] || params[:expression] == ?*
 				Float.all
 			else
-				Float.find_by_expression(params[:expression])
+				Float.find_by_expression(params[:expression]) or next []
 			end
 
 			unless params[:no_sort]

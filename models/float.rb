@@ -67,9 +67,9 @@ class Float
 			if repository.adapter.respond_to? :select
 				joins, names, expression = _expression_to_sql(expression)
 
-				return [] if expression.empty?
+				return if names.empty?
 
-				Float.all(id: repository.adapter.select(%{
+				ids = repository.adapter.select(%{
 					SELECT DISTINCT fag_floats.id
 
 					FROM fag_floats
@@ -77,7 +77,11 @@ class Float
 					#{joins}
 
 					WHERE #{expression}
-				}, *names))
+				}, *names)
+
+				return if ids.empty?
+
+				Float.all(id: ids)
 			else
 				expression = Boolean::Expression.parse(expression)
 
