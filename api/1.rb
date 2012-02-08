@@ -76,7 +76,7 @@ class API < Grape::API
 
 			error! '406 Name Cannot Be Only Numeric' if params[:name] =~ /^\d+$/
 
-			error! '302 User Already Exists', 302 if User.first(name: params[:name])
+			error! '409 User Already Exists', 409 if User.first(name: params[:name])
 
 			User.create(name: params[:name], password: params[:password])
 		end

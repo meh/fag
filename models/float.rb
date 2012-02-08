@@ -90,7 +90,9 @@ class Float
 			value.downcase!
 
 			value.gsub!(/(\s+|\))and(\s+|\()/, '\1&&\2')
+			value.gsub!(/\s*&&\s*/, ' && ')
 			value.gsub!(/(\s+|\))or(\s+|\()/, '\1||\2')
+			value.gsub!(/\s*\|\|\s*/, ' || ')
 			value.gsub!(/(\A|\s+)not(\s+|\()/, '\1!\2')
 
 			joins      = String.new
