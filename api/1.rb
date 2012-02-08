@@ -35,7 +35,7 @@ class API < Grape::API
 
 	unless ENV['FAG_DEVELOPMENT']
 		rescue_from :all do |e|
-			error! '500 Something Went Wrong', 500
+			Rack::Response.new(['500 Something Went Wrong'], 500, { 'Content-Type' => 'text/error' }).finish
 		end
 	end
 
@@ -184,7 +184,7 @@ class API < Grape::API
 				result = result.all(offset: params[:offset].to_i)
 			end
 
-			result.map(&:to_hash)
+			result.unlazy.map(&:to_hash)
 		end
 
 		post do
@@ -203,9 +203,7 @@ class API < Grape::API
 				Flow.create(title: params[:title], author_name: params[:name])
 			end
 
-			params[:tags].each {|tag|
-				flow.tags.create(name: tag.downcase)
-			}
+			flow.add_tags(params[:tags].map(&:downcase))
 
 			if logged_in?
 				flow.drops.create(content: params[:content], author_id: current_user.id)
@@ -216,6 +214,10 @@ class API < Grape::API
 			flow.save
 
 			flow
+		end
+
+		get :tags do
+
 		end
 
 		resource '/:id' do
@@ -232,12 +234,8 @@ class API < Grape::API
 				error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
 				if params[:tags]
-					params[:tags].each {|tag|
-						flow.tags.each(&:destroy)
-						flow.tags.create(name: tag.downcase)
-					}
-
-					flow.tags
+					flow.clean_tags
+					flow.add_tags(params[:tags].map(&:downcase))
 				end
 
 				if params[:title]
@@ -347,16 +345,7 @@ class API < Grape::API
 				Float.create(title: params[:title], author_name: params[:name])
 			end
 
-			params[:tags].each {|tag|
-				flow.tags.create(name: tag.downcase)
-			}
-
-			if logged_in?
-				flow.drops.create(content: params[:content], author_id: current_user.id)
-			else
-				flow.drops.create(content: params[:content], author_name: params[:name])
-			end
-
+			float.add_tags(params[:tags].map(&:downcase))
 			float.save
 
 			float

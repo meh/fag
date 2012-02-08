@@ -16,10 +16,14 @@ class Tag
 
 	property :id, Serial
 
-	property :name, String, required: true
+	property :name, String, unique: true, required: true
 
 	def flows
-		Flow.find_by_expression(name)
+		Flow.all(id: FlowTag.all(tag_id: id).unlazy.map(&:flow_id))
+	end
+
+	def floats
+		Float.all(id: FloatTag.all(tag_id: id).unlazy.map(&:float_id))
 	end
 
 	serialize_as do

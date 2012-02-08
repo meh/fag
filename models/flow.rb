@@ -28,14 +28,37 @@ class Flow
 			id: id,
 
 			title:  title,
-			tags:   tags.map(&:to_s),
+			tags:   tags.unlazy.fields(:name).map(&:name),
 			author: author.to_hash,
 
-			drops: drops.all(order: :created_at.asc).map(&:id),
+			drops: drops.all(order: :created_at.asc).unlazy.fields(:id).map(&:id),
 
 			created_at: created_at,
 			updated_at: updated_at
 		}
+	end
+
+	def add_tag (name)
+		return unless tags.count(name: name).zero?
+
+		tags << Tag.first_or_create(name: name)
+		tags.save
+	end
+
+	def add_tags (*names)
+		names.flatten.each { |n| add_tag(n) }
+	end
+
+	def delete_tag (name)
+		flow_tags.all(flow_id: id, tag_id: Tag.first(name: name).id).destroy
+	end
+
+	def delete_tags (*names)
+		names.flatten.each { |n| delete_tag(name) }
+	end
+
+	def clean_tags
+		flow_tags.all(flow_id: id).destroy
 	end
 
 	class << self

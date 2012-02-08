@@ -38,6 +38,30 @@ class Float
 		}
 	end
 
+	def add_tag (name)
+		return unless tags.count(name: name).zero?
+
+		tags << Tag.first_or_create(name: name)
+		tags.save
+	end
+
+	def add_tags (*names)
+		names.flatten.each { |n| add_tag(n) }
+	end
+
+	def delete_tag (name)
+		float_tags.all(float_id: id, tag_id: Tag.first(name: name).id).destroy
+	end
+
+	def delete_tags (*names)
+		names.flatten.each { |n| delete_tag(name) }
+	end
+
+	def clean_tags
+		float_tags.all(float_id: id).destroy
+	end
+
+
 	class << self
 		def find_by_expression (expression)
 			if repository.adapter.respond_to? :select

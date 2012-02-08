@@ -43,10 +43,7 @@ namespace :db do
 				puts "Creating flow #{n}"
 
 				flow = Fag::Flow.create(title: titles.shuffle.select { rand(100) < 70 }.join(' '), author_name: names.shuffle.first)
-
-				tags.select { rand(100) < 70 }.each {|tag|
-					flow.tags.create(name: tag)
-				}
+				flow.add_tags(tags.select { rand(100) < 70 })
 
 				max = rand(50)
 

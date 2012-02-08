@@ -24,6 +24,7 @@ require 'extensions'
 require 'data_mapper'
 require 'dm-validations'
 require 'dm-is-versioned'
+require 'dm-unlazy'
 
 if ENV['FAG_DEBUG'].to_i >= 2
 	DataMapper::Logger.new($stdout, :debug)
