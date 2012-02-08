@@ -69,12 +69,12 @@ class API < Grape::API
 
 	resource :users do
 		post do
-			error! '402 Name Required' unless params[:name] && !params[:name].empty?
-			error! '402 Password Required' unless params[:password] && !params[:password].empty?
+			error! '402 Name Required', 402 unless params[:name] && !params[:name].empty?
+			error! '402 Password Required', 402 unless params[:password] && !params[:password].empty?
 
 			params[:name] = params[:name].gsub(/[[:space:]]+/, ' ').strip
 
-			error! '406 Name Cannot Be Only Numeric' if params[:name] =~ /^\d+$/
+			error! '406 Name Cannot Be Only Numeric', 406 if params[:name] =~ /^\d+$/
 
 			error! '409 User Already Exists', 409 if User.first(name: params[:name])
 
@@ -188,10 +188,10 @@ class API < Grape::API
 		end
 
 		post do
-			error! '402 Name Required' unless logged_in? || (params[:name] && !params[:name].empty?)
-			error! '402 Title Required' unless params[:title]
-			error! '402 Tag Required' unless params[:tags]
-			error! '402 Content Required' unless params[:content]
+			error! '402 Name Required', 402 unless logged_in? || (params[:name] && !params[:name].empty?)
+			error! '402 Title Required', 402 unless params[:title]
+			error! '402 Tag Required', 402 unless params[:tags]
+			error! '402 Content Required', 402 unless params[:content]
 
 			if params[:tags].any?(&:integer?)
 				error! '406 Tag Cannot Be Only Numeric', 406
@@ -250,7 +250,7 @@ class API < Grape::API
 				end
 
 				if params[:author_id]
-					error! '404 User Not Found' unless User.get(params[:author_id])
+					error! '404 User Not Found', 404 unless User.get(params[:author_id])
 
 					flow.author_id   = params[:author_id].to_i
 					flow.author_name = nil
@@ -294,8 +294,8 @@ class API < Grape::API
 				post do
 					error! '404 Flow Not Found', 404 unless flow = Flow.get(params[:id])
 
-					error! '402 Name Required' unless logged_in? || (params[:name] && !params[:name].empty?)
-					error! '402 Content Required' unless params[:content] && !params[:content].strip.empty?
+					error! '402 Name Required', 402 unless logged_in? || (params[:name] && !params[:name].empty?)
+					error! '402 Content Required', 402 unless params[:content] && !params[:content].strip.empty?
 
 					if logged_in?
 						flow.drops.create(content: params[:content], title: params[:title], author_id: current_user.id)
@@ -335,9 +335,9 @@ class API < Grape::API
 		end
 
 		post do
-			error! '402 Name Required' unless logged_in? || (params[:name] && !params[:name].empty?)
-			error! '402 Tag Required' unless params[:tags]
-			error! '402 Files Required' unless params[:files]
+			error! '402 Name Required', 402 unless logged_in? || (params[:name] && !params[:name].empty?)
+			error! '402 Tag Required', 402 unless params[:tags]
+			error! '402 Files Required', 402 unless params[:files]
 
 			if params[:tags].any? { |t| Integer(t) and false rescue true }
 				error! '406 Tag Cannot Be Only Numeric', 406
