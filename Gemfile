@@ -16,7 +16,7 @@ gem 'dm-timestamps'
 gem 'dm-types'
 gem 'dm-constraints'
 gem 'dm-is-versioned'
-gem 'dm-unlazy', git: 'git://github.com/meh/dm-unlazy.git'
+gem 'dm-unlazy'
 
 gem 'dm-sqlite-adapter'
 
