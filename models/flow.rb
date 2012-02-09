@@ -90,11 +90,11 @@ class Flow
 
 	private
 		def _expression_to_sql (expression)
-			expression = Boolean::Expression.parse(expression)
+			expression = Boolean::Expression.parse(expression.downcase)
 
 			joins = String.new
 			where = expression.to_s
-			names = expression.names.map(&:downcase)
+			names = expression.names
 
 			names.each_with_index {|name, index|
 				joins << %{
