@@ -128,9 +128,9 @@ class Flow
 				expression.gsub!(/([\s()]|\G)#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NOT NULL) \\2")
 			}
 
-			expression.gsub!(/([\G\s()])&&([\s()\A])/, '\1 AND \2')
-			expression.gsub!(/([\G\s()])\|\|([\s()\A])/, '\1 OR \2')
-			expression.gsub!(/([\G\s()])!([\s()\A])/, '\1 NOT \2')
+			expression.gsub!(/(\A|[\s()])&&([\s()]|\z)/, '\1 AND \2')
+			expression.gsub!(/(\A|[\s()])\|\|([\s()]|\z)/, '\1 OR \2')
+			expression.gsub!(/(\A|[\s()])!([\s()]|\z)/, '\1 NOT \2')
 
 			return joins, names, expression
 		end
