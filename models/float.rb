@@ -65,7 +65,7 @@ class Float
 	class << self
 		def find_by_expression (expression)
 			if repository.adapter.respond_to? :select
-				joins, names, expression = _expression_to_sql(expression)
+				joins, where, names = _expression_to_sql(expression)
 
 				return if names.empty?
 
@@ -76,7 +76,7 @@ class Float
 
 					#{joins}
 
-					WHERE #{expression}
+					WHERE #{where}
 				}, *names)
 
 				return if ids.empty?
@@ -90,25 +90,12 @@ class Float
 		end
 
 	private
-		def _expression_to_sql (value)
-			value.downcase!
+		def _expression_to_sql (expression)
+			expression = Boolean::Expression.parse(expression)
 
-			value.gsub!(/(\s+|\))and(\s+|\()/, '\1&&\2')
-			value.gsub!(/\s*&&\s*/, ' && ')
-			value.gsub!(/(\s+|\))or(\s+|\()/, '\1||\2')
-			value.gsub!(/\s*\|\|\s*/, ' || ')
-			value.gsub!(/(\A|\s+)not(\s+|\()/, '\1!\2')
-
-			joins      = String.new
-			names      = []
-			expression = value.clone
-
-			expression.scan(/(("(([^\\"]|\\.)*)")|([^\s&!|()]+))/) {|match|
-				names.push((match[2] || match[4]).downcase)
-			}
-
-			names.compact!
-			names.uniq!
+			joins = String.new
+			where = expression.to_s
+			names = expression.names.map(&:downcase)
 
 			names.each_with_index {|name, index|
 				joins << %{
@@ -123,17 +110,10 @@ class Float
 						ON fag_floats.id = _tag_check_#{index}.flow_id
 				}
 
-				name = %{"#{name}"} if name =~ /[\s&!|]/
-
-				expression.gsub!(/([\s()]|\G)!\s*#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NULL) \\2")
-				expression.gsub!(/([\s()]|\G)#{Regexp.escape(name)}([\s()]|$)/, "\\1 (_tag_check_#{index}.flow_id IS NOT NULL) \\2")
+				where.gsub!(name, "(_tag_check_#{index}.flow_id IS NOT NULL)")
 			}
 
-			expression.gsub!(/(\A|[\s()])&&([\s()]|\z)/, '\1 AND \2')
-			expression.gsub!(/(\A|[\s()])\|\|([\s()]|\z)/, '\1 OR \2')
-			expression.gsub!(/(\A|[\s()])!([\s()]|\z)/, '\1 NOT \2')
-
-			return joins, names, expression
+			return joins, where, names
 		end
 	end
 end
