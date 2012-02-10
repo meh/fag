@@ -14,6 +14,7 @@ class Flow
 	include DataMapper::Resource
 	include Fag::Authored
 	include Fag::Serializable
+	include Fag::Metadata
 
 	property :id, Serial
 

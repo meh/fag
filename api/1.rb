@@ -440,6 +440,48 @@ class API < Grape::API
 			end
 		end
 	end
+
+	resource :metadata do
+		helpers do
+			def get_model (what, id)
+				model = case what.downcase.to_sym
+					when :tag, :tags   then Tag
+					when :flow, :flows then Flow
+					when :drop, :drops then Drop
+				end
+
+				return unless model
+
+				model.get(id.to_i)
+			end
+		end
+
+		resource '/:what/:id' do
+			get do
+				error! '404 Model Not Found', 404 unless what = get_model(params[:what], params[:id])
+
+				what.metadata
+			end
+
+			put do
+				authenticate!
+
+				error! '403 Permission Denied', 403 unless current_user.can? 'change metadata'
+				error! '404 Model Not Found', 404 unless what = get_model(params[:what], params[:id])
+
+				what.update(metadata: what.metadata.merge(params[:data]))
+			end
+
+			delete do
+				authenticate!
+
+				error! '403 Permission Denied', 403 unless current_user.can? 'clear metadata'
+				error! '404 Model Not Found', 404 unless what = get_model(params[:what], params[:id])
+
+				what.update(metadata: {})
+			end
+		end
+	end
 end
 
 end

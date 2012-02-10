@@ -13,6 +13,7 @@ module Fag
 class Line
 	include DataMapper::Resource
 	include Fag::Serializable
+	include Fag::Metadata
 
 	property :id, Serial
 

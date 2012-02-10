@@ -15,6 +15,7 @@ class Drop
 	include Fag::Authored
 	include Fag::Serializable
 	include Fag::Versioned
+	include Fag::Metadata
 
 	property :id, Serial
 
