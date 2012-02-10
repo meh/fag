@@ -13,7 +13,7 @@ module Fag
 class User
 	include DataMapper::Resource
 	include Fag::Serializable
-	include Fag::Metadata
+	include Fag::WithMetadata
 
 	def self.get (what)
 		what = what.to_s

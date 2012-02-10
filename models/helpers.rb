@@ -47,7 +47,7 @@ module Versioned
 	end
 end
 
-module Metadata
+module WithMetadata
 	def self.included (klass)
 		klass.instance_eval {
 			property :metadata, DataMapper::Property::Object, default: {}
