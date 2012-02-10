@@ -35,6 +35,12 @@ class API < Grape::API
 
 	unless ENV['FAG_DEVELOPMENT']
 		rescue_from :all do |e|
+			print "[#{Time.now}] "
+			print "From: #{caller[0, 1].join "\n"}\n"
+			print "#{e.class}: #{e.message}\n"
+			print e.backtrace.to_a.join "\n"
+			print "\n\n"
+
 			Rack::Response.new(['500 Something Went Wrong'], 500, { 'Content-Type' => 'text/error' }).finish
 		end
 	end
