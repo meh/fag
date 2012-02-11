@@ -1,10 +1,44 @@
 fag (Forums Are Gay) - A board for coders.
 ==========================================
 
-Written with Grape.
+To setup and start a fag server you just need Ruby 1.9+ and bundler installed.
 
-Models design
--------------
+Then just run
+
+```
+rake db:setup
+rake start
+```
+
+If you want to develop it or a client library it's suggested to start it in development
+mode.
+
+```
+rake db:test
+FAG_DEVELOPMENT=1 FAG_DEBUG=1 rake start
+```
+
+You can change the database url with `FAG_DATABASE` and the listening port with `FAG_PORT`.
+
+API client libraries
+--------------------
+
+### Ruby
+* https://github.com/meh/ruby-fag-api
+
+### Python
+* https://github.com/0Chuzz/pyfag
+
+### JavaScript
+* https://github.com/MrYawn/JSFag
+
+### Clojure
+* https://github.com/Bronsa/fagotto
+
+Insights
+--------
+
+### Models design
 
 ```
 Flow -> id
@@ -34,8 +68,7 @@ User -> id
      -> drops
 ```
 
-API design
-----------
+### API design
 
 Version 1 (this means you have to prepend `/1/` to every request):
 
@@ -92,18 +125,3 @@ PUT /drops/:id # title (optional): the new title for the drop
 
 DELETE /drops/:id # destroy the given drop
 ```
-
-API client libraries
---------------------
-
-### Ruby
-* https://github.com/meh/ruby-fag-api
-
-### Python
-* https://github.com/0Chuzz/pyfag
-
-### JavaScript
-* https://github.com/MrYawn/JSFag
-
-### Clojure
-* https://github.com/Bronsa/fagotto
