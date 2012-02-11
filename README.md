@@ -20,6 +20,9 @@ FAG_DEVELOPMENT=1 FAG_DEBUG=1 rake start
 
 You can change the database url with `FAG_DATABASE` and the listening port with `FAG_PORT`.
 
+If you want fag to be able to be accessed cross-domain by javascript, you have to add to
+`FAG_DOMAINS` the domain list (including http and port).
+
 API client libraries
 --------------------
 
