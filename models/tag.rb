@@ -15,24 +15,42 @@ class Tag
 	include Fag::Serializable
 	include Fag::WithMetadata
 
+	def self.get (what)
+		what = what.to_s
+
+		if what.integer?
+			super(what.to_i)
+		else
+			first(name: what)
+		end
+	end
+
 	property :id, Serial
 
 	property :name, String, unique: true, required: true
 
+	def for_flows
+		FlowTag
+	end
+
+	def for_floats
+		FloatTag
+	end
+
 	def flows
-		Flow.all(id: FlowTag.all(tag_id: id).unlazy.map(&:flow_id))
+		Flow.all(id: for_flows.all(tag_id: id).unlazy.map(&:flow_id))
 	end
 
 	def count_flows
-		FlowTag.count(tag_id: id)
+		for_flows.count(tag_id: id)
 	end
 
 	def floats
-		Float.all(id: FloatTag.all(tag_id: id).unlazy.map(&:float_id))
+		Float.all(id: for_floats.all(tag_id: id).unlazy.map(&:float_id))
 	end
 
 	def count_floats
-		FloatTag.count(tag_id: id)
+		for_floats.count(tag_id: id)
 	end
 
 	serialize_as do

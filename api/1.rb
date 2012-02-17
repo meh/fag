@@ -11,7 +11,7 @@
 module Fag
 
 class API < Grape::API
-	version ?1
+	version ?1, using: :header, vendor: 'fag'
 
 	helpers do
 		def session
@@ -163,6 +163,12 @@ class API < Grape::API
 					}
 				end
 			end
+		end
+	end
+
+	resource :tags do
+		get '/:id' do
+			Tag.get(params[:id])
 		end
 	end
 

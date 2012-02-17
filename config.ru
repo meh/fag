@@ -33,8 +33,6 @@ if ENV['FAG_PROFILE']
 				@app.call(env).tap {
 					profiler.stop
 
-					FileUtils.mkpath path rescue nil
-
 					profiler.show File.open("#{path}/flat", 'w')
 				}
 			else
@@ -43,15 +41,15 @@ if ENV['FAG_PROFILE']
 				RubyProf.start
 
 				@app.call(env).tap {
-					FileUtils.mkpath path rescue nil
-
 					RubyProf::MultiPrinter.new(RubyProf.stop).print(path: path, profile: 'profile')
 				}
 			end
 		end
 
 		def path
-			ENV['FAG_PROFILE_PATH'] || '/tmp/profile'
+			(ENV['FAG_PROFILE_PATH'] || '/tmp/profile').tap {|path|
+				FileUtils.mkpath path rescue nil
+			}
 		end
 	}
 end
@@ -62,7 +60,7 @@ use Rack::Csrf, field: 'csrf'
 if Fag::Domains.empty?
 	run Fag::API
 else
-	run lambda {|env|
+	run -> env {
 		Fag::API.call(env).tap {|r|
 			%w[Origin Methods Headers].each {|name|
 				r[1]["Access-Control-Allow-#{name}"] = Fag::Domains.join ','
